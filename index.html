@@ -1,51 +1,165 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Coleta Fácil — Exames</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Coleta Fácil</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input { width: 300px; padding: 8px; margin-bottom: 20px; }
+    .exame { cursor: pointer; margin: 5px 0; padding: 5px; border-bottom: 1px solid #ccc; }
+    .info { display: none; margin-left: 20px; color: #555; }
+    h1 { margin-bottom: 10px; }
+  </style>
 </head>
 <body>
-  <header class="wrap">
-    <h1>Coleta Fácil</h1>
-    <p class="subtitle">Pesquise o exame, toque no nome e veja o local de coleta e o preparo.</p>
-  </header>
 
-  <main class="wrap">
-    <section class="card">
-      <label for="busca" class="label">Buscar exame</label>
-      <input id="busca" type="search" placeholder="Ex.: hemograma, glicemia…" aria-describedby="contador" />
-      <p id="contador" class="muted" aria-live="polite"></p>
-    </section>
+<h1>Coleta Fácil - Exames</h1>
 
-    <section id="lista" class="list" aria-live="polite"></section>
-  </main>
+<input type="text" id="search" placeholder="Pesquisar exame..." onkeyup="filtrar()">
 
-  <footer class="wrap footnote">
-    <p class="muted">As informações abaixo são exemplos. Substitua pelos dados oficiais do seu serviço.</p>
-  </footer>
+<div id="exames-list">
 
-  <!-- Modelo de cartão (clonado via JS) -->
-  <template id="tpl-exame">
-    <details class="card exame">
-      <summary class="exame-resumo">
-        <span class="exame-nome"></span>
-        <span class="exame-sub">Clique para ver o local e o preparo</span>
-      </summary>
-      <div class="exame-body">
-        <div class="info">
-          <div class="info-label">Local de coleta</div>
-          <div class="info-valor local"></div>
-        </div>
-        <div class="info">
-          <div class="info-label">Preparo</div>
-          <ul class="preparo"></ul>
-        </div>
-      </div>
-    </details>
-  </template>
+  <!-- Exames Comuns -->
+  <h2>Exames Comuns</h2>
+  <div class="exame" onclick="toggleInfo(0)">Hemograma Completo
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(1)">Glicemia
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(2)">Hemoglobina Glicada
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(3)">Hemossedimentação (VHS)
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(4)">Bilirrubinas Totais e Frações
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(5)">Colesterol Total
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(6)">Colesterol (HDL)
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(7)">Colesterol (LDL)
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(8)">Creatinina
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(9)">Sódio
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(10)">Potássio
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(11)">Ureia
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(12)">Magnésio
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(13)">Cálcio
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(14)">Urina Tipo 1
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(15)">Parasitológico
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(16)">T4 Livre
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(17)">T3
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(18)">TGO
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(19)">TGP
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(20)">Gama GT
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
+  <div class="exame" onclick="toggleInfo(21)">Tireostimulante (TSH)
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
+    </div>
+  </div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+  <!-- Exames Especiais -->
+  <h2>Exames Especiais</h2>
+  <div class="exame" onclick="toggleInfo(22)">🧪 Curva Glicêmica
+    <div class="info">
+      <p><strong>Preparo:</strong> </p>
+      <p><strong>Endereço:</strong> Rua Philippe de Vitry, n. 280</p>
+    </div>
+  </div>
+  <div
