@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coleta Fácil — Exames</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>Coleta Fácil</h1>
+    <p class="subtitle">Pesquise o exame, toque no nome e veja o local de coleta e o preparo.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <label for="busca" class="label">Buscar exame</label>
+      <input id="busca" type="search" placeholder="Ex.: hemograma, glicemia…" aria-describedby="contador" />
+      <p id="contador" class="muted" aria-live="polite"></p>
+    </section>
+
+    <section id="lista" class="list" aria-live="polite"></section>
+  </main>
+
+  <footer class="wrap footnote">
+    <p class="muted">As informações abaixo são exemplos. Substitua pelos dados oficiais do seu serviço.</p>
+  </footer>
+
+  <!-- Modelo de cartão (clonado via JS) -->
+  <template id="tpl-exame">
+    <details class="card exame">
+      <summary class="exame-resumo">
+        <span class="exame-nome"></span>
+        <span class="exame-sub">Clique para ver o local e o preparo</span>
+      </summary>
+      <div class="exame-body">
+        <div class="info">
+          <div class="info-label">Local de coleta</div>
+          <div class="info-valor local"></div>
+        </div>
+        <div class="info">
+          <div class="info-label">Preparo</div>
+          <ul class="preparo"></ul>
+        </div>
+      </div>
+    </details>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+:root{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --ink:#1f2937;
+  --muted:#6b7280;
+  --brand:#2563eb;
+  --line:#e5e7eb;
+  --radius:16px;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
+.wrap{max-width:900px;margin:0 auto;padding:20px}
+
+h1{margin:8px 0 0 0;font-weight:800;letter-spacing:-0.02em}
+.subtitle{margin:4px 0 16px 0;color:var(--muted)}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+}
+
+.label{display:block;font-size:14px;margin:4px 0 8px 0}
+input[type="search"]{
+  width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--line);outline:none
+}
+input[type="search"]:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+
+.muted{color:var(--muted);font-size:13px}
+.footnote{padding-top:0}
+
+.list{display:grid;gap:12px;margin:16px 0 24px}
+
+.exame-resumo{display:flex;flex-direction:column;gap:4px;cursor:pointer}
+.exame-resumo::-webkit-details-marker{display:none}
+.exame-nome{font-weight:700}
+.exame-sub{font-size:13px;color:var(--muted)}
+
+.exame-body{margin-top:12px;display:grid;gap:12px}
+.info{background:#f9fafb;border:1px solid var(--line);border-radius:12px;padding:12px}
+.info-label{font-size:14px;color:var(--muted);margin-bottom:6px}
+.info-valor, .preparo{font-size:15px}
+.preparo{margin:0;padding-left:18px}
+.preparo li{margin:6px 0}
+
+a{color:var(--brand);text-decoration:underline}
