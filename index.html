@@ -4,215 +4,153 @@
   <meta charset="UTF-8">
   <title>Saiba mais sobre exames</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff;
-      color: #333;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #ff6666;
-      color: white;
-      padding: 20px;
-      font-size: 22px;
-      font-weight: bold;
-    }
-    #cadastro, #app {
-      margin-top: 20px;
-    }
-    #app {
-      display: none;
-    }
-    input, textarea {
-      padding: 10px;
-      margin: 5px;
-      width: 250px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      background: #ff6666;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    button:hover {
-      background: #e05555;
-    }
-    .exame {
-      border: 1px solid #ff9999;
-      border-radius: 8px;
-      margin: 10px auto;
-      padding: 15px;
-      width: 80%;
-      text-align: left;
-      background: #ffe6e6;
-    }
-    .aviso {
-      color: red;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-top: 10px;
-    }
-    #feedback {
-      margin: 40px auto;
-      width: 80%;
-      text-align: left;
-      border-top: 2px solid #ff6666;
-      padding-top: 20px;
-    }
-    footer {
-      background: #ff6666;
-      color: white;
-      padding: 15px;
-      width: 100%;
-      font-weight: bold;
-      margin-top: 50px;
-    }
+    body { font-family: Arial, sans-serif; background: #fff; color: #333; text-align: center; margin: 0; padding: 0; }
+    header { background: #ff6666; color: white; padding: 20px; font-size: 22px; font-weight: bold; }
+    #cadastro, #app { margin-top: 20px; }
+    .hidden { display: none; }
+    input, textarea { padding: 10px; margin: 5px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 10px 20px; margin: 10px; border: none; background: #ff6666; color: white; cursor: pointer; border-radius: 5px; }
+    button:hover { background: #e05555; }
+    .exame { border: 1px solid #ff9999; border-radius: 8px; margin: 10px auto; padding: 15px; width: 80%; text-align: left; background: #ffe6e6; }
+    .aviso { color: red; font-weight: bold; text-transform: uppercase; margin-top: 10px; }
+    #feedback { margin: 40px auto; width: 80%; text-align: left; border-top: 2px solid #ff6666; padding-top: 20px; }
+    footer { background: #ff6666; color: white; padding: 15px; width: 100%; font-weight: bold; margin-top: 50px; }
   </style>
 </head>
 <body>
-  <header>📋 Saiba mais sobre exames</header>
 
-  <!-- CADASTRO -->
-  <section id="cadastro">
-    <h2>Faça seu cadastro para continuar</h2>
-    <input type="text" id="nome" placeholder="Nome completo"><br>
-    <input type="date" id="nascimento"><br>
-    <button onclick="fazerCadastro()">Entrar</button>
-  </section>
+<header>📋 Saiba mais sobre exames</header>
 
-  <!-- APP PRINCIPAL -->
-  <section id="app">
-    <h2>Pesquisar Exames</h2>
-    <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
-    <div id="resultado"></div>
+<!-- CADASTRO -->
+<section id="cadastro">
+  <h2>Faça seu cadastro para continuar</h2>
+  <input type="text" id="nome" placeholder="Nome completo"><br>
+  <input type="date" id="nascimento"><br>
+  <button onclick="fazerCadastro()">Entrar</button>
+</section>
 
-    <!-- Feedback -->
-    <div id="feedback">
-      <h3>💬 Sugestão, crítica ou elogio</h3>
-      <textarea id="mensagem" rows="4" placeholder="Escreva sua mensagem aqui..."></textarea><br>
-      <button onclick="enviarFeedback()">Enviar</button>
-      <p id="confirmacao"></p>
-    </div>
+<!-- APP PRINCIPAL -->
+<section id="app" class="hidden">
+  <h2>Pesquisar Exames</h2>
+  <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
+  <div id="resultado"></div>
 
-    <!-- Rodapé -->
-    <footer>
-      by Thierryson Brosnan
-    </footer>
-  </section>
+  <!-- Feedback -->
+  <div id="feedback">
+    <h3>💬 Sugestão, crítica ou elogio</h3>
+    <textarea id="mensagem" rows="4" placeholder="Escreva sua mensagem aqui..."></textarea><br>
+    <button onclick="enviarFeedback()">Enviar</button>
+    <p id="confirmacao"></p>
+  </div>
 
-  <script>
-    const exames = [
-      { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES.", sugestao:"Não achou o exame que procurava? Descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
-      { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES.", sugestao:"Não achou o exame que procurava? Descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
-      { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia o risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"TRIGLICERIDEOS", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede a quantidade de gordura no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"HDL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Colesterol bom, protege o coração.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"LDL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Colesterol ruim, pode causar problemas cardíacos.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"SÓDIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia equilíbrio de líquidos e função renal.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"POTÁSSIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Importante para músculos e nervos.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"URÉIA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função renal e metabolismo de proteínas.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"CREATININA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função renal e hepática.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"TGO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta lesões no fígado e músculos.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"TGP", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a saúde do fígado.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"GAMA GT", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Indica doenças hepáticas e consumo de álcool.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"AMILASE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função pancreática e salivares.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"TSH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"T3", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede hormônio T3 da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"T4 LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função da tireoide e metabolismo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"FAN - FATOR ANTINUCLEO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta doenças autoimunes como lúpus.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"FR - FATOR REUMATOIDE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Auxilia no diagnóstico de artrite reumatoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"FA - FOSFATOSE ALCALINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia doenças ósseas e hepáticas.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"FERRITINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede reservas de ferro no organismo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"FERRO SÉRICO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia ferro circulante no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"PROLACTINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio prolactina.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"FSH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função ovariana e testicular.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"LH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio luteinizante.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"PSA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia saúde da próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"PSA LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia riscos de doenças na próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"PPF 1", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"PPF 2", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"PPF 3", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"URINA I", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Analisa composição da urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"UROCULTURA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta infecções urinárias.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"ANTIBIOGRAMA", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Verifica quais antibióticos combatem a bactéria.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"URINA 24H PROTEINA", preparo:"Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia perda de proteínas pela urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"CALCIOURINARIO 24", preparo:"Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação  (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede quantidade de cálcio na urina em 24h.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"URINA MICROALBUMINA ISOLADA", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta pequenas quantidades de proteína na urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"ACIDO URICO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia risco de gota e problemas renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"ACIDO FOLICO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de ácido fólico no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"BETA HCG", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta gravidez.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"CALCIDIOL", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"CALCIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de cálcio no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"COOMBS INDIRETO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta anticorpos no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"SECREÇÃO VAGINAL", preparo:"Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta (água liberada).", horario:"06:30 às 07:00", explicacao:"Analisa presença de infecções vaginais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"MAGNÉSIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de magnésio no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"ESTREPTO B SECRECAO VAGINAL", preparo:"Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta  (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta bactéria Streptococcus B.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"ESTREPTO B SECRECAO ANAL", preparo:"Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta  (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta bactéria Streptococcus B no ânus.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"VITAMINA B 12", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina B12.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }
-    ];
+  <!-- Rodapé -->
+  <footer>
+    by Thierryson Brosnan
+  </footer>
+</section>
 
-    function fazerCadastro() {
-      const nome = document.getElementById("nome").value.trim();
-      const nascimento = document.getElementById("nascimento").value;
+<script>
+  // Lista completa de exames
+  const exames = [
+    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES.", sugestao:"Não achou o exame que procurava? Descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
+    { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES.", sugestao:"Não achou o exame que procurava? Descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
+    { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia o risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"TRIGLICERIDEOS", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede a quantidade de gordura no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"HDL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Colesterol bom, protege o coração.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"LDL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Colesterol ruim, pode causar problemas cardíacos.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"SÓDIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia equilíbrio de líquidos e função renal.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"POTÁSSIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Importante para músculos e nervos.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"URÉIA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função renal e metabolismo de proteínas.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"CREATININA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função renal e hepática.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"TGO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta lesões no fígado e músculos.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"TGP", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a saúde do fígado.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"GAMA GT", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Indica doenças hepáticas e consumo de álcool.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"AMILASE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função pancreática e salivares.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"TSH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"T3", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede hormônio T3 da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"T4 LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função da tireoide e metabolismo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FAN - FATOR ANTINUCLEO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta doenças autoimunes como lúpus.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FR - FATOR REUMATOIDE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Auxilia no diagnóstico de artrite reumatoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FA - FOSFATOSE ALCALINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia doenças ósseas e hepáticas.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FERRITINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede reservas de ferro no organismo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FERRO SÉRICO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia ferro circulante no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PROLACTINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio prolactina.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FSH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função ovariana e testicular.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"LH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio luteinizante.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PSA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia saúde da próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PSA LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia riscos de doenças na próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PPF 1", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PPF 2", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PPF 3", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"URINA I", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Analisa composição da urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"UROCULTURA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta infecções urinárias.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"ANTIBIOGRAMA", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Verifica quais antibióticos combatem a bactéria.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"URINA 24H PROTEINA", preparo:"Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia perda de proteínas pela urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"CALCIOURINARIO 24", preparo:"Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação  (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede quantidade de cálcio na urina em 24h.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"URINA MICROALBUMINA ISOLADA", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta pequenas quantidades de proteína na urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"ACIDO URICO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia risco de gota e problemas renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"ACIDO FOLICO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de ácido fólico no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"BETA HCG", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta gravidez.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"CALCIDIOL", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"CALCIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de cálcio no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"COOMBS INDIRETO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta anticorpos no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"SECREÇÃO VAGINAL", preparo:"Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta (água liberada).", horario:"06:30 às 07:00", explicacao:"Analisa presença de infecções vaginais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"MAGNÉSIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de magnésio no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"ESTREPTO B SECRECAO VAGINAL", preparo:"Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta  (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta bactéria Streptococcus B.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"ESTREPTO B SECRECAO ANAL", preparo:"Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta  (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta bactéria Streptococcus B no ânus.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"VITAMINA B 12", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina B12.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
-      if(nome !== "" && nascimento !== "") {
-        document.getElementById("cadastro").style.display = "none";
-        document.getElementById("app").style.display = "block";
-      } else {
-        alert("Por favor, preencha todos os campos.");
-      }
+
+  // FUNÇÃO DE CADASTRO
+  function fazerCadastro() {
+    const nome = document.getElementById('nome').value.trim();
+    const nascimento = document.getElementById('nascimento').value;
+    if(nome && nascimento) {
+      document.getElementById('cadastro').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+    } else {
+      alert("Preencha nome e data de nascimento!");
     }
+  }
 
-    function buscarExame() {
-      const filtro = document.getElementById("pesquisa").value.toUpperCase();
-      const resultadoDiv = document.getElementById("resultado");
-      resultadoDiv.innerHTML = "";
-
-      const encontrados = exames.filter(exame => exame.nome.toUpperCase().includes(filtro));
-
-      if(encontrados.length === 0) {
-        resultadoDiv.innerHTML = "<p>Nenhum exame encontrado.</p>";
-      } else {
-        encontrados.forEach(exame => {
-          const div = document.createElement("div");
-          div.className = "exame";
-          div.innerHTML = `<strong>${exame.nome}</strong><br>
-                           Preparo: ${exame.preparo}<br>
-                           Horário: ${exame.horario}<br>
-                           Explicação: ${exame.explicacao}<br>
-                           Endereço: ${exame.endereco}`;
-          if(exame.aviso) {
-            div.innerHTML += `<div class="aviso">${exame.aviso}</div>`;
-          }
-          if(exame.sugestao) {
-            div.innerHTML += `<div>${exame.sugestao}</div>`;
-          }
-          resultadoDiv.appendChild(div);
-        });
-      }
+  // FUNÇÃO DE BUSCA
+  function buscarExame() {
+    const termo = document.getElementById('pesquisa').value.toLowerCase();
+    const resultado = exames.filter(exame => exame.nome.toLowerCase().includes(termo));
+    const div = document.getElementById('resultado');
+    if(resultado.length === 0) {
+      div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
+    } else {
+      div.innerHTML = resultado.map(exame => `
+        <div class="exame">
+          <strong>${exame.nome}</strong><br>
+          <em>Preparo:</em> ${exame.preparo}<br>
+          <em>Horário:</em> ${exame.horario}<br>
+          <em>Explicação:</em> ${exame.explicacao}<br>
+          <em>Endereço:</em> ${exame.endereco}<br>
+          ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ''}
+          ${exame.sugestao ? `<p>${exame.sugestao}</p>` : ''}
+        </div>
+      `).join('');
     }
+  }
 
-    function enviarFeedback() {
-      const mensagem = document.getElementById("mensagem").value.trim();
-      if(mensagem === "") {
-        alert("Digite sua mensagem antes de enviar.");
-        return;
-      }
-      document.getElementById("confirmacao").innerText = "Mensagem enviada com sucesso!";
-      document.getElementById("mensagem").value = "";
+  // FUNÇÃO DE FEEDBACK
+  function enviarFeedback() {
+    const mensagem = document.getElementById('mensagem').value.trim();
+    if(mensagem) {
+      document.getElementById('confirmacao').textContent = "✅ Mensagem enviada! Obrigado pelo feedback.";
+      document.getElementById('mensagem').value = '';
+    } else {
+      alert("Escreva uma mensagem antes de enviar.");
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
 
