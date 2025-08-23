@@ -24,39 +24,30 @@
 
   <script>
     const exames = [
-  { nome: "ABO‑RH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Identifica seu tipo sanguíneo e se possui o fator Rh.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "FATOR RH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Determina se seu sangue é Rh positivo ou negativo.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "HEMOGRAMA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a quantidade e qualidade das células sanguíneas.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "VHS", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta processos inflamatórios no corpo.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "HB GLICADA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mostra o controle da glicose nos últimos 2 a 3 meses.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "GLICEMIA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede o nível de açúcar no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "COLESTEROL TOTAL", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o risco de doenças cardiovasculares.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "TRIGLICERÍDEOS", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede a quantidade de gordura no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "HDL", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Conhecido como colesterol bom, protege o coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "LDL", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Conhecido como colesterol ruim, pode causar doenças cardíacas.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "SÓDIO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o equilíbrio de líquidos e a função renal.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "POTÁSSIO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Importante para o funcionamento dos músculos e nervos.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "URÉIA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função renal e o metabolismo de proteínas.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "CREATININA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Indica a função renal e a eficiência dos rins.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "DHL", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função hepática e a presença de doenças no fígado.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "TGO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta lesões no fígado e músculos.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "TGP", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a saúde do fígado e detecta inflamações.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "GAMA GT", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Indica doenças hepáticas e consumo excessivo de álcool.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "AMILASE", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia doenças pancreáticas e salivares.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "TSH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função da glândula tireoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "T3", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede os níveis do hormônio tireoidiano T3.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "T4 LIVRE", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função da tireoide e metabolismo.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "FAN - FATOR ANTINUCLEO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta doenças autoimunes como lúpus.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "FR - FATOR REUMATOIDE", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Auxilia no diagnóstico de artrite reumatoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "FA - FOSFATASE ALCALINA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia doenças ósseas e hepáticas.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "FERRITINA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede as reservas de ferro no organismo.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "FERRO SÉRICO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a quantidade de ferro circulante no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "PROLACTINA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede os níveis do hormônio prolactina.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "FSH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função ovariana e testicular.", endereco: "Unidade de saúde mais próxima da sua casa" },
-  { nome: "LH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede os níveis do hormônio luteinizante.", endereco: "Unidade de saúde mais próxima
-::contentReference[oaicite:0]{index=0}
- 
-
+      { nome: "ABO-RH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Identifica seu tipo sanguíneo e se possui o fator Rh.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FATOR RH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Determina se seu sangue é Rh positivo ou negativo.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "HEMOGRAMA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a quantidade e qualidade das células sanguíneas.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "VHS", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta processos inflamatórios no corpo.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "HB GLICADA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mostra o controle da glicose nos últimos 2 a 3 meses.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "GLICEMIA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede o nível de açúcar no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "COLESTEROL TOTAL", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o risco de doenças cardiovasculares.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TRIGLICERÍDEOS", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede a quantidade de gordura no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "HDL", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Conhecido como colesterol bom, protege o coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "LDL", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Conhecido como colesterol ruim, pode causar doenças cardíacas.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "SÓDIO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o equilíbrio de líquidos e a função renal.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "POTÁSSIO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Importante para o funcionamento dos músculos e nervos.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "URÉIA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função renal e o metabolismo de proteínas.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "CREATININA", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Indica a função renal e a eficiência dos rins.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TGO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta lesões no fígado e músculos.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TGP", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a saúde do fígado e detecta inflamações.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "GAMA GT", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Indica doenças hepáticas e consumo excessivo de álcool.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "AMILASE", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia doenças pancreáticas e salivares.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TSH", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função da glândula tireoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "T3", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede os níveis do hormônio tireoidiano T3.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "T4 LIVRE", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a função da tireoide e metabolismo.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FAN - FATOR ANTINUCLEO", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta doenças autoimunes como lúpus.", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FR - FATOR REUMATOIDE", tipo: "comum", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Auxilia no diagnóstico de artrite reumatoide.", endereco: "Unidade de saúde mais próxima da sua casa" }
+    ];
 
     const examList = document.getElementById("examList");
 
