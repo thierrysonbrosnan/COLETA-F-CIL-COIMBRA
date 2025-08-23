@@ -4,17 +4,76 @@
   <meta charset="UTF-8">
   <title>Saiba mais sobre exames</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #fff; color: #333; text-align: center; margin: 0; padding: 0; }
-    header { background: #ff6666; color: white; padding: 20px; font-size: 22px; font-weight: bold; }
-    #cadastro, #app { margin-top: 20px; }
-    .hidden { display: none; }
-    input, textarea { padding: 10px; margin: 5px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
-    button { padding: 10px 20px; margin: 10px; border: none; background: #ff6666; color: white; cursor: pointer; border-radius: 5px; }
-    button:hover { background: #e05555; }
-    .exame { border: 1px solid #ff9999; border-radius: 8px; margin: 10px auto; padding: 15px; width: 80%; text-align: left; background: #ffe6e6; }
-    .aviso { color: red; font-weight: bold; text-transform: uppercase; margin-top: 10px; }
-    #feedback { margin: 40px auto; width: 80%; text-align: left; border-top: 2px solid #ff6666; padding-top: 20px; }
-    footer { background: #ff6666; color: white; padding: 15px; width: 100%; font-weight: bold; margin-top: 50px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #ff6666;
+      color: white;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    #cadastro, #app {
+      margin-top: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    input, textarea {
+      padding: 10px;
+      margin: 5px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      background: #ff6666;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #e05555;
+    }
+    .exame {
+      border: 1px solid #ff9999;
+      border-radius: 8px;
+      margin: 10px auto;
+      padding: 15px;
+      width: 80%;
+      text-align: left;
+      background: #ffe6e6;
+    }
+    .aviso {
+      color: red;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+    #feedback {
+      margin: 40px auto;
+      width: 80%;
+      text-align: left;
+      border-top: 2px solid #ff6666;
+      padding-top: 20px;
+    }
+    footer {
+      background: #ff6666;
+      color: white;
+      padding: 15px;
+      width: 100%;
+      font-weight: bold;
+      margin-top: 50px;
+    }
   </style>
 </head>
 <body>
@@ -43,35 +102,47 @@
     </div>
 
     <!-- Rodapé -->
-    <footer>by Thierryson Brosnan</footer>
+    <footer>
+      by Thierryson Brosnan
+    </footer>
   </section>
 
   <script>
     const exames = [
       { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"HEMOGRAMA COMPLETO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"Se você faz parte do programa PANG, lembre-se de realizar esse exame a cada 3 meses.", sugestao:"Não achou o exame que procurava? Descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
-      { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"Se você faz parte do programa PANG, lembre-se de realizar esse exame a cada 3 meses.", sugestao:"Não achou o exame que procurava? Descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
-      { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o nível médio de glicose nos últimos 3 meses.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"HEMOSEDIMENTAÇÃO (VHS)", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Avalia inflamações ou infecções no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"BILIRRUBINAS TOTAIS E FRAÇÕES", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia funcionamento do fígado e metabolismo da bile.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas.", horario:"06:30 às 07:00", explicacao:"Avalia risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"COLESTEROL HDL", preparo:"Jejum de 8 a 12 horas.", horario:"06:30 às 07:00", explicacao:"Colesterol bom, protege o coração.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"COLESTEROL LDL", preparo:"Jejum de 8 a 12 horas.", horario:"06:30 às 07:00", explicacao:"Colesterol ruim, pode causar entupimento de artérias.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"CREATININA", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia função dos rins.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"SÓDIO", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Mede o nível de sódio no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"POTÁSSIO", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Mede o nível de potássio no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"UREIA", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia a função renal e metabolismo das proteínas.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"MAGNÉSIO", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia níveis de magnésio no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"CÁLCIO", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia saúde dos ossos e metabolismo do cálcio.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"URINA TIPO 1", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Exame de urina para avaliar infecções e outras alterações.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"PARASITOLÓGICO", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Avalia presença de parasitas nas fezes.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"T3", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia função da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"T4 LIVRE", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia produção de hormônio da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"TGO (AST)", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia funcionamento do fígado e músculos.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      { nome:"TGP (ALT)", preparo:"Jejum de 8 horas.", horario:"06:30 às 07:00", explicacao:"Avalia danos no fígado.", endereco:"Unidade de saúde mais próxima da sua casa" },
-      
-      
+      { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES.", sugestao:"Não achou o exame que procurava, descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
+      { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES.", sugestao:"Não achou o exame que procurava, descreva aqui o nome do exame que você quer que tenha na próxima versão do aplicativo." },
+      { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia o risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"TRIGLICERIDEOS", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede a quantidade de gordura no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"HDL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Colesterol bom, protege o coração.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"LDL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Colesterol ruim, pode causar problemas cardíacos.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"SÓDIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia equilíbrio de líquidos e função renal.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"POTÁSSIO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Importante para músculos e nervos.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"URÉIA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função renal e metabolismo de proteínas.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"CREATININA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função renal e hepática.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"TGO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta lesões no fígado e músculos.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"TGP", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a saúde do fígado.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"GAMA GT", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Indica doenças hepáticas e consumo de álcool.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"AMILASE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função pancreática e salivares.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"TSH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"T3", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede hormônio T3 da tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"T4 LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função da tireoide e metabolismo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"FAN - FATOR ANTINUCLEO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta doenças autoimunes como lúpus.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"FR - FATOR REUMATOIDE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Auxilia no diagnóstico de artrite reumatoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"FA - FOSFATOSE ALCALINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia doenças ósseas e hepáticas.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"FERRITINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede reservas de ferro no organismo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"FERRO SÉRICO", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia ferro circulante no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"PROLACTINA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio prolactina.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"FSH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função ovariana e testicular.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"LH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio luteinizante.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"PSA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia saúde da próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"PSA LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia riscos de doenças na próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"URINA TIPO 1", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Analisa composição da urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"PARASITOLÓGICO", preparo:"Coletar uma pequena quantidade de material, sem exageros (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta presença de parasitas intestinais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"BILIRRUBINAS TOTAIS E FRAÇÕES", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia função do fígado e metabolismo da bilirrubina.", endereco:"Unidade de saúde mais próxima da sua casa" }
+    ];
 
     function fazerCadastro() {
       const nome = document.getElementById("nome").value;
@@ -88,6 +159,7 @@
       const termo = document.getElementById("pesquisa").value.toLowerCase();
       const resultado = document.getElementById("resultado");
       resultado.innerHTML = "";
+
       exames.forEach(exame => {
         if(exame.nome.toLowerCase().includes(termo)) {
           let div = document.createElement("div");
@@ -118,3 +190,4 @@
   </script>
 </body>
 </html>
+
