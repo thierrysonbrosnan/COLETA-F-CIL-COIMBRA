@@ -1,165 +1,119 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Coleta Fácil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Exames</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    input { width: 300px; padding: 8px; margin-bottom: 20px; }
-    .exame { cursor: pointer; margin: 5px 0; padding: 5px; border-bottom: 1px solid #ccc; }
-    .info { display: none; margin-left: 20px; color: #555; }
-    h1 { margin-bottom: 10px; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 20px; }
+    h1 { text-align: center; }
+    .search-box { margin: 20px auto; text-align: center; }
+    input { padding: 10px; width: 60%; border-radius: 8px; border: 1px solid #ccc; }
+    .exam-list { max-width: 800px; margin: auto; }
+    .exam { background: #fff; margin: 10px 0; padding: 15px; border-radius: 10px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .exam-details { display: none; margin-top: 10px; font-size: 14px; line-height: 1.5; }
+    .address { color: green; font-weight: bold; }
   </style>
 </head>
 <body>
+  <h1>Consulta de Exames</h1>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Pesquise um exame...">
+  </div>
+  <div class="exam-list" id="examList"></div>
 
-<h1>Coleta Fácil - Exames</h1>
+  <script>
+    const exames = [
+      { nome: "ABO-RH", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FATOR RH", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "HEMOGRAMA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "VHS", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "HB GLICADA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "GLICEMIA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "COLESTEROL TOTAL", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TRIGLICERIDEOS", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "HDL", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "LDL", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "SÓDIO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "POTÁSSIO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "URÉIA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "CREATININA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TGO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TGP", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "GAMA GT", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "AMILASE", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "TSH", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "T3", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "T4 LIVRE", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FAN - FATOR ANTINUCLEO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FR - FATOR REUMATOIDE", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FA - FOSFATOSE ALCALINA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FERRITINA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FERRO SÉRICO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "PROLACTINA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "FSH", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "LH", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "PSA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "PSA LIVRE", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "PPF 1", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "PPF 2", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "PPF 3", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "URINA I", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "UROCULTURA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "ANTIBIOGRAMA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "URINA 24H PROTEINA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "CALCIO URINARIO 24H", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "URINA MICROALBUMINA ISOLADA", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "ACIDO URICO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "ACIDO FOLICO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "BETA HCG", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "CALCIDIOL", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "CALCIO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "COOMBS INDIRETO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "SECREÇÃO VAGINAL", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "MAGNÉSIO", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "ESTREPTO B SECREÇÃO VAGINAL", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "ESTREPTO B SECREÇÃO ANAL", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "VITAMINA B 12", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" },
+      { nome: "VITAMINA D", tipo: "comum", preparo: "preencha aqui", horario: "preencha aqui", explicacao: "preencha aqui", endereco: "Unidade de saúde mais próxima da sua casa" }
+    ];
 
-<input type="text" id="search" placeholder="Pesquisar exame..." onkeyup="filtrar()">
+    const examList = document.getElementById("examList");
 
-<div id="exames-list">
+    function renderExams(filter = "") {
+      examList.innerHTML = "";
+      exames
+        .filter(exame => exame.nome.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(exame => {
+          const div = document.createElement("div");
+          div.className = `exam`;
+          div.innerHTML = `<strong>${exame.nome}</strong>`;
 
-  <!-- Exames Comuns -->
-  <h2>Exames Comuns</h2>
-  <div class="exame" onclick="toggleInfo(0)">Hemograma Completo
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(1)">Glicemia
-    <div class="info">
-      <p><strong>Preparo:</strong> De 8 á 12 horas de jejum
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(2)">Hemoglobina Glicada
-    <div class="info">
-      <p><strong>Preparo:</strong> De 8 á 12 horas de jejum
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(3)">Hemossedimentação (VHS)
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(4)">Bilirrubinas Totais e Frações
-    <div class="info">
-      <p><strong>Preparo:</strong> </p>
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(5)">Colesterol Total
-    <div class="info">
-      <p><strong>Preparo:</strong> De 8 á 12 horas de jejum
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(6)">Colesterol (HDL)
-    <div class="info">
-      <p><strong>Preparo:</strong> De 8 á 12 horas de jejum
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(7)">Colesterol (LDL)
-    <div class="info">
-      <p><strong>Preparo:</strong> De 8 á 12 horas de jejum
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(8)">Creatinina
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(9)">Sódio
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(10)">Potássio
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(11)">Ureia
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(12)">Magnésio
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(13)">Cálcio
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(14)">Urina Tipo 1
-    <div class="info"> Deve ser realizada a coleta da primeira urina do dia
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(15)">Parasitológico
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(16)">T4 Livre
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(17)">T3
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(18)">TGO
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(19)">TGP
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(20)">Gama GT
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
-  <div class="exame" onclick="toggleInfo(21)">Tireostimulante (TSH)
-    <div class="info">
-      <p><strong>Preparo:</strong> Jejum não necessário
-      <p><strong>Endereço:</strong> Estrada do M Boi Mirim, 3301</p>
-    </div>
-  </div>
+          const details = document.createElement("div");
+          details.className = "exam-details";
+          details.innerHTML = `
+            <p><strong>Preparo:</strong> ${exame.preparo}</p>
+            <p><strong>Horário:</strong> ${exame.horario}</p>
+            <p><strong>Explicação:</strong> ${exame.explicacao}</p>
+            <p class="address"><strong>Endereço:</strong> ${exame.endereco}</p>
+          `;
 
-  <!-- Exames Especiais -->
-  <h2>Exames Especiais</h2>
-  <div class="exame" onclick="toggleInfo(22)">🧪 Curva Glicêmica
-    <div class="info">
-      <p><strong>Preparo:</strong> </p>
-      <p><strong>Endereço:</strong> Rua Philippe de Vitry, n. 280</p>
-    </div>
-  </div>
-  <div
+          div.appendChild(details);
+
+          div.addEventListener("click", () => {
+            details.style.display = details.style.display === "block" ? "none" : "block";
+          });
+
+          examList.appendChild(div);
+        });
+    }
+
+    document.getElementById("search").addEventListener("input", e => {
+      renderExams(e.target.value);
+    });
+
+    renderExams();
+  </script>
+</body>
+</html>
+
