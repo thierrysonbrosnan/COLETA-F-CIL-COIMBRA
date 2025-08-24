@@ -1,27 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Saiba mais sobre exames</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  body { font-family: Arial, sans-serif; background: linear-gradient(to bottom right, #f2f2f2, #ffffff); color: #333; margin: 0; padding: 0; text-align: center; }
-  header { background: #4a90e2; color: white; padding: 20px; font-size: 22px; font-weight: bold; }
-  #app { margin: 20px auto; max-width: 800px; }
-  input, textarea, select { padding: 10px; margin: 5px; width: 100%; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-  button { padding: 10px 20px; margin: 10px 0; border: none; background: #4a90e2; color: white; cursor: pointer; border-radius: 5px; width: 100%; }
-  button:hover { background: #357abd; }
-  .exame { border: 1px solid #4a90e2; border-radius: 8px; margin: 10px 0; padding: 15px; text-align: left; background: #e6f0fa; }
-  .aviso { color: red; font-weight: bold; margin-top: 10px; }
-  #feedback { margin: 40px auto; width: 90%; text-align: left; border-top: 2px solid #4a90e2; padding-top: 20px; position: relative; }
-  #notificacao { position: absolute; top: -40px; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: 5px; display: none; font-weight: bold; color: white; animation: fadeout 0.5s ease forwards; }
-  @keyframes fadeout { 0% {opacity: 1;} 100% {opacity: 0;} }
-  #avaliacao { position: fixed; bottom: 20px; right: 20px; text-align: left; background: rgba(255,255,255,0.95); padding: 10px; border-radius: 8px; box-shadow: 0 0 5px #aaa; }
-  #avaliacao span { font-size: 25px; cursor: pointer; }
-  footer { background: #4a90e2; color: white; padding: 15px; font-weight: bold; margin-top: 50px; }
-  @media (max-width: 600px) { #avaliacao { bottom: 10px; right: 10px; } #app { width: 95%; } }
-  #pesquisa { text-align: center; font-size: 16px; width: 90%; margin: 20px auto; display: block; }
-</style>
+  <meta charset="UTF-8">
+  <title>Saiba mais sobre exames</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f2f2f2, #ffffff);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #4a90e2;
+      color: white;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    #app {
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    input, textarea, select {
+      padding: 10px;
+      margin: 5px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 0;
+      border: none;
+      background: #4a90e2;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 100%;
+    }
+    button:hover {
+      background: #357abd;
+    }
+    .exame {
+      border: 1px solid #4a90e2;
+      border-radius: 8px;
+      margin: 10px 0;
+      padding: 15px;
+      text-align: left;
+      background: #e6f0fa;
+    }
+    .aviso { color: red; font-weight: bold; margin-top: 10px; }
+    #feedback {
+      margin: 40px auto;
+      width: 90%;
+      text-align: left;
+      border-top: 2px solid #4a90e2;
+      padding-top: 20px;
+      position: relative;
+    }
+    #notificacao {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+      font-weight: bold;
+      color: white;
+      animation: fadeout 0.5s ease forwards;
+    }
+    @keyframes fadeout {
+      0% {opacity: 1;}
+      100% {opacity: 0;}
+    }
+    #avaliacao {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      text-align: left;
+      background: rgba(255,255,255,0.95);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px #aaa;
+    }
+    #avaliacao span {
+      font-size: 25px;
+      cursor: pointer;
+    }
+    footer {
+      background: #4a90e2;
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      margin-top: 50px;
+    }
+    @media (max-width: 600px) {
+      #avaliacao { bottom: 10px; right: 10px; }
+      #app { width: 95%; }
+    }
+    #pesquisa {
+      text-align: center;
+      font-size: 16px;
+      width: 90%;
+      margin: 20px auto;
+      display: block;
+    }
+  </style>
 </head>
 <body>
 
@@ -36,6 +125,8 @@
     <h3>💬 Elogio, crítica ou sugestão</h3>
     <div id="notificacao"></div>
     <form id="feedbackForm">
+      <input type="text" name="from_name" placeholder="Seu nome" required><br>
+      <input type="email" name="reply_to" placeholder="Seu email" required><br>
       <textarea name="message" rows="4" placeholder="Escreva aqui seu feedback..." required></textarea><br>
       <button type="submit">Enviar</button>
     </form>
@@ -55,11 +146,12 @@
   <p id="confirmacaoEstrelas"></p>
 </div>
 
-<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
+  // Inicializa EmailJS
   emailjs.init('i3dJ2l-twXrWngK5E');
 
+  // Lista de exames
   const exames = [
    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -114,6 +206,7 @@
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
 
+  // Função de busca
   function buscarExame(){
     const termo = document.getElementById('pesquisa').value.toLowerCase();
     const div = document.getElementById('resultado');
@@ -137,12 +230,14 @@
     }
   }
 
+  // Avaliação por estrelas
   function avaliar(n){
     const estrelas = document.querySelectorAll('#avaliacao span');
     estrelas.forEach((s,i)=> s.textContent = i < n ? '★' : '☆');
     document.getElementById('confirmacaoEstrelas').innerText = `Obrigado por avaliar com ${n} estrela(s)!`;
   }
 
+  // Notificação
   function mostrarNotificacao(mensagem, cor) {
     const notif = document.getElementById('notificacao');
     notif.style.backgroundColor = cor;
@@ -151,13 +246,15 @@
     notif.style.opacity = '1';
     setTimeout(() => {
       notif.style.opacity = '0';
-      setTimeout(() => { notif.style.display = 'none'; }, 500);
+      setTimeout(() => {
+        notif.style.display = 'none';
+      }, 500);
     }, 3000);
   }
 
+  // Envio do feedback
   document.getElementById("feedbackForm").addEventListener("submit", function(e){
     e.preventDefault();
-
     emailjs.sendForm("service_jgvo81p", "template_d5ocfrp", this)
       .then(function(){
         mostrarNotificacao("✅ Feedback enviado com sucesso!", "green");
@@ -167,6 +264,10 @@
       });
   });
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
