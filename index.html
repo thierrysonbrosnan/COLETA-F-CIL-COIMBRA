@@ -78,20 +78,6 @@
       0% {opacity: 1;}
       100% {opacity: 0;}
     }
-    #avaliacao {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      text-align: left;
-      background: rgba(255,255,255,0.95);
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 5px #aaa;
-    }
-    #avaliacao span {
-      font-size: 25px;
-      cursor: pointer;
-    }
     footer {
       background: #4a90e2;
       color: white;
@@ -100,7 +86,6 @@
       margin-top: 50px;
     }
     @media (max-width: 600px) {
-      #avaliacao { bottom: 10px; right: 10px; }
       #app { width: 95%; }
     }
     #pesquisa {
@@ -133,27 +118,15 @@
   <footer>by Thierryson Brosnan</footer>
 </section>
 
-<!-- Avaliação -->
-<div id="avaliacao">
-  <h3>⭐ Avalie o site</h3>
-  <span onclick="avaliar(1)">☆</span>
-  <span onclick="avaliar(2)">☆</span>
-  <span onclick="avaliar(3)">☆</span>
-  <span onclick="avaliar(4)">☆</span>
-  <span onclick="avaliar(5)">☆</span>
-  <p id="confirmacaoEstrelas"></p>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   emailjs.init('i3dJ2l-twXrWngK5E');
 
-  // Lista de exames (abreviada, adicione todas como antes)
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
+    { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
     { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
     { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia o risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"TRIGLICERIDEOS", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede a quantidade de gordura no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -226,12 +199,6 @@
     }
   }
 
-  function avaliar(n){
-    const estrelas = document.querySelectorAll('#avaliacao span');
-    estrelas.forEach((s,i)=> s.textContent = i < n ? '★' : '☆');
-    document.getElementById('confirmacaoEstrelas').innerText = `Obrigado por avaliar com ${n} estrela(s)!`;
-  }
-
   function mostrarNotificacao(mensagem, cor) {
     const notif = document.getElementById('notificacao');
     notif.style.backgroundColor = cor;
@@ -246,7 +213,6 @@
 
   document.getElementById("feedbackForm").addEventListener("submit", function(e){
     e.preventDefault();
-
     emailjs.sendForm("service_jgvo81p", "template_d5ocfrp", this)
       .then(function(){
         mostrarNotificacao("✅ Feedback enviado com sucesso!", "green");
@@ -259,5 +225,4 @@
 
 </body>
 </html>
-
 
