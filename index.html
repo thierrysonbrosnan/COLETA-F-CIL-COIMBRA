@@ -146,7 +146,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  emailjs.init('VpCX7MesCDHTqj4vQ');
+  emailjs.init('i3dJ2l-twXrWngK5E');
 
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -201,6 +201,7 @@
     { nome:"VITAMINA B 12", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina B12.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
+
   function buscarExame(){
     const termo = document.getElementById('pesquisa').value.toLowerCase();
     const div = document.getElementById('resultado');
@@ -235,31 +236,27 @@
     notif.style.backgroundColor = cor;
     notif.textContent = mensagem;
     notif.style.display = 'block';
+    notif.style.opacity = '1';
     setTimeout(() => {
-      notif.style.opacity = '1';
+      notif.style.opacity = '0';
       setTimeout(() => {
         notif.style.display = 'none';
-        notif.style.opacity = '0';
-      }, 3000);
-    }, 10);
+      }, 500);
+    }, 3000);
   }
 
   document.getElementById("feedbackForm").addEventListener("submit", function(e){
     e.preventDefault();
-    const feedbackText = document.querySelector('textarea[name="mensagem"]').value;
 
-    emailjs.send("service_9o026u1", "2xbqz5s", { mensagem: feedbackText })
+    emailjs.sendForm("service_s4bxjpm", "g6qxxsw", this)
       .then(function(){
-        mostrarNotificacao("✅ Feedback enviado com sucesso!", "#4CAF50");
+        mostrarNotificacao("✅ Feedback enviado com sucesso!", "green");
         document.getElementById("feedbackForm").reset();
-      })
-      .catch(function(error){
-        mostrarNotificacao("❌ Erro ao enviar: " + error.text, "#f44336");
+      }, function(error){
+        mostrarNotificacao("❌ Erro ao enviar: " + JSON.stringify(error), "red");
       });
   });
 </script>
 
 </body>
 </html>
-
-
