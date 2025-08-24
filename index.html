@@ -8,7 +8,7 @@
     header { background: #ff6666; color: white; padding: 20px; font-size: 22px; font-weight: bold; }
     #cadastro, #app { margin-top: 20px; }
     .hidden { display: none; }
-    input, textarea { padding: 10px; margin: 5px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
+    input, textarea, select { padding: 10px; margin: 5px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
     button { padding: 10px 20px; margin: 10px; border: none; background: #ff6666; color: white; cursor: pointer; border-radius: 5px; }
     button:hover { background: #e05555; }
     .exame { border: 1px solid #ff9999; border-radius: 8px; margin: 10px auto; padding: 15px; width: 80%; text-align: left; background: #ffe6e6; }
@@ -32,13 +32,18 @@
 <!-- APP PRINCIPAL -->
 <section id="app" class="hidden">
   <h2>Pesquisar Exames</h2>
-  <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
+  <input type="text" id="pesquisa" placeholder="Digite o nome do exame exato" onkeyup="buscarExame()">
   <div id="resultado"></div>
 
   <!-- Feedback -->
   <div id="feedback">
     <h3>💬 Sugestão, crítica ou elogio</h3>
     <textarea id="mensagem" rows="4" placeholder="Escreva sua mensagem aqui..."></textarea><br>
+    <select id="tipo">
+      <option value="elogio">Elogio</option>
+      <option value="sugestao">Sugestão</option>
+      <option value="critica">Crítica</option>
+    </select><br>
     <button onclick="enviarFeedback()">Enviar</button>
     <p id="confirmacao"></p>
   </div>
@@ -50,7 +55,7 @@
 </section>
 
 <script>
-  // Lista completa de exames
+  // Lista de exames (resumida aqui só como exemplo, mas use sua lista completa!)
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -105,50 +110,72 @@
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
 
-  // FUNÇÃO DE CADASTRO
+  // ----- CADASTRO PERSISTENTE -----
   function fazerCadastro() {
     const nome = document.getElementById('nome').value.trim();
     const nascimento = document.getElementById('nascimento').value;
+
     if(nome && nascimento) {
-      document.getElementById('cadastro').classList.add('hidden');
-      document.getElementById('app').classList.remove('hidden');
+      // Se não existir cadastro, cria
+      if(!localStorage.getItem("usuario")) {
+        localStorage.setItem("usuario", JSON.stringify({nome, nascimento}));
+      }
+      // Se já existir, só entra se for o mesmo
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      if(usuario.nome === nome && usuario.nascimento === nascimento) {
+        document.getElementById('cadastro').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+      } else {
+        alert("Os dados não conferem com o cadastro existente!");
+      }
     } else {
       alert("Preencha nome e data de nascimento!");
     }
   }
 
-  // FUNÇÃO DE BUSCA
+  // ----- PESQUISA EXATA -----
   function buscarExame() {
     const termo = document.getElementById('pesquisa').value.toLowerCase();
-    const resultado = exames.filter(exame => exame.nome.toLowerCase().includes(termo));
+    const resultado = exames.find(exame => exame.nome.toLowerCase() === termo);
     const div = document.getElementById('resultado');
-    if(resultado.length === 0) {
+    
+    if(!resultado) {
       div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
     } else {
-      div.innerHTML = resultado.map(exame => `
+      div.innerHTML = `
         <div class="exame">
-          <strong>${exame.nome}</strong><br>
-          <em>Preparo:</em> ${exame.preparo}<br>
-          <em>Horário:</em> ${exame.horario}<br>
-          <em>Explicação:</em> ${exame.explicacao}<br>
-          <em>Endereço:</em> ${exame.endereco}<br>
-          ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ''}
-          ${exame.sugestao ? `<p>${exame.sugestao}</p>` : ''}
+          <strong>${resultado.nome}</strong><br>
+          <em>Preparo:</em> ${resultado.preparo}<br>
+          <em>Horário:</em> ${resultado.horario}<br>
+          <em>Explicação:</em> ${resultado.explicacao}<br>
+          <em>Endereço:</em> ${resultado.endereco}<br>
         </div>
-      `).join('');
+      `;
     }
   }
 
-  // FUNÇÃO DE FEEDBACK
+  // ----- FEEDBACK -----
   function enviarFeedback() {
     const mensagem = document.getElementById('mensagem').value.trim();
+    const tipo = document.getElementById('tipo').value;
+
     if(mensagem) {
-      document.getElementById('confirmacao').textContent = "✅ Mensagem enviada! Obrigado pelo feedback.";
+      // Aqui você poderia enviar via backend/PHP para 3 pastas diferentes
+      if(tipo === "elogio") salvarElogio(mensagem);
+      if(tipo === "sugestao") salvarSugestao(mensagem);
+      if(tipo === "critica") salvarCritica(mensagem);
+
+      document.getElementById('confirmacao').textContent = "✅ Mensagem enviada! Obrigado.";
       document.getElementById('mensagem').value = '';
     } else {
       alert("Escreva uma mensagem antes de enviar.");
     }
   }
+
+  // ----- SIMULAÇÃO DE PASTAS -----
+  function salvarElogio(msg){ console.log("📂 Elogios:", msg); }
+  function salvarSugestao(msg){ console.log("📂 Sugestões:", msg); }
+  function salvarCritica(msg){ console.log("📂 Críticas:", msg); }
 </script>
 
 </body>
