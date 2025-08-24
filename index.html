@@ -133,7 +133,7 @@
     }
   }
 
-  // ----- PESQUISA EXATA -----
+ // ----- PESQUISA APROXIMADA -----
 function buscarExame() {
   const termo = document.getElementById('pesquisa').value.trim().toLowerCase();
   const div = document.getElementById('resultado');
@@ -144,22 +144,22 @@ function buscarExame() {
     return;
   }
 
-  // Procura somente exame exato
-  const resultado = exames.find(exame => exame.nome.toLowerCase() === termo);
+  // Filtra exames que contenham o termo
+  const resultados = exames.filter(exame => exame.nome.toLowerCase().includes(termo));
 
-  if (!resultado) {
+  if (resultados.length === 0) {
     div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
   } else {
-    div.innerHTML = `
+    div.innerHTML = resultados.map(exame => `
       <div class="exame">
-        <strong>${resultado.nome}</strong><br>
-        <em>Preparo:</em> ${resultado.preparo}<br>
-        <em>Horário:</em> ${resultado.horario}<br>
-        <em>Explicação:</em> ${resultado.explicacao}<br>
-        <em>Endereço:</em> ${resultado.endereco}<br>
-        ${resultado.aviso ? `<p class="aviso">${resultado.aviso}</p>` : ""}
+        <strong>${exame.nome}</strong><br>
+        <em>Preparo:</em> ${exame.preparo}<br>
+        <em>Horário:</em> ${exame.horario}<br>
+        <em>Explicação:</em> ${exame.explicacao}<br>
+        <em>Endereço:</em> ${exame.endereco}<br>
+        ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ""}
       </div>
-    `;
+    `).join('');
   }
 }
 
