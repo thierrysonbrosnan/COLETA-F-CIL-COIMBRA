@@ -35,24 +35,24 @@
   <input type="text" id="pesquisa" placeholder="Digite o nome do exame exato" onkeyup="buscarExame()">
   <div id="resultado"></div>
 
-  <!-- Feedback -->
-  <div id="feedback">
-    <h3>💬 Sugestão, crítica ou elogio</h3>
-    <textarea id="mensagem" rows="4" placeholder="Escreva sua mensagem aqui..."></textarea><br>
-    <select id="tipo">
-      <option value="elogio">Elogio</option>
-      <option value="sugestao">Sugestão</option>
-      <option value="critica">Crítica</option>
-    </select><br>
-    <button onclick="enviarFeedback()">Enviar</button>
-    <p id="confirmacao"></p>
-  </div>
-
   <!-- Rodapé -->
   <footer>
     by Thierryson Brosnan
   </footer>
 </section>
+
+<!-- Feedback (fica só no final da página) -->
+<div id="feedback" class="hidden">
+  <h3>💬 Sugestão, crítica ou elogio</h3>
+  <textarea id="mensagem" rows="4" placeholder="Escreva sua mensagem aqui..."></textarea><br>
+  <select id="tipo">
+    <option value="elogio">Elogio</option>
+    <option value="sugestao">Sugestão</option>
+    <option value="critica">Crítica</option>
+  </select><br>
+  <button onclick="enviarFeedback()">Enviar</button>
+  <p id="confirmacao"></p>
+</div>
 
 <script>
   // Lista de exames (resumida aqui só como exemplo, mas use sua lista completa!)
@@ -134,7 +134,6 @@
   }
 
   // ----- PESQUISA EXATA -----
-  // ----- PESQUISA EXATA -----
 function buscarExame() {
   const termo = document.getElementById('pesquisa').value.trim().toLowerCase();
   const div = document.getElementById('resultado');
@@ -163,6 +162,7 @@ function buscarExame() {
     `;
   }
 }
+
 
   // ----- FEEDBACK -----
   function enviarFeedback() {
