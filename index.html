@@ -5,96 +5,18 @@
   <title>Saiba mais sobre exames</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom right, #f2f2f2, #ffffff);
-      color: #333;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      background: #4a90e2;
-      color: white;
-      padding: 20px;
-      font-size: 22px;
-      font-weight: bold;
-    }
-    #app {
-      margin: 20px auto;
-      max-width: 800px;
-    }
-    input, textarea {
-      padding: 10px;
-      margin: 5px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 10px 0;
-      border: none;
-      background: #4a90e2;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-      width: 100%;
-    }
-    button:hover {
-      background: #357abd;
-    }
-    .exame {
-      border: 1px solid #4a90e2;
-      border-radius: 8px;
-      margin: 10px 0;
-      padding: 15px;
-      text-align: left;
-      background: #e6f0fa;
-    }
+    body { font-family: Arial, sans-serif; background: linear-gradient(to bottom right, #f2f2f2, #ffffff); color: #333; margin:0; padding:0; text-align:center; }
+    header { background: #4a90e2; color: white; padding: 20px; font-size: 22px; font-weight: bold; }
+    #app { margin: 20px auto; max-width: 800px; }
+    input, textarea { padding: 10px; margin: 5px; width: 100%; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+    button { padding: 10px 20px; margin: 10px 0; border: none; background: #4a90e2; color: white; cursor: pointer; border-radius: 5px; width: 100%; }
+    button:hover { background: #357abd; }
+    .exame { border: 1px solid #4a90e2; border-radius: 8px; margin: 10px 0; padding: 15px; text-align: left; background: #e6f0fa; }
     .aviso { color: red; font-weight: bold; margin-top: 10px; }
-    #feedback {
-      margin: 40px auto;
-      width: 90%;
-      text-align: left;
-      border-top: 2px solid #4a90e2;
-      padding-top: 20px;
-      position: relative;
-    }
-    #notificacao {
-      position: absolute;
-      top: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 20px;
-      border-radius: 5px;
-      display: none;
-      font-weight: bold;
-      color: white;
-      animation: fadeout 0.5s ease forwards;
-    }
-    @keyframes fadeout {
-      0% {opacity: 1;}
-      100% {opacity: 0;}
-    }
-    footer {
-      background: #4a90e2;
-      color: white;
-      padding: 15px;
-      font-weight: bold;
-      margin-top: 50px;
-    }
-    @media (max-width: 600px) {
-      #app { width: 95%; }
-    }
-    #pesquisa {
-      text-align: center;
-      font-size: 16px;
-      width: 90%;
-      margin: 20px auto;
-      display: block;
-    }
+    footer { background: #4a90e2; color: white; padding: 15px; font-weight: bold; margin-top: 50px; }
+    #pesquisa { text-align: center; font-size: 16px; width: 90%; margin: 20px auto; display: block; }
+    #feedback { margin:40px auto; width:90%; text-align:left; border-top:2px solid #4a90e2; padding-top:20px; }
+    #notificacao { margin-top:10px; font-weight:bold; display:none; }
   </style>
 </head>
 <body>
@@ -107,21 +29,17 @@
 
   <!-- Feedback via WhatsApp -->
   <div id="feedback">
-    <h3>💬 Elogio, crítica ou sugestão</h3>
+    <h3>💬 Envie seu feedback</h3>
+    <textarea id="mensagemFeedback" rows="4" placeholder="Escreva seu feedback aqui..."></textarea><br>
+    <button id="enviarWhats">📩 Enviar pelo WhatsApp</button>
     <div id="notificacao"></div>
-    <form id="feedbackForm">
-      <textarea id="message" rows="4" placeholder="Escreva aqui seu feedback..." required></textarea><br>
-      <button type="submit">Enviar via WhatsApp</button>
-    </form>
   </div>
 
   <footer>by Thierryson Brosnan</footer>
 </section>
 
 <script>
-  const numeroWhats = "5511992386161"; // Seu número de WhatsApp
-
-  // Lista de exames (adicione todos os exames que desejar)
+  // Lista de exames (abreviada, adicione todas como antes)
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -153,9 +71,9 @@
     { nome:"LH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio luteinizante.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"PSA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia saúde da próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"PSA LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia riscos de doenças na próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"PARASITOLÓGICO PPF 1", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"PARASITOLÓGICO PPF 2", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"PARASITOLÓGICO PPF 3", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PPF 1", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PPF 2", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PPF 3", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"URINA I", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Analisa composição da urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"UROCULTURA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta infecções urinárias.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"ANTIBIOGRAMA", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Verifica quais antibióticos combatem a bactéria.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -199,38 +117,24 @@
     }
   }
 
-  function mostrarNotificacao(mensagem, cor) {
-    const notif = document.getElementById('notificacao');
-    notif.style.backgroundColor = cor;
-    notif.textContent = mensagem;
-    notif.style.display = 'block';
-    notif.style.opacity = '1';
-    setTimeout(() => {
-      notif.style.opacity = '0';
-      setTimeout(() => { notif.style.display = 'none'; }, 500);
-    }, 3000);
-  }
+  // Feedback via WhatsApp
+  const numeroWhats = "5511992386161"; // Seu número com código do Brasil +55
+  const mensagemPadrao = "👋 Olá! Recebemos seu feedback sobre o site. ";
 
-  document.getElementById("feedbackForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    const message = encodeURIComponent(document.getElementById("message").value.trim());
+  document.getElementById("enviarWhats").addEventListener("click", function() {
+    const textoUsuario = document.getElementById("mensagemFeedback").value;
+    const mensagemCompleta = encodeURIComponent(mensagemPadrao + textoUsuario);
+    const linkWhats = `https://wa.me/${numeroWhats}?text=${mensagemCompleta}`;
+    window.open(linkWhats, "_blank");
 
-    if(message === ""){
-      mostrarNotificacao("❌ Digite algo antes de enviar!", "red");
-      return;
-    }
-
-    // Abre WhatsApp com a mensagem
-    window.open(`https://wa.me/${numeroWhats}?text=${message}`, "_blank");
-
-    mostrarNotificacao("✅ Abrindo WhatsApp...", "green");
-    document.getElementById("feedbackForm").reset();
+    const notif = document.getElementById("notificacao");
+    notif.textContent = "✅ WhatsApp aberto! Complete ou envie sua mensagem.";
+    notif.style.color = "green";
+    notif.style.display = "block";
+    setTimeout(() => { notif.style.display = "none"; }, 4000);
   });
 </script>
 
 </body>
 </html>
 
-
-</body>
-</html>
