@@ -24,7 +24,7 @@
       margin: 20px auto;
       max-width: 400px;
     }
-    input, textarea, select {
+    input, textarea {
       padding: 10px;
       margin: 5px;
       width: 100%;
@@ -72,6 +72,7 @@
       font-weight: bold;
       margin-top: 50px;
     }
+    .hidden { display: none; }
     @media (max-width: 600px) {
       #cadastro, #app { width: 90%; }
     }
@@ -122,18 +123,16 @@
   </div>
 
   <footer>
-    by Thierryson Brosnan
+    Criado por Thierryson Brosnan
   </footer>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  // Inicializar EmailJS
-  (function(){ 
-    emailjs.init(user_HIIB6GVNtFQ8ZoN0d); // Substitua pela sua Public Key real
-  })();
+  // Inicializar EmailJS com a Public Key correta
+  emailjs.init("user_HIIB6GVNtFQ8ZoN0d");
 
-  // Lista de exames (apenas dois exemplos)
+  // Lista de exames 
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -205,12 +204,12 @@
   // Pesquisa aproximada
   function buscarExame(){
     const termo = document.getElementById('pesquisa').value.toLowerCase();
-    const resultado = exames.filter(exame => exame.nome.toLowerCase().includes(termo));
     const div = document.getElementById('resultado');
     if(termo === ""){
       div.innerHTML = "";
       return;
     }
+    const resultado = exames.filter(exame => exame.nome.toLowerCase().includes(termo));
     if(resultado.length === 0){
       div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
     } else {
@@ -266,4 +265,3 @@
 
 </body>
 </html>
-
