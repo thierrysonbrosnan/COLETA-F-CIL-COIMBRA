@@ -24,7 +24,7 @@
       margin: 20px auto;
       max-width: 800px;
     }
-    input, textarea, select {
+    input, textarea {
       padding: 10px;
       margin: 5px;
       width: 100%;
@@ -105,29 +105,28 @@
   <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
   <div id="resultado"></div>
 
-  <!-- Feedback -->
+  <!-- Feedback via WhatsApp -->
   <div id="feedback">
     <h3>💬 Elogio, crítica ou sugestão</h3>
     <div id="notificacao"></div>
     <form id="feedbackForm">
-      <textarea name="message" rows="4" placeholder="Escreva aqui seu feedback..." required></textarea><br>
-      <button type="submit">Enviar</button>
+      <textarea id="message" rows="4" placeholder="Escreva aqui seu feedback..." required></textarea><br>
+      <button type="submit">Enviar via WhatsApp</button>
     </form>
   </div>
 
   <footer>by Thierryson Brosnan</footer>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  emailjs.init('i3dJ2l-twXrWngK5E');
+  const numeroWhats = "5511992386161"; // Seu número de WhatsApp
 
-  // Lista de exames (abreviada, adicione todas como antes)
+  // Lista de exames (adicione todos os exames que desejar)
   const exames = [
-   { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
+    { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
     { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
     { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia o risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"TRIGLICERIDEOS", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede a quantidade de gordura no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -154,9 +153,9 @@
     { nome:"LH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede níveis do hormônio luteinizante.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"PSA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia saúde da próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"PSA LIVRE", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia riscos de doenças na próstata.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"PPF 1", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"PPF 2", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"PPF 3", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PARASITOLÓGICO PPF 1", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PARASITOLÓGICO PPF 2", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PARASITOLÓGICO PPF 3", preparo:"Coletar uma quantidade pequena de material (água liberada).", horario:"06:30 às 07:00", explicacao:"Exame específico, acompanha distúrbios renais.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"URINA I", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Analisa composição da urina.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"UROCULTURA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta infecções urinárias.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"ANTIBIOGRAMA", preparo:"Realizar a coleta da 1ª urina do dia (água liberada).", horario:"06:30 às 07:00", explicacao:"Verifica quais antibióticos combatem a bactéria.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -175,6 +174,7 @@
     { nome:"ESTREPTO B SECRECAO ANAL", preparo:"Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta  (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta bactéria Streptococcus B no ânus.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VITAMINA B 12", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina B12.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
+
 
   function buscarExame(){
     const termo = document.getElementById('pesquisa').value.toLowerCase();
@@ -213,16 +213,24 @@
 
   document.getElementById("feedbackForm").addEventListener("submit", function(e){
     e.preventDefault();
+    const message = encodeURIComponent(document.getElementById("message").value.trim());
 
-    emailjs.sendForm("service_jgvo81p", "template_d5ocfrp", this)
-      .then(function(){
-        mostrarNotificacao("✅ Feedback enviado com sucesso!", "green");
-        document.getElementById("feedbackForm").reset();
-      }, function(error){
-        mostrarNotificacao("❌ Erro ao enviar: " + JSON.stringify(error), "red");
-      });
+    if(message === ""){
+      mostrarNotificacao("❌ Digite algo antes de enviar!", "red");
+      return;
+    }
+
+    // Abre WhatsApp com a mensagem
+    window.open(`https://wa.me/${numeroWhats}?text=${message}`, "_blank");
+
+    mostrarNotificacao("✅ Abrindo WhatsApp...", "green");
+    document.getElementById("feedbackForm").reset();
   });
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
