@@ -125,8 +125,6 @@
     <h3>💬 Elogio, crítica ou sugestão</h3>
     <div id="notificacao"></div>
     <form id="feedbackForm">
-      <input type="text" name="from_name" placeholder="Seu nome" required><br>
-      <input type="email" name="reply_to" placeholder="Seu email" required><br>
       <textarea name="message" rows="4" placeholder="Escreva aqui seu feedback..." required></textarea><br>
       <button type="submit">Enviar</button>
     </form>
@@ -148,12 +146,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  // Inicializa EmailJS
   emailjs.init('i3dJ2l-twXrWngK5E');
 
-  // Lista de exames
+  // Lista de exames (abreviada, adicione todas como antes)
   const exames = [
-   { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -206,7 +203,6 @@
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
 
-  // Função de busca
   function buscarExame(){
     const termo = document.getElementById('pesquisa').value.toLowerCase();
     const div = document.getElementById('resultado');
@@ -230,14 +226,12 @@
     }
   }
 
-  // Avaliação por estrelas
   function avaliar(n){
     const estrelas = document.querySelectorAll('#avaliacao span');
     estrelas.forEach((s,i)=> s.textContent = i < n ? '★' : '☆');
     document.getElementById('confirmacaoEstrelas').innerText = `Obrigado por avaliar com ${n} estrela(s)!`;
   }
 
-  // Notificação
   function mostrarNotificacao(mensagem, cor) {
     const notif = document.getElementById('notificacao');
     notif.style.backgroundColor = cor;
@@ -246,15 +240,13 @@
     notif.style.opacity = '1';
     setTimeout(() => {
       notif.style.opacity = '0';
-      setTimeout(() => {
-        notif.style.display = 'none';
-      }, 500);
+      setTimeout(() => { notif.style.display = 'none'; }, 500);
     }, 3000);
   }
 
-  // Envio do feedback
   document.getElementById("feedbackForm").addEventListener("submit", function(e){
     e.preventDefault();
+
     emailjs.sendForm("service_jgvo81p", "template_d5ocfrp", this)
       .then(function(){
         mostrarNotificacao("✅ Feedback enviado com sucesso!", "green");
@@ -269,5 +261,3 @@
 </html>
 
 
-</body>
-</html>
