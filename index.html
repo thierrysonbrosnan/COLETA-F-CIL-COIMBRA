@@ -13,7 +13,6 @@
       padding: 0;
       text-align: center;
     }
-
     header {
       background: #4a90e2;
       color: white;
@@ -21,12 +20,10 @@
       font-size: 22px;
       font-weight: bold;
     }
-
     #app {
       margin: 20px auto;
       max-width: 800px;
     }
-
     input, textarea, select {
       padding: 10px;
       margin: 5px;
@@ -35,7 +32,6 @@
       border-radius: 5px;
       box-sizing: border-box;
     }
-
     button {
       padding: 10px 20px;
       margin: 10px 0;
@@ -46,11 +42,9 @@
       border-radius: 5px;
       width: 100%;
     }
-
     button:hover {
       background: #357abd;
     }
-
     .exame {
       border: 1px solid #4a90e2;
       border-radius: 8px;
@@ -59,17 +53,31 @@
       text-align: left;
       background: #e6f0fa;
     }
-
     .aviso { color: red; font-weight: bold; margin-top: 10px; }
-
     #feedback {
       margin: 40px auto;
       width: 90%;
       text-align: left;
       border-top: 2px solid #4a90e2;
       padding-top: 20px;
+      position: relative;
     }
-
+    #notificacao {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+      font-weight: bold;
+      color: white;
+      animation: fadeout 0.5s ease forwards;
+    }
+    @keyframes fadeout {
+      0% {opacity: 1;}
+      100% {opacity: 0;}
+    }
     #avaliacao {
       position: fixed;
       bottom: 20px;
@@ -80,12 +88,10 @@
       border-radius: 8px;
       box-shadow: 0 0 5px #aaa;
     }
-
     #avaliacao span {
       font-size: 25px;
       cursor: pointer;
     }
-
     footer {
       background: #4a90e2;
       color: white;
@@ -93,12 +99,10 @@
       font-weight: bold;
       margin-top: 50px;
     }
-
     @media (max-width: 600px) {
       #avaliacao { bottom: 10px; right: 10px; }
       #app { width: 95%; }
     }
-
     #pesquisa {
       text-align: center;
       font-size: 16px;
@@ -119,11 +123,11 @@
   <!-- Feedback -->
   <div id="feedback">
     <h3>💬 Elogio, crítica ou sugestão</h3>
+    <div id="notificacao"></div>
     <form id="feedbackForm">
       <textarea name="mensagem" rows="4" placeholder="Escreva aqui seu feedback..." required></textarea><br>
       <button type="submit">Enviar</button>
     </form>
-    <p id="confirmacao"></p>
   </div>
 
   <footer>by Thierryson Brosnan</footer>
@@ -142,10 +146,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  // Substitua pela sua Public Key
   emailjs.init('VpCX7MesCDHTqj4vQ');
 
-  // Lista de exames (exemplo, pode adicionar todos os exames)
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -199,7 +201,6 @@
     { nome:"VITAMINA B 12", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina B12.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
-  // Pesquisa aproximada
   function buscarExame(){
     const termo = document.getElementById('pesquisa').value.toLowerCase();
     const div = document.getElementById('resultado');
@@ -223,22 +224,37 @@
     }
   }
 
-  // Avaliação
   function avaliar(n){
     const estrelas = document.querySelectorAll('#avaliacao span');
     estrelas.forEach((s,i)=> s.textContent = i < n ? '★' : '☆');
     document.getElementById('confirmacaoEstrelas').innerText = `Obrigado por avaliar com ${n} estrela(s)!`;
   }
 
-  // Feedback via EmailJS
+  function mostrarNotificacao(mensagem, cor) {
+    const notif = document.getElementById('notificacao');
+    notif.style.backgroundColor = cor;
+    notif.textContent = mensagem;
+    notif.style.display = 'block';
+    setTimeout(() => {
+      notif.style.opacity = '1';
+      setTimeout(() => {
+        notif.style.display = 'none';
+        notif.style.opacity = '0';
+      }, 3000);
+    }, 10);
+  }
+
   document.getElementById("feedbackForm").addEventListener("submit", function(e){
     e.preventDefault();
-    emailjs.sendForm("service_9o026u1", "2xbqz5s", this)
+    const feedbackText = document.querySelector('textarea[name="mensagem"]').value;
+
+    emailjs.send("service_9o026u1", "2xbqz5s", { mensagem: feedbackText })
       .then(function(){
-        document.getElementById("confirmacao").innerText = "✅ Feedback enviado com sucesso!";
+        mostrarNotificacao("✅ Feedback enviado com sucesso!", "#4CAF50");
         document.getElementById("feedbackForm").reset();
-      }, function(error){
-        document.getElementById("confirmacao").innerText = "❌ Erro ao enviar: " + JSON.stringify(error);
+      })
+      .catch(function(error){
+        mostrarNotificacao("❌ Erro ao enviar: " + error.text, "#f44336");
       });
   });
 </script>
