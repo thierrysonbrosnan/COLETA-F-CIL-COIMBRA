@@ -134,25 +134,35 @@
   }
 
   // ----- PESQUISA EXATA -----
-  function buscarExame() {
-    const termo = document.getElementById('pesquisa').value.toLowerCase();
-    const resultado = exames.find(exame => exame.nome.toLowerCase() === termo);
-    const div = document.getElementById('resultado');
-    
-    if(!resultado) {
-      div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
-    } else {
-      div.innerHTML = `
-        <div class="exame">
-          <strong>${resultado.nome}</strong><br>
-          <em>Preparo:</em> ${resultado.preparo}<br>
-          <em>Horário:</em> ${resultado.horario}<br>
-          <em>Explicação:</em> ${resultado.explicacao}<br>
-          <em>Endereço:</em> ${resultado.endereco}<br>
-        </div>
-      `;
-    }
+  // ----- PESQUISA EXATA -----
+function buscarExame() {
+  const termo = document.getElementById('pesquisa').value.trim().toLowerCase();
+  const div = document.getElementById('resultado');
+
+  // Se não digitou nada, não mostra nada
+  if (termo === "") {
+    div.innerHTML = "";
+    return;
   }
+
+  // Procura somente exame exato
+  const resultado = exames.find(exame => exame.nome.toLowerCase() === termo);
+
+  if (!resultado) {
+    div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
+  } else {
+    div.innerHTML = `
+      <div class="exame">
+        <strong>${resultado.nome}</strong><br>
+        <em>Preparo:</em> ${resultado.preparo}<br>
+        <em>Horário:</em> ${resultado.horario}<br>
+        <em>Explicação:</em> ${resultado.explicacao}<br>
+        <em>Endereço:</em> ${resultado.endereco}<br>
+        ${resultado.aviso ? `<p class="aviso">${resultado.aviso}</p>` : ""}
+      </div>
+    `;
+  }
+}
 
   // ----- FEEDBACK -----
   function enviarFeedback() {
