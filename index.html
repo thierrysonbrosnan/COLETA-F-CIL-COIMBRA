@@ -138,29 +138,34 @@ function buscarExame() {
   const termo = document.getElementById('pesquisa').value.trim().toLowerCase();
   const div = document.getElementById('resultado');
 
-  // Se não digitou nada, não mostra nada
+  // 🔹 Se o usuário não digitou nada, não mostra nada
   if (termo === "") {
     div.innerHTML = "";
     return;
   }
 
-  // Filtra exames que contenham o termo
-  const resultados = exames.filter(exame => exame.nome.toLowerCase().includes(termo));
+  // 🔹 Filtra exames que contenham o termo digitado (aproximado)
+  const resultados = exames.filter(exame =>
+    exame.nome.toLowerCase().includes(termo)
+  );
 
+  // 🔹 Exibe mensagem se não achou nada
   if (resultados.length === 0) {
     div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
-  } else {
-    div.innerHTML = resultados.map(exame => `
-      <div class="exame">
-        <strong>${exame.nome}</strong><br>
-        <em>Preparo:</em> ${exame.preparo}<br>
-        <em>Horário:</em> ${exame.horario}<br>
-        <em>Explicação:</em> ${exame.explicacao}<br>
-        <em>Endereço:</em> ${exame.endereco}<br>
-        ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ""}
-      </div>
-    `).join('');
+    return;
   }
+
+  // 🔹 Exibe somente os exames encontrados
+  div.innerHTML = resultados.map(exame => `
+    <div class="exame">
+      <strong>${exame.nome}</strong><br>
+      <em>Preparo:</em> ${exame.preparo}<br>
+      <em>Horário:</em> ${exame.horario}<br>
+      <em>Explicação:</em> ${exame.explicacao}<br>
+      <em>Endereço:</em> ${exame.endereco}<br>
+      ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ""}
+    </div>
+  `).join('');
 }
 
 
