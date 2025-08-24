@@ -24,7 +24,7 @@
       margin: 20px auto;
       max-width: 400px;
     }
-    input, textarea {
+    input, textarea, select {
       padding: 10px;
       margin: 5px;
       width: 100%;
@@ -61,6 +61,12 @@
       border-top: 2px solid #4a90e2;
       padding-top: 20px;
     }
+    #avaliacao {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      text-align: left;
+    }
     #avaliacao span {
       font-size: 25px;
       cursor: pointer;
@@ -72,10 +78,12 @@
       font-weight: bold;
       margin-top: 50px;
     }
-    .hidden { display: none; }
     @media (max-width: 600px) {
       #cadastro, #app { width: 90%; }
+      #avaliacao { bottom: 10px; right: 10px; }
     }
+    .hidden { display: none; }
+    #pesquisa { text-align: center; font-size: 16px; }
   </style>
 </head>
 <body>
@@ -92,30 +100,16 @@
 
 <!-- APP PRINCIPAL -->
 <section id="app" class="hidden">
-  <h2>Pesquisar Exames</h2>
   <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
   <div id="resultado"></div>
 
   <!-- Botão sair -->
   <button onclick="sair()">Sair</button>
 
-  <!-- Avaliação -->
-  <div id="avaliacao" class="hidden">
-    <h3>⭐ Avalie o site</h3>
-    <span onclick="avaliar(1)">☆</span>
-    <span onclick="avaliar(2)">☆</span>
-    <span onclick="avaliar(3)">☆</span>
-    <span onclick="avaliar(4)">☆</span>
-    <span onclick="avaliar(5)">☆</span>
-    <p id="confirmacaoEstrelas"></p>
-  </div>
-
   <!-- Feedback -->
   <div id="feedback">
     <h3>💬 Elogio, crítica ou sugestão</h3>
     <form id="feedbackForm">
-      <input type="text" name="nome" placeholder="Seu nome" required><br>
-      <input type="date" name="nascimento" required><br>
       <textarea name="mensagem" rows="4" placeholder="Escreva aqui seu feedback..." required></textarea><br>
       <button type="submit">Enviar</button>
     </form>
@@ -123,21 +117,32 @@
   </div>
 
   <footer>
-    Criado por Thierryson Brosnan
+    by Thierryson Brosnan
   </footer>
 </section>
 
+<!-- Avaliação -->
+<div id="avaliacao" class="hidden">
+  <h3>⭐ Avalie o site</h3>
+  <span onclick="avaliar(1)">☆</span>
+  <span onclick="avaliar(2)">☆</span>
+  <span onclick="avaliar(3)">☆</span>
+  <span onclick="avaliar(4)">☆</span>
+  <span onclick="avaliar(5)">☆</span>
+  <p id="confirmacaoEstrelas"></p>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  // Inicializar EmailJS com a Public Key correta
-  emailjs.init("crRKt9KOSeXw-IYXe");
+  // Inicializar EmailJS (substitua 'YOUR_PUBLIC_KEY' pelo seu public key real)
+  emailjs.init('VpCX7MesCDHTqj4vQ');
 
-  // Lista de exames 
+  // Lista de exames (apenas dois exemplos)
   const exames = [
-    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+   { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
+    { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
     { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
     { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia o risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"TRIGLICERIDEOS", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede a quantidade de gordura no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -257,11 +262,13 @@
     if(nome && nascimento){
       document.getElementById('cadastro').classList.add('hidden');
       document.getElementById('app').classList.remove('hidden');
-      document.getElementById('nome').value = nome;
-      document.getElementById('nascimento').value = nascimento;
     }
   }
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
