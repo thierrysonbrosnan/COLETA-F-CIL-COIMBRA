@@ -2,19 +2,44 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Saiba mais sobre exames</title>
+
   <style>
     body { font-family: Arial, sans-serif; background: #fff; color: #333; text-align: center; margin: 0; padding: 0; }
     header { background: #ff6666; color: white; padding: 20px; font-size: 22px; font-weight: bold; }
-    #cadastro, #app { margin-top: 20px; }
-    .hidden { display: none; }
-    input, textarea, select { padding: 10px; margin: 5px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
+
+    /* Cadastro */
+    #cadastro { margin-top: 20px; }
+    input, textarea, select { padding: 10px; margin: 5px; border: 1px solid #ccc; border-radius: 5px; }
     button { padding: 10px 20px; margin: 10px; border: none; background: #ff6666; color: white; cursor: pointer; border-radius: 5px; }
     button:hover { background: #e05555; }
-    .exame { border: 1px solid #ff9999; border-radius: 8px; margin: 10px auto; padding: 15px; width: 80%; text-align: left; background: #ffe6e6; }
-    .aviso { color: red; font-weight: bold; text-transform: uppercase; margin-top: 10px; }
+
+    /* Esconde elementos */
+    .hidden { display: none; }
+
+    /* Exames */
+    #resultado { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+    .exame { border: 1px solid #ff9999; border-radius: 8px; padding: 15px; background: #ffe6e6; text-align: left; }
+    .aviso { color: red; font-weight: bold; margin-top: 10px; }
+
+    /* Feedback */
     #feedback { margin: 40px auto; width: 80%; text-align: left; border-top: 2px solid #ff6666; padding-top: 20px; }
+    #confirmacao { margin-top: 10px; font-weight: bold; }
+
+    /* Footer */
     footer { background: #ff6666; color: white; padding: 15px; width: 100%; font-weight: bold; margin-top: 50px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #resultado { display: block; }
+      .exame { margin-bottom: 15px; font-size: 18px; }
+      input { width: 90%; font-size: 20px; }
+    }
+
+    @media (min-width: 769px) {
+      input { width: 60%; font-size: 18px; }
+    }
   </style>
 </head>
 <body>
@@ -32,30 +57,32 @@
 <!-- APP PRINCIPAL -->
 <section id="app" class="hidden">
   <h2>Pesquisar Exames</h2>
-  <input type="text" id="pesquisa" placeholder="Digite aqui o exame que procura" onkeyup="buscarExame()">
+  <input type="text" id="pesquisa" placeholder="Digite o nome do exame..." oninput="buscarExame()">
   <div id="resultado"></div>
 
-  <!-- Rodapé -->
-  <footer>
-    Criado por Thierryson Brosnan
-  </footer>
+  <!-- Feedback no final -->
+  <div id="feedback">
+    <h3>💬 Sugestão, crítica ou elogio</h3>
+    <form id="feedbackForm">
+      <textarea name="mensagem" id="mensagem" rows="4" placeholder="Escreva sua mensagem aqui..." required></textarea><br>
+      <select name="tipo" id="tipo">
+        <option value="elogio">Elogio</option>
+        <option value="sugestao">Sugestão</option>
+        <option value="critica">Crítica</option>
+      </select><br>
+      <button type="submit">Enviar</button>
+    </form>
+    <p id="confirmacao"></p>
+  </div>
+
+  <footer>Criado por Thierryson Brosnan</footer>
 </section>
 
-<!-- Feedback (fica só no final da página) -->
-<div id="feedback" class="hidden">
-  <h3>💬 Sugestão, crítica ou elogio</h3>
-  <textarea id="mensagem" rows="4" placeholder="Escreva sua mensagem aqui..."></textarea><br>
-  <select id="tipo">
-    <option value="elogio">Elogio</option>
-    <option value="sugestao">Sugestão</option>
-    <option value="critica">Crítica</option>
-  </select><br>
-  <button onclick="enviarFeedback()">Enviar</button>
-  <p id="confirmacao"></p>
-</div>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-  // Lista de exames (resumida aqui só como exemplo, mas use sua lista completa!)
+  // ====== LISTA DE EXAMES ======
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -110,90 +137,66 @@
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
 
-  // ----- CADASTRO PERSISTENTE -----
+  // ====== CADASTRO ======
   function fazerCadastro() {
     const nome = document.getElementById('nome').value.trim();
     const nascimento = document.getElementById('nascimento').value;
-
     if(nome && nascimento) {
-      // Se não existir cadastro, cria
-      if(!localStorage.getItem("usuario")) {
-        localStorage.setItem("usuario", JSON.stringify({nome, nascimento}));
-      }
-      // Se já existir, só entra se for o mesmo
-      const usuario = JSON.parse(localStorage.getItem("usuario"));
-      if(usuario.nome === nome && usuario.nascimento === nascimento) {
-        document.getElementById('cadastro').classList.add('hidden');
-        document.getElementById('app').classList.remove('hidden');
-      } else {
-        alert("Os dados não conferem com o cadastro existente!");
-      }
+      document.getElementById('cadastro').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
     } else {
       alert("Preencha nome e data de nascimento!");
     }
   }
 
- // ----- PESQUISA APROXIMADA -----
-function buscarExame() {
-  const termo = document.getElementById('pesquisa').value.trim().toLowerCase();
-  const div = document.getElementById('resultado');
+  // ====== PESQUISA APROXIMADA ======
+  function buscarExame() {
+    const termo = document.getElementById('pesquisa').value.trim().toLowerCase();
+    const div = document.getElementById('resultado');
 
-  // 🔹 Se o usuário não digitou nada, não mostra nada
-  if (termo === "") {
-    div.innerHTML = "";
-    return;
-  }
-
-  // 🔹 Filtra exames que contenham o termo digitado (aproximado)
-  const resultados = exames.filter(exame =>
-    exame.nome.toLowerCase().includes(termo)
-  );
-
-  // 🔹 Exibe mensagem se não achou nada
-  if (resultados.length === 0) {
-    div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
-    return;
-  }
-
-  // 🔹 Exibe somente os exames encontrados
-  div.innerHTML = resultados.map(exame => `
-    <div class="exame">
-      <strong>${exame.nome}</strong><br>
-      <em>Preparo:</em> ${exame.preparo}<br>
-      <em>Horário:</em> ${exame.horario}<br>
-      <em>Explicação:</em> ${exame.explicacao}<br>
-      <em>Endereço:</em> ${exame.endereco}<br>
-      ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ""}
-    </div>
-  `).join('');
-}
-
-
-  // ----- FEEDBACK -----
-  function enviarFeedback() {
-    const mensagem = document.getElementById('mensagem').value.trim();
-    const tipo = document.getElementById('tipo').value;
-
-    if(mensagem) {
-      // Aqui você poderia enviar via backend/PHP para 3 pastas diferentes
-      if(tipo === "elogio") salvarElogio(mensagem);
-      if(tipo === "sugestao") salvarSugestao(mensagem);
-      if(tipo === "critica") salvarCritica(mensagem);
-
-      document.getElementById('confirmacao').textContent = "✅ Mensagem enviada! Obrigado.";
-      document.getElementById('mensagem').value = '';
-    } else {
-      alert("Escreva uma mensagem antes de enviar.");
+    if (termo === "") {
+      div.innerHTML = "";
+      return;
     }
+
+    const resultados = exames.filter(exame =>
+      exame.nome.toLowerCase().includes(termo)
+    );
+
+    if (resultados.length === 0) {
+      div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
+      return;
+    }
+
+    div.innerHTML = resultados.map(exame => `
+      <div class="exame">
+        <strong>${exame.nome}</strong><br>
+        <em>Preparo:</em> ${exame.preparo}<br>
+        <em>Horário:</em> ${exame.horario}<br>
+        <em>Explicação:</em> ${exame.explicacao}<br>
+        <em>Endereço:</em> ${exame.endereco}<br>
+        ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ""}
+      </div>
+    `).join('');
   }
 
-  // ----- SIMULAÇÃO DE PASTAS -----
-  function salvarElogio(msg){ console.log("📂 Elogios:", msg); }
-  function salvarSugestao(msg){ console.log("📂 Sugestões:", msg); }
-  function salvarCritica(msg){ console.log("📂 Críticas:", msg); }
+  // ====== EMAILJS FEEDBACK ======
+  (function(){ emailjs.init("SUA_PUBLIC_KEY_AQUI"); })();
+
+  document.getElementById("feedbackForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    emailjs.sendForm("SEU_SERVICE_ID", "SEU_TEMPLATE_ID", this)
+      .then(function(){
+        document.getElementById("confirmacao").innerText = "✅ Feedback enviado com sucesso!";
+        document.getElementById("feedbackForm").reset();
+      }, function(error){
+        document.getElementById("confirmacao").innerText = "❌ Erro ao enviar: " + JSON.stringify(error);
+      });
+  });
 </script>
 
 </body>
 </html>
+
 
 
