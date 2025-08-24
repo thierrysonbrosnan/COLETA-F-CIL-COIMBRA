@@ -13,6 +13,7 @@
       padding: 0;
       text-align: center;
     }
+
     header {
       background: #4a90e2;
       color: white;
@@ -20,10 +21,12 @@
       font-size: 22px;
       font-weight: bold;
     }
-    #cadastro, #app {
+
+    #app {
       margin: 20px auto;
-      max-width: 400px;
+      max-width: 800px;
     }
+
     input, textarea, select {
       padding: 10px;
       margin: 5px;
@@ -32,6 +35,7 @@
       border-radius: 5px;
       box-sizing: border-box;
     }
+
     button {
       padding: 10px 20px;
       margin: 10px 0;
@@ -42,9 +46,11 @@
       border-radius: 5px;
       width: 100%;
     }
+
     button:hover {
       background: #357abd;
     }
+
     .exame {
       border: 1px solid #4a90e2;
       border-radius: 8px;
@@ -53,7 +59,9 @@
       text-align: left;
       background: #e6f0fa;
     }
+
     .aviso { color: red; font-weight: bold; margin-top: 10px; }
+
     #feedback {
       margin: 40px auto;
       width: 90%;
@@ -61,16 +69,23 @@
       border-top: 2px solid #4a90e2;
       padding-top: 20px;
     }
+
     #avaliacao {
       position: fixed;
       bottom: 20px;
       right: 20px;
       text-align: left;
+      background: rgba(255,255,255,0.95);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px #aaa;
     }
+
     #avaliacao span {
       font-size: 25px;
       cursor: pointer;
     }
+
     footer {
       background: #4a90e2;
       color: white;
@@ -78,33 +93,28 @@
       font-weight: bold;
       margin-top: 50px;
     }
+
     @media (max-width: 600px) {
-      #cadastro, #app { width: 90%; }
       #avaliacao { bottom: 10px; right: 10px; }
+      #app { width: 95%; }
     }
-    .hidden { display: none; }
-    #pesquisa { text-align: center; font-size: 16px; }
+
+    #pesquisa {
+      text-align: center;
+      font-size: 16px;
+      width: 90%;
+      margin: 20px auto;
+      display: block;
+    }
   </style>
 </head>
 <body>
 
 <header>📋 Saiba mais sobre exames</header>
 
-<!-- CADASTRO -->
-<section id="cadastro">
-  <h2>Faça seu cadastro para continuar</h2>
-  <input type="text" id="nome" placeholder="Nome completo" required><br>
-  <input type="date" id="nascimento" required><br>
-  <button onclick="fazerCadastro()">Entrar</button>
-</section>
-
-<!-- APP PRINCIPAL -->
-<section id="app" class="hidden">
+<section id="app">
   <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
   <div id="resultado"></div>
-
-  <!-- Botão sair -->
-  <button onclick="sair()">Sair</button>
 
   <!-- Feedback -->
   <div id="feedback">
@@ -116,13 +126,11 @@
     <p id="confirmacao"></p>
   </div>
 
-  <footer>
-    by Thierryson Brosnan
-  </footer>
+  <footer>by Thierryson Brosnan</footer>
 </section>
 
 <!-- Avaliação -->
-<div id="avaliacao" class="hidden">
+<div id="avaliacao">
   <h3>⭐ Avalie o site</h3>
   <span onclick="avaliar(1)">☆</span>
   <span onclick="avaliar(2)">☆</span>
@@ -134,12 +142,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  // Inicializar EmailJS (substitua 'YOUR_PUBLIC_KEY' pelo seu public key real)
+  // Substitua pela sua Public Key
   emailjs.init('VpCX7MesCDHTqj4vQ');
 
-  // Lista de exames (apenas dois exemplos)
+  // Lista de exames (exemplo, pode adicionar todos os exames)
   const exames = [
-   { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HB GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -191,21 +199,6 @@
     { nome:"VITAMINA B 12", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina B12.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VITAMINA D", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia níveis de vitamina D.", endereco:"Unidade de saúde mais próxima da sua casa" }];
 
-
-  // Cadastro
-  function fazerCadastro(){
-    const nome = document.getElementById('nome').value.trim();
-    const nascimento = document.getElementById('nascimento').value;
-    if(nome && nascimento){
-      localStorage.setItem("usuario_nome", nome);
-      localStorage.setItem("usuario_nascimento", nascimento);
-      document.getElementById('cadastro').classList.add('hidden');
-      document.getElementById('app').classList.remove('hidden');
-    } else {
-      alert("Preencha nome e data de nascimento!");
-    }
-  }
-
   // Pesquisa aproximada
   function buscarExame(){
     const termo = document.getElementById('pesquisa').value.toLowerCase();
@@ -230,12 +223,6 @@
     }
   }
 
-  // Sair
-  function sair(){
-    document.getElementById('app').classList.add('hidden');
-    document.getElementById('avaliacao').classList.remove('hidden');
-  }
-
   // Avaliação
   function avaliar(n){
     const estrelas = document.querySelectorAll('#avaliacao span');
@@ -254,21 +241,9 @@
         document.getElementById("confirmacao").innerText = "❌ Erro ao enviar: " + JSON.stringify(error);
       });
   });
-
-  // Preencher cadastro automaticamente se já existir
-  window.onload = function(){
-    const nome = localStorage.getItem("usuario_nome");
-    const nascimento = localStorage.getItem("usuario_nascimento");
-    if(nome && nascimento){
-      document.getElementById('cadastro').classList.add('hidden');
-      document.getElementById('app').classList.remove('hidden');
-    }
-  }
 </script>
 
 </body>
 </html>
 
 
-</body>
-</html>
