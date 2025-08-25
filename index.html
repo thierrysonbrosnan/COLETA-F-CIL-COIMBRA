@@ -5,18 +5,100 @@
   <title>Saiba mais sobre exames</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial, sans-serif; background: linear-gradient(to bottom right, #f2f2f2, #ffffff); color: #333; margin:0; padding:0; text-align:center; }
-    header { background: #4a90e2; color: white; padding: 20px; font-size: 22px; font-weight: bold; }
-    #app { margin: 20px auto; max-width: 800px; }
-    input, textarea { padding: 10px; margin: 5px; width: 100%; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-    button { padding: 10px 20px; margin: 10px 0; border: none; background: #4a90e2; color: white; cursor: pointer; border-radius: 5px; width: 100%; }
-    button:hover { background: #357abd; }
-    .exame { border: 1px solid #4a90e2; border-radius: 8px; margin: 10px 0; padding: 15px; text-align: left; background: #e6f0fa; }
-    .aviso { color: red; font-weight: bold; margin-top: 10px; }
-    footer { background: #4a90e2; color: white; padding: 15px; font-weight: bold; margin-top: 50px; }
-    #pesquisa { text-align: center; font-size: 16px; width: 90%; margin: 20px auto; display: block; }
-    #feedback { margin:40px auto; width:90%; text-align:left; border-top:2px solid #4a90e2; padding-top:20px; }
-    #notificacao { margin-top:10px; font-weight:bold; display:none; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f2f2f2, #ffffff);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #4a90e2;
+      color: white;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    #app {
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    input, textarea {
+      padding: 10px;
+      margin: 5px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px 0;
+      border: none;
+      background: #4a90e2;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #357abd;
+    }
+
+    .exame {
+      border: 1px solid #4a90e2;
+      border-radius: 8px;
+      margin: 10px 0;
+      padding: 15px;
+      text-align: left;
+      background: #e6f0fa;
+    }
+
+    .aviso {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+      background: #ffe6e6;
+      padding: 8px;
+      border: 1px solid red;
+      border-radius: 5px;
+    }
+
+    footer {
+      background: #4a90e2;
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      margin-top: 50px;
+    }
+
+    #pesquisa {
+      text-align: center;
+      font-size: 16px;
+      width: 90%;
+      margin: 20px auto;
+      display: block;
+    }
+
+    #feedback {
+      margin: 40px auto;
+      width: 90%;
+      text-align: left;
+      border-top: 2px solid #4a90e2;
+      padding-top: 20px;
+    }
+
+    #notificacao {
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -39,7 +121,7 @@
 </section>
 
 <script>
-  // Lista de exames 
+  // Lista simplificada de exames com aviso
   const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -166,4 +248,5 @@
 
 </body>
 </html>
+
 
