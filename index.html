@@ -196,7 +196,8 @@
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
     ];
 
-
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
     // Remove acentos para facilitar a busca
     function removerAcentos(texto) {
       return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -204,9 +205,12 @@
 
     // Função de busca de exames
     function buscarExame() {
-      const termoBruto = document.getElementById('pesquisa').value.trim();
-      const termo = removerAcentos(termoBruto.toLowerCase());
+      const campoPesquisa = document.getElementById('pesquisa');
       const div = document.getElementById('resultado');
+      if (!campoPesquisa || !div) return;
+
+      const termoBruto = campoPesquisa.value.trim();
+      const termo = removerAcentos(termoBruto.toLowerCase());
 
       if (termo === "") {
         div.innerHTML = "";
@@ -233,28 +237,49 @@
       }
     }
 
+    // Adiciona evento de busca ao input
+    const campoPesquisa = document.getElementById('pesquisa');
+    if (campoPesquisa) {
+      campoPesquisa.addEventListener('keyup', buscarExame);
+    }
+
     // Feedback via WhatsApp
     const numeroWhats = "5511992386161";
     const mensagemPadrao = "👋 Olá! Recebemos seu feedback sobre o site. ";
 
-    document.getElementById("enviarWhats").addEventListener("click", function () {
-      const textoUsuario = document.getElementById("mensagemFeedback").value.trim();
-      if (textoUsuario === "") return;
+    const botaoWhats = document.getElementById("enviarWhats");
+    const campoMensagem = document.getElementById("mensagemFeedback");
+    const notif = document.getElementById("notificacao");
 
-      const mensagemCompleta = encodeURIComponent(mensagemPadrao + textoUsuario);
-      const linkWhats = `https://wa.me/${numeroWhats}?text=${mensagemCompleta}`;
-      window.open(linkWhats, "_blank");
+    if (botaoWhats && campoMensagem && notif) {
+      botaoWhats.addEventListener("click", function () {
+        const textoUsuario = campoMensagem.value.trim();
+        if (textoUsuario === "") {
+          notif.textContent = "⚠️ Escreva seu feedback antes de enviar.";
+          notif.style.color = "red";
+          notif.style.display = "block";
+          setTimeout(() => {
+            notif.style.display = "none";
+          }, 4000);
+          return;
+        }
 
-      const notif = document.getElementById("notificacao");
-      notif.textContent = "✅ WhatsApp aberto! Complete ou envie sua mensagem.";
-      notif.style.color = "green";
-      notif.style.display = "block";
+        const mensagemCompleta = encodeURIComponent(mensagemPadrao + textoUsuario);
+        const linkWhats = `https://wa.me/${numeroWhats}?text=${mensagemCompleta}`;
+        window.open(linkWhats, "_blank");
 
-      setTimeout(() => {
-        notif.style.display = "none";
-      }, 4000);
-    });
-  </script>
+        notif.textContent = "✅ WhatsApp aberto! Complete ou envie sua mensagem.";
+        notif.style.color = "green";
+        notif.style.display = "block";
+
+        setTimeout(() => {
+          notif.style.display = "none";
+        }, 4000);
+      });
+    }
+  });
+</script>
+
 
 </body>
 </html>
