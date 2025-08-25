@@ -103,27 +103,27 @@
 </head>
 <body>
 
-<header>📋 Saiba mais sobre exames</header>
+  <header>📋 Saiba mais sobre exames</header>
 
-<section id="app">
-  <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
-  <div id="resultado"></div>
+  <section id="app">
+    <input type="text" id="pesquisa" placeholder="Digite o nome do exame" onkeyup="buscarExame()">
+    <div id="resultado"></div>
 
-  <!-- Feedback via WhatsApp -->
-  <div id="feedback">
-    <h3>💬 Envie seu feedback</h3>
-    <textarea id="mensagemFeedback" rows="4" placeholder="Escreva seu feedback aqui..."></textarea><br>
-    <button id="enviarWhats">📩 Enviar pelo WhatsApp</button>
-    <div id="notificacao"></div>
-  </div>
+    <!-- Feedback via WhatsApp -->
+    <div id="feedback">
+      <h3>💬 Envie seu feedback</h3>
+      <textarea id="mensagemFeedback" rows="4" placeholder="Escreva seu feedback aqui..."></textarea><br>
+      <button id="enviarWhats">📩 Enviar pelo WhatsApp</button>
+      <div id="notificacao"></div>
+    </div>
 
-  <footer>Criado por Thierryson Brosnan</footer>
-</section>
+    <footer>Criado por Thierryson Brosnan</footer>
+  </section>
 
-<script>
-  //
-  const exames = [
-    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+  <script>
+    // Lista de exames
+    const exames = [
+      { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -194,73 +194,71 @@
     { nome:"🔶 DOSAGEM DE RENINA", preparo:"4 horas de jejum. Suspender alguns medicamentos com orientação médica.", horario:"13:00", explicacao:"Avalia a atividade do sistema renina-angiotensina, importante na regulação da pressão arterial.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CH50", preparo:"Jejum não necessário.", horario:"09:00 às 14:00", explicacao:"Avalia a atividade total do sistema complemento no sangue.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
-    
-  ];
+    ];
 
 
-
-  <script>
-  // Lista de exames (já está completa no seu código e permanece a mesma)
-  const exames = [ ... ]; // toda a sua lista de exames aqui
-
-  // Função que remove acentos
-  function removerAcentos(texto) {
-    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  }
-
-  // Função de busca inteligente
-  function buscarExame() {
-    const termoBruto = document.getElementById('pesquisa').value.trim();
-    const termo = removerAcentos(termoBruto.toLowerCase());
-    const div = document.getElementById('resultado');
-
-    if (termo === "") {
-      div.innerHTML = "";
-      return;
+    // Remove acentos para facilitar a busca
+    function removerAcentos(texto) {
+      return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
 
-    const resultado = exames.filter(exame =>
-      removerAcentos(exame.nome.toLowerCase()).includes(termo)
-    );
+    // Função de busca de exames
+    function buscarExame() {
+      const termoBruto = document.getElementById('pesquisa').value.trim();
+      const termo = removerAcentos(termoBruto.toLowerCase());
+      const div = document.getElementById('resultado');
 
-    if (resultado.length === 0) {
-      div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
-    } else {
-      div.innerHTML = resultado.map(exame => `
-        <div class="exame">
-          <strong>${exame.nome}</strong><br>
-          <em>Preparo:</em> ${exame.preparo}<br>
-          <em>Horário:</em> ${exame.horario}<br>
-          <em>Explicação:</em> ${exame.explicacao}<br>
-          <em>Endereço:</em> ${exame.endereco}<br>
-          ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ''}
-        </div>
-      `).join('');
+      if (termo === "") {
+        div.innerHTML = "";
+        return;
+      }
+
+      const resultado = exames.filter(exame =>
+        removerAcentos(exame.nome.toLowerCase()).includes(termo)
+      );
+
+      if (resultado.length === 0) {
+        div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
+      } else {
+        div.innerHTML = resultado.map(exame => `
+          <div class="exame">
+            <strong>${exame.nome}</strong><br>
+            <em>Preparo:</em> ${exame.preparo}<br>
+            <em>Horário:</em> ${exame.horario}<br>
+            <em>Explicação:</em> ${exame.explicacao}<br>
+            <em>Endereço:</em> ${exame.endereco}<br>
+            ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ''}
+          </div>
+        `).join('');
+      }
     }
-  }
 
-  // Feedback via WhatsApp
-  const numeroWhats = "5511992386161";
-  const mensagemPadrao = "👋 Olá! Recebemos seu feedback sobre o site. ";
+    // Feedback via WhatsApp
+    const numeroWhats = "5511992386161";
+    const mensagemPadrao = "👋 Olá! Recebemos seu feedback sobre o site. ";
 
-  document.getElementById("enviarWhats").addEventListener("click", function () {
-    const textoUsuario = document.getElementById("mensagemFeedback").value.trim();
-    if (textoUsuario === "") return;
+    document.getElementById("enviarWhats").addEventListener("click", function () {
+      const textoUsuario = document.getElementById("mensagemFeedback").value.trim();
+      if (textoUsuario === "") return;
 
-    const mensagemCompleta = encodeURIComponent(mensagemPadrao + textoUsuario);
-    const linkWhats = `https://wa.me/${numeroWhats}?text=${mensagemCompleta}`;
-    window.open(linkWhats, "_blank");
+      const mensagemCompleta = encodeURIComponent(mensagemPadrao + textoUsuario);
+      const linkWhats = `https://wa.me/${numeroWhats}?text=${mensagemCompleta}`;
+      window.open(linkWhats, "_blank");
 
-    const notif = document.getElementById("notificacao");
-    notif.textContent = "✅ WhatsApp aberto! Complete ou envie sua mensagem.";
-    notif.style.color = "green";
-    notif.style.display = "block";
+      const notif = document.getElementById("notificacao");
+      notif.textContent = "✅ WhatsApp aberto! Complete ou envie sua mensagem.";
+      notif.style.color = "green";
+      notif.style.display = "block";
 
-    setTimeout(() => {
-      notif.style.display = "none";
-    }, 4000);
-  });
-</script>
+      setTimeout(() => {
+        notif.style.display = "none";
+      }, 4000);
+    });
+  </script>
+
+</body>
+</html>
+
 
 
 
