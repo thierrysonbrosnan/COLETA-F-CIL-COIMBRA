@@ -198,8 +198,19 @@
 
 
 
+  <script>
+  // Lista de exames (já está completa no seu código e permanece a mesma)
+  const exames = [...]; // mantenha sua lista aqui como está
+
+  // Função que remove acentos
+  function removerAcentos(texto) {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  // Função de busca inteligente
   function buscarExame() {
-    const termo = document.getElementById('pesquisa').value.toLowerCase();
+    const termoBruto = document.getElementById('pesquisa').value.trim();
+    const termo = removerAcentos(termoBruto.toLowerCase());
     const div = document.getElementById('resultado');
 
     if (termo === "") {
@@ -207,7 +218,9 @@
       return;
     }
 
-    const resultado = exames.filter(exame => exame.nome.toLowerCase().includes(termo));
+    const resultado = exames.filter(exame =>
+      removerAcentos(exame.nome.toLowerCase()).includes(termo)
+    );
 
     if (resultado.length === 0) {
       div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
@@ -247,8 +260,5 @@
     }, 4000);
   });
 </script>
-
-</body>
-</html>
 
 
