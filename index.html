@@ -12,12 +12,7 @@
       margin: 0;
       padding: 0;
       text-align: center;
-      background-image:
-        url('https://cdn-icons-png.flaticon.com/512/3014/3014638.png'),
-        url('https://cdn-icons-png.flaticon.com/512/254/254408.png');
-      background-repeat: no-repeat, no-repeat;
-      background-position: left bottom 10%, right top 15%;
-      background-size: 80px 80px, 70px 70px;
+      /* Removido o background-image */
     }
 
     header {
@@ -163,7 +158,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const exames = [
-    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+        { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -283,7 +278,7 @@
           return;
         }
 
-        const numeroWhatsApp = "5511992386161"; // Número atualizado
+        const numeroWhatsApp = "5511992386161";
         const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(texto)}`;
 
         window.open(urlWhatsApp, "_blank");
