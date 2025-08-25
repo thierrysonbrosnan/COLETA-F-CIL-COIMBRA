@@ -13,7 +13,6 @@
       padding: 0;
       text-align: center;
 
-      /* Fundo com detalhes relacionados a laboratório */
       background-image:
         url('https://cdn-icons-png.flaticon.com/512/3014/3014638.png'),
         url('https://cdn-icons-png.flaticon.com/512/254/254408.png');
@@ -131,11 +130,12 @@
   <main role="main" aria-label="Conteúdo principal">
     <section aria-labelledby="titulo-pesquisa">
       <h2 id="titulo-pesquisa">Pesquisar exame</h2>
-      <label for="pesquisa">Digite o nome do exame:</label>
-      <input type="text" id="pesquisa" aria-describedby="ajuda-pesquisa" />
-      <p id="ajuda-pesquisa">
-        Digite parte do nome do exame para visualizar os detalhes abaixo.
-      </p>
+      <input
+        type="text"
+        id="pesquisa"
+        placeholder="Digite o nome do exame..."
+        aria-label="Digite o nome do exame para pesquisar"
+      />
       <div id="resultado" aria-live="polite"></div>
     </section>
 
@@ -162,7 +162,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const exames = [
-    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+        { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -226,7 +226,7 @@
     { nome:"🔶 CÁLCIO IÔNICO", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE GASTRINA", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PARATORMÔNIO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
-    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
+    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CARIÓTIPO", preparo:"Jejum não necessário.", horario:"10:00 às 14:00 (Segunda à Quinta)", explicacao:"Analisa os cromossomos para detectar alterações genéticas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 ESPERMOGRAMA", preparo:"Abstinência sexual de 3 a 5 dias.", horario:"14:00", explicacao:"Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PEPTÍDEO C", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Auxilia na avaliação da função das células beta do pâncreas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
@@ -282,7 +282,7 @@
           return;
         }
 
-        const numeroWhatsApp = "5511992386161"; // Coloque seu número real aqui no formato internacional
+        const numeroWhatsApp = "5511992386161"; // Número atualizado
         const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
           texto
         )}`;
@@ -297,6 +297,7 @@
   </script>
 </body>
 </html>
+
 
 
 
