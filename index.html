@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Saiba mais sobre exames</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,6 +12,15 @@
       margin: 0;
       padding: 0;
       text-align: center;
+
+      /* Fundo com detalhes relacionados a laboratório */
+      background-image:
+        url('https://cdn-icons-png.flaticon.com/512/3014/3014638.png'),
+        url('https://cdn-icons-png.flaticon.com/512/254/254408.png');
+      background-repeat: no-repeat, no-repeat;
+      background-position: left bottom 10%, right top 15%;
+      background-size: 80px 80px, 70px 70px;
+      opacity: 0.15;
     }
 
     header {
@@ -31,7 +40,8 @@
       max-width: 800px;
     }
 
-    input, textarea {
+    input,
+    textarea {
       padding: 10px;
       margin: 5px;
       width: 100%;
@@ -40,7 +50,9 @@
       box-sizing: border-box;
     }
 
-    input:focus, textarea:focus, button:focus {
+    input:focus,
+    textarea:focus,
+    button:focus {
       outline: 3px solid #0000aa;
       outline-offset: 2px;
     }
@@ -82,8 +94,9 @@
     footer {
       background: #4a90e2;
       color: white;
-      padding: 15px;
+      padding: 8px;
       font-weight: bold;
+      font-size: 12px;
       margin-top: 50px;
     }
 
@@ -111,7 +124,6 @@
   </style>
 </head>
 <body>
-
   <header role="banner" aria-label="Cabeçalho do site">
     <span class="emoji" aria-hidden="true">📋</span> Saiba mais sobre exames
   </header>
@@ -120,16 +132,27 @@
     <section aria-labelledby="titulo-pesquisa">
       <h2 id="titulo-pesquisa">Pesquisar exame</h2>
       <label for="pesquisa">Digite o nome do exame:</label>
-      <input type="text" id="pesquisa" placeholder="Digite o nome do exame" aria-describedby="ajuda-pesquisa">
-      <p id="ajuda-pesquisa">Digite parte do nome do exame para visualizar os detalhes abaixo.</p>
+      <input type="text" id="pesquisa" aria-describedby="ajuda-pesquisa" />
+      <p id="ajuda-pesquisa">
+        Digite parte do nome do exame para visualizar os detalhes abaixo.
+      </p>
       <div id="resultado" aria-live="polite"></div>
     </section>
 
     <section id="feedback" aria-labelledby="titulo-feedback">
-      <h2 id="titulo-feedback"><span class="emoji" aria-hidden="true">💬</span> Envie seu feedback</h2>
+      <h2 id="titulo-feedback">
+        <span class="emoji" aria-hidden="true">💬</span> Envie seu feedback
+      </h2>
       <label for="mensagemFeedback">Mensagem:</label>
-      <textarea id="mensagemFeedback" rows="4" placeholder="Escreva seu feedback aqui..."></textarea><br>
-      <button id="enviarWhats" aria-label="Enviar feedback pelo WhatsApp">📩 Enviar pelo WhatsApp</button>
+      <textarea
+        id="mensagemFeedback"
+        rows="4"
+        placeholder="Escreva seu feedback aqui..."
+      ></textarea
+      ><br />
+      <button id="enviarWhats" aria-label="Enviar feedback pelo WhatsApp">
+        📩 Enviar pelo WhatsApp
+      </button>
       <div id="notificacao" role="status" aria-live="polite"></div>
     </section>
 
@@ -139,7 +162,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const exames = [
-        { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -203,7 +226,7 @@
     { nome:"🔶 CÁLCIO IÔNICO", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE GASTRINA", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PARATORMÔNIO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
-    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
+    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CARIÓTIPO", preparo:"Jejum não necessário.", horario:"10:00 às 14:00 (Segunda à Quinta)", explicacao:"Analisa os cromossomos para detectar alterações genéticas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 ESPERMOGRAMA", preparo:"Abstinência sexual de 3 a 5 dias.", horario:"14:00", explicacao:"Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PEPTÍDEO C", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Auxilia na avaliação da função das células beta do pâncreas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
@@ -212,83 +235,68 @@
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
       ];
 
-      function removerAcentos(texto) {
-        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      }
+      const inputPesquisa = document.getElementById("pesquisa");
+      const divResultado = document.getElementById("resultado");
 
-      function buscarExame() {
-        const campoPesquisa = document.getElementById('pesquisa');
-        const div = document.getElementById('resultado');
-        if (!campoPesquisa || !div) return;
+      inputPesquisa.addEventListener("input", function () {
+        const query = inputPesquisa.value.trim().toUpperCase();
+        divResultado.innerHTML = "";
 
-        const termo = removerAcentos(campoPesquisa.value.trim().toLowerCase());
+        if (query.length === 0) return;
 
-        if (termo === "") {
-          div.innerHTML = "";
+        const resultados = exames.filter((exame) =>
+          exame.nome.includes(query)
+        );
+
+        if (resultados.length === 0) {
+          divResultado.textContent = "Nenhum exame encontrado.";
           return;
         }
 
-        const resultado = exames.filter(exame =>
-          removerAcentos(exame.nome.toLowerCase()).includes(termo)
-        );
-
-        if (resultado.length === 0) {
-          div.innerHTML = "<p class='aviso'>Nenhum exame encontrado</p>";
-        } else {
-          div.innerHTML = resultado.map(exame => `
-            <div class="exame">
-              <strong>${exame.nome}</strong><br>
-              <em>Preparo:</em> ${exame.preparo}<br>
-              <em>Horário:</em> ${exame.horario}<br>
-              <em>Explicação:</em> ${exame.explicacao}<br>
-              <em>Endereço:</em> ${exame.endereco}<br>
-              ${exame.aviso ? `<p class="aviso">${exame.aviso}</p>` : ''}
-            </div>
-          `).join('');
-        }
-      }
-
-      const campoPesquisa = document.getElementById('pesquisa');
-      if (campoPesquisa) {
-        campoPesquisa.addEventListener('keyup', buscarExame);
-      }
-
-      const numeroWhats = "5511992386161";
-      const mensagemPadrao = "👋 Olá! Recebemos seu feedback sobre o site. ";
-
-      const botaoWhats = document.getElementById("enviarWhats");
-      const campoMensagem = document.getElementById("mensagemFeedback");
-      const notif = document.getElementById("notificacao");
-
-      if (botaoWhats && campoMensagem && notif) {
-        botaoWhats.addEventListener("click", function () {
-          const textoUsuario = campoMensagem.value.trim();
-          if (textoUsuario === "") {
-            notif.textContent = "⚠️ Escreva seu feedback antes de enviar.";
-            notif.style.color = "red";
-            notif.style.display = "block";
-            setTimeout(() => {
-              notif.style.display = "none";
-            }, 4000);
-            return;
-          }
-
-          const mensagemCompleta = encodeURIComponent(mensagemPadrao + textoUsuario);
-          const linkWhats = `https://wa.me/${numeroWhats}?text=${mensagemCompleta}`;
-          window.open(linkWhats, "_blank");
-
-          notif.textContent = "✅ WhatsApp aberto! Complete ou envie sua mensagem.";
-          notif.style.color = "green";
-          notif.style.display = "block";
-
-          setTimeout(() => {
-            notif.style.display = "none";
-          }, 4000);
+        resultados.forEach((exame) => {
+          const div = document.createElement("div");
+          div.classList.add("exame");
+          div.innerHTML = `
+            <strong>Exame:</strong> ${exame.nome}<br />
+            <strong>Preparo:</strong> ${exame.preparo}<br />
+            <strong>Horário:</strong> ${exame.horario}<br />
+            <strong>Explicação:</strong> ${exame.explicacao}<br />
+            <strong>Endereço:</strong> ${exame.endereco}
+            ${exame.aviso ? `<div class="aviso">${exame.aviso}</div>` : ""}
+          `;
+          divResultado.appendChild(div);
         });
-      }
+      });
+
+      // Envio de feedback pelo WhatsApp
+      const btnWhats = document.getElementById("enviarWhats");
+      const mensagemFeedback = document.getElementById("mensagemFeedback");
+      const notificacao = document.getElementById("notificacao");
+
+      btnWhats.addEventListener("click", function () {
+        const texto = mensagemFeedback.value.trim();
+        if (!texto) {
+          notificacao.style.display = "block";
+          notificacao.textContent = "Por favor, escreva uma mensagem antes de enviar.";
+          notificacao.style.color = "red";
+          return;
+        }
+
+        const numeroWhatsApp = "5511992386161"; // Coloque seu número real aqui no formato internacional
+        const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
+          texto
+        )}`;
+
+        window.open(urlWhatsApp, "_blank");
+        notificacao.style.display = "block";
+        notificacao.style.color = "green";
+        notificacao.textContent = "Mensagem enviada! Obrigado pelo seu feedback.";
+        mensagemFeedback.value = "";
+      });
     });
   </script>
 </body>
 </html>
+
 
 
