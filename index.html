@@ -2,137 +2,44 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lista de Exames</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 20px auto;
-      background: #f4f6f9;
-      padding: 20px;
-      color: #333;
-    }
-
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 8px;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      padding: 8px 16px;
-      margin-right: 8px;
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f9f9f9; }
+    h1 { text-align: center; color: #2c3e50; }
+    .exame { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    button { margin-right: 8px; padding: 6px 10px; border: none; border-radius: 4px; background-color: #3498db; color: white; cursor: pointer; }
+    button:hover { background-color: #2980b9; }
+    footer { text-align: center; margin-top: 30px; font-size: 14px; }
+    .whatsapp-button {
+      display: inline-block;
       margin-top: 8px;
-      border: none;
-      border-radius: 4px;
-      background: #3498db;
+      background-color: #25d366;
       color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #2980b9;
-    }
-
-    #admin-area {
-      display: none;
-      background: #fff;
-      padding: 15px;
-      border: 1px solid #ccc;
-      margin-top: 20px;
-      border-radius: 8px;
-    }
-
-    .exame {
-      background: white;
-      margin-bottom: 15px;
-      padding: 15px;
-      border-radius: 6px;
-      border-left: 5px solid #3498db;
-    }
-
-    .exame h3 {
-      margin-top: 0;
-    }
-
-    .admin-buttons {
-      margin-top: 10px;
-    }
-
-    #search {
-      margin-bottom: 20px;
-      padding: 8px;
-      width: 100%;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    .highlight {
-      border-left-color: orange;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-
   <h1>Lista de Exames</h1>
+  <div id="listaExames"></div>
 
-  <input type="text" id="search" placeholder="🔍 Pesquisar exame por nome..." />
-
-  <button id="btnAdmin">Entrar no modo administrador</button>
-  <button id="btnSairAdmin" style="display:none;">Sair do modo administrador</button>
-
-  <div id="exames-lista"></div>
-
-  <div id="admin-area">
-    <h2 id="form-title">Adicionar novo exame</h2>
-
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" />
-
-    <label for="preparo">Preparo:</label>
-    <input type="text" id="preparo" />
-
-    <label for="horario">Horário:</label>
-    <input type="text" id="horario" />
-
-    <label for="explicacao">Explicação:</label>
-    <textarea id="explicacao" rows="3"></textarea>
-
-    <label for="endereco">Endereço:</label>
-    <input type="text" id="endereco" />
-
-    <label for="aviso">Aviso:</label>
-    <input type="text" id="aviso" />
-
-    <button id="btnAddExame">Adicionar Exame</button>
-    <button id="btnSalvarEdicao" style="display:none; background-color: #27ae60;">Salvar Edição</button>
-  </div>
+  <hr>
+  <footer>
+    <p>Criado por Thierryson Brosnan</p>
+    <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Lista%20de%20Exames." 
+       target="_blank"
+       class="whatsapp-button">
+      📱 Enviar Feedback pelo WhatsApp
+    </a>
+  </footer>
 
   <script>
-    const EXAMES_KEY = "lista_exames";
-    const senhaAdmin = "1009";
+    const isAdmin = EDITAR; // Altere para true se quiser mostrar o botão "Editar"
 
-    const btnAdmin = document.getElementById("btnAdmin");
-    const btnSairAdmin = document.getElementById("btnSairAdmin");
-    const adminArea = document.getElementById("admin-area");
-    const examesLista = document.getElementById("exames-lista");
-    const btnAddExame = document.getElementById("btnAddExame");
-    const btnSalvarEdicao = document.getElementById("btnSalvarEdicao");
-    const searchInput = document.getElementById("search");
-    const formTitle = document.getElementById("form-title");
-
-    let isAdmin = false;
-    let editandoIndex = null;
-
-    let exames = [
+    const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -206,23 +113,12 @@
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
     ];
 
-    const examesSalvos = JSON.parse(localStorage.getItem(EXAMES_KEY));
-    if (examesSalvos && examesSalvos.length > 0) {
-      exames = examesSalvos;
-    } else {
-      localStorage.setItem(EXAMES_KEY, JSON.stringify(exames));
-    }
-
-    function renderizarExames(filtro = "") {
-      examesLista.innerHTML = "";
-
+    function renderizarExames() {
+      const container = document.getElementById("listaExames");
+      container.innerHTML = "";
       exames.forEach((exame, index) => {
-        if (filtro && !exame.nome.toLowerCase().includes(filtro.toLowerCase())) return;
-
         const div = document.createElement("div");
         div.className = "exame";
-        if (exame.nome.includes("🔶")) div.classList.add("highlight");
-
         div.innerHTML = `
           <h3>${exame.nome}</h3>
           <p><strong>Preparo:</strong> ${exame.preparo}</p>
@@ -232,6 +128,11 @@
           ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
         `;
 
+        const btnImprimir = document.createElement("button");
+        btnImprimir.textContent = "Imprimir informações";
+        btnImprimir.onclick = () => imprimirExame(exame);
+        div.appendChild(btnImprimir);
+
         if (isAdmin) {
           const btnEditar = document.createElement("button");
           btnEditar.textContent = "Editar";
@@ -239,101 +140,43 @@
           div.appendChild(btnEditar);
         }
 
-        examesLista.appendChild(div);
+        container.appendChild(div);
       });
     }
 
-    btnAdmin.onclick = () => {
-      const senha = prompt("Digite a senha do administrador:");
-      if (senha === senhaAdmin) {
-        isAdmin = true;
-        adminArea.style.display = "block";
-        btnAdmin.style.display = "none";
-        btnSairAdmin.style.display = "inline-block";
-        renderizarExames(searchInput.value);
-      } else {
-        alert("Senha incorreta!");
-      }
-    };
+    function imprimirExame(exame) {
+      const conteudo = `
+        <html>
+          <head>
+            <title>Informações do Exame</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+              h2 { color: #2c3e50; }
+              p { margin: 8px 0; }
+            </style>
+          </head>
+          <body>
+            <h2>${exame.nome}</h2>
+            <p><strong>Preparo:</strong> ${exame.preparo}</p>
+            <p><strong>Horário:</strong> ${exame.horario}</p>
+            <p><strong>Explicação:</strong> ${exame.explicacao}</p>
+            <p><strong>Endereço:</strong> ${exame.endereco}</p>
+            ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
+            <hr>
+            <p style="font-size: 13px; text-align: center;">Criado por Thierryson Brosnan</p>
+          </body>
+        </html>
+      `;
 
-    btnSairAdmin.onclick = () => {
-      isAdmin = false;
-      adminArea.style.display = "none";
-      btnAdmin.style.display = "inline-block";
-      btnSairAdmin.style.display = "none";
-      limparCampos();
-      renderizarExames(searchInput.value);
-    };
-
-    function limparCampos() {
-      document.getElementById("nome").value = "";
-      document.getElementById("preparo").value = "";
-      document.getElementById("horario").value = "";
-      document.getElementById("explicacao").value = "";
-      document.getElementById("endereco").value = "";
-      document.getElementById("aviso").value = "";
-      btnAddExame.style.display = "inline-block";
-      btnSalvarEdicao.style.display = "none";
-      formTitle.textContent = "Adicionar novo exame";
-      editandoIndex = null;
+      const janela = window.open("", "_blank");
+      janela.document.write(conteudo);
+      janela.document.close();
+      janela.print();
     }
-
-    btnAddExame.onclick = () => {
-      const novoExame = {
-        nome: document.getElementById("nome").value.trim(),
-        preparo: document.getElementById("preparo").value.trim(),
-        horario: document.getElementById("horario").value.trim(),
-        explicacao: document.getElementById("explicacao").value.trim(),
-        endereco: document.getElementById("endereco").value.trim(),
-        aviso: document.getElementById("aviso").value.trim()
-      };
-
-      if (!novoExame.nome) {
-        alert("O nome do exame é obrigatório.");
-        return;
-      }
-
-      exames.push(novoExame);
-      localStorage.setItem(EXAMES_KEY, JSON.stringify(exames));
-      limparCampos();
-      renderizarExames(searchInput.value);
-    };
 
     function editarExame(index) {
-      const exame = exames[index];
-      document.getElementById("nome").value = exame.nome;
-      document.getElementById("preparo").value = exame.preparo;
-      document.getElementById("horario").value = exame.horario;
-      document.getElementById("explicacao").value = exame.explicacao;
-      document.getElementById("endereco").value = exame.endereco;
-      document.getElementById("aviso").value = exame.aviso || "";
-      editandoIndex = index;
-
-      formTitle.textContent = "Editar exame";
-      btnAddExame.style.display = "none";
-      btnSalvarEdicao.style.display = "inline-block";
+      alert("Função de edição ainda não implementada.");
     }
-
-    btnSalvarEdicao.onclick = () => {
-      if (editandoIndex === null) return;
-
-      exames[editandoIndex] = {
-        nome: document.getElementById("nome").value.trim(),
-        preparo: document.getElementById("preparo").value.trim(),
-        horario: document.getElementById("horario").value.trim(),
-        explicacao: document.getElementById("explicacao").value.trim(),
-        endereco: document.getElementById("endereco").value.trim(),
-        aviso: document.getElementById("aviso").value.trim()
-      };
-
-      localStorage.setItem(EXAMES_KEY, JSON.stringify(exames));
-      limparCampos();
-      renderizarExames(searchInput.value);
-    };
-
-    searchInput.addEventListener("input", (e) => {
-      renderizarExames(e.target.value);
-    });
 
     renderizarExames();
   </script>
