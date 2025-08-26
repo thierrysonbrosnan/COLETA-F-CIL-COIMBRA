@@ -5,12 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lista de Exames</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f9f9f9; }
-    h1 { text-align: center; color: #2c3e50; }
-    .exame { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    button { margin-right: 8px; padding: 6px 10px; border: none; border-radius: 4px; background-color: #3498db; color: white; cursor: pointer; }
-    button:hover { background-color: #2980b9; }
-    footer { text-align: center; margin-top: 30px; font-size: 14px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .exame {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button {
+      margin: 5px 5px 0 0;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+    }
     .whatsapp-button {
       display: inline-block;
       margin-top: 8px;
@@ -20,16 +47,66 @@
       border-radius: 5px;
       text-decoration: none;
     }
+    #adminLogin {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #searchInput {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 20px auto;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    #novoExameForm {
+      max-width: 500px;
+      margin: 0 auto 20px auto;
+      padding: 10px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #novoExameForm input, #novoExameForm textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    @media (max-width: 600px) {
+      .exame {
+        font-size: 14px;
+      }
+      button {
+        padding: 5px 8px;
+        font-size: 14px;
+      }
+      #searchInput {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
   <h1>Lista de Exames</h1>
+
+  <div id="adminLogin">
+    <input type="password" id="adminPassword" placeholder="Digite a senha de admin" />
+    <button onclick="ativarAdmin()">Entrar como Admin</button>
+  </div>
+
+  <input type="text" id="searchInput" placeholder="🔍 Buscar exame..." oninput="filtrarExames()"/>
+
+  <div id="novoExameContainer"></div>
+
   <div id="listaExames"></div>
 
-  <hr>
   <footer>
-    <p>Criado por Thierryson Brosnan</p>
-    <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Lista%20de%20Exames." 
+    <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Lista%20de%20Exames."
        target="_blank"
        class="whatsapp-button">
       📱 Enviar Feedback pelo WhatsApp
@@ -37,7 +114,8 @@
   </footer>
 
   <script>
-    const isAdmin = true; // Altere para true se quiser mostrar o botão "Editar"
+    const senhaAdmin = "1009";
+    let isAdmin = false;
 
     const exames = [
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -104,19 +182,36 @@
     { nome:"🔶 CÁLCIO IÔNICO", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE GASTRINA", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PARATORMÔNIO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
-    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
+    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CARIÓTIPO", preparo:"Jejum não necessário.", horario:"10:00 às 14:00 (Segunda à Quinta)", explicacao:"Analisa os cromossomos para detectar alterações genéticas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 ESPERMOGRAMA", preparo:"Abstinência sexual de 3 a 5 dias.", horario:"14:00", explicacao:"Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PEPTÍDEO C", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Auxilia na avaliação da função das células beta do pâncreas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE RENINA", preparo:"4 horas de jejum. Suspender alguns medicamentos com orientação médica.", horario:"13:00", explicacao:"Avalia a atividade do sistema renina-angiotensina, importante na regulação da pressão arterial.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CH50", preparo:"Jejum não necessário.", horario:"09:00 às 14:00", explicacao:"Avalia a atividade total do sistema complemento no sangue.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
+
     ];
 
-    function renderizarExames() {
+    function ativarAdmin() {
+      const senha = document.getElementById("adminPassword").value;
+      if (senha === senhaAdmin) {
+        isAdmin = true;
+        alert("Modo administrador ativado!");
+        document.getElementById("adminLogin").style.display = "none";
+        mostrarFormularioNovoExame();
+        renderizarExames();
+      } else {
+        alert("Senha incorreta.");
+      }
+    }
+
+    function renderizarExames(filtro = "") {
       const container = document.getElementById("listaExames");
       container.innerHTML = "";
+
       exames.forEach((exame, index) => {
+        if (filtro && !exame.nome.toLowerCase().includes(filtro.toLowerCase())) return;
+
         const div = document.createElement("div");
         div.className = "exame";
         div.innerHTML = `
@@ -125,7 +220,6 @@
           <p><strong>Horário:</strong> ${exame.horario}</p>
           <p><strong>Explicação:</strong> ${exame.explicacao}</p>
           <p><strong>Endereço:</strong> ${exame.endereco}</p>
-          ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
         `;
 
         const btnImprimir = document.createElement("button");
@@ -161,13 +255,9 @@
             <p><strong>Horário:</strong> ${exame.horario}</p>
             <p><strong>Explicação:</strong> ${exame.explicacao}</p>
             <p><strong>Endereço:</strong> ${exame.endereco}</p>
-            ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
-            <hr>
-            <p style="font-size: 13px; text-align: center;">Criado por Thierryson Brosnan</p>
           </body>
         </html>
       `;
-
       const janela = window.open("", "_blank");
       janela.document.write(conteudo);
       janela.document.close();
@@ -175,12 +265,69 @@
     }
 
     function editarExame(index) {
-      alert("Função de edição ainda não implementada.");
+      const novoNome = prompt("Novo nome do exame:", exames[index].nome);
+      const novoPreparo = prompt("Novo preparo:", exames[index].preparo);
+      const novoHorario = prompt("Novo horário:", exames[index].horario);
+      const novaExplicacao = prompt("Nova explicação:", exames[index].explicacao);
+      const novoEndereco = prompt("Novo endereço:", exames[index].endereco);
+
+      if (novoNome && novoPreparo && novoHorario && novaExplicacao && novoEndereco) {
+        exames[index] = {
+          nome: novoNome,
+          preparo: novoPreparo,
+          horario: novoHorario,
+          explicacao: novaExplicacao,
+          endereco: novoEndereco
+        };
+        renderizarExames(document.getElementById("searchInput").value);
+      }
+    }
+
+    function mostrarFormularioNovoExame() {
+      const container = document.getElementById("novoExameContainer");
+      container.innerHTML = `
+        <div id="novoExameForm">
+          <h3>Adicionar Novo Exame</h3>
+          <input type="text" id="novoNome" placeholder="Nome do exame" required />
+          <textarea id="novoPreparo" placeholder="Preparo" required></textarea>
+          <input type="text" id="novoHorario" placeholder="Horário" required />
+          <textarea id="novaExplicacao" placeholder="Explicação" required></textarea>
+          <input type="text" id="novoEndereco" placeholder="Endereço" required />
+          <button onclick="adicionarNovoExame()">Salvar Exame</button>
+        </div>
+      `;
+    }
+
+    function adicionarNovoExame() {
+      const nome = document.getElementById("novoNome").value.trim();
+      const preparo = document.getElementById("novoPreparo").value.trim();
+      const horario = document.getElementById("novoHorario").value.trim();
+      const explicacao = document.getElementById("novaExplicacao").value.trim();
+      const endereco = document.getElementById("novoEndereco").value.trim();
+
+      if (nome && preparo && horario && explicacao && endereco) {
+        exames.push({ nome, preparo, horario, explicacao, endereco });
+        renderizarExames();
+        document.getElementById("novoNome").value = "";
+        document.getElementById("novoPreparo").value = "";
+        document.getElementById("novoHorario").value = "";
+        document.getElementById("novaExplicacao").value = "";
+        document.getElementById("novoEndereco").value = "";
+        alert("Exame adicionado com sucesso!");
+      } else {
+        alert("Por favor, preencha todos os campos.");
+      }
+    }
+
+    function filtrarExames() {
+      const filtro = document.getElementById("searchInput").value;
+      renderizarExames(filtro);
     }
 
     renderizarExames();
   </script>
 </body>
 </html>
+
 
 
