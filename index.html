@@ -76,6 +76,7 @@
       font-size: 14px;
       border-radius: 4px;
       border: 1px solid #ccc;
+      resize: vertical;
     }
     @media (max-width: 600px) {
       .exame {
@@ -114,6 +115,10 @@
   </footer>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderizarExames();
+    });
+
     const senhaAdmin = "1009";
     let isAdmin = false;
 
@@ -189,7 +194,6 @@
     { nome:"🔶 DOSAGEM DE RENINA", preparo:"4 horas de jejum. Suspender alguns medicamentos com orientação médica.", horario:"13:00", explicacao:"Avalia a atividade do sistema renina-angiotensina, importante na regulação da pressão arterial.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CH50", preparo:"Jejum não necessário.", horario:"09:00 às 14:00", explicacao:"Avalia a atividade total do sistema complemento no sangue.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
-
     ];
 
     function ativarAdmin() {
@@ -261,6 +265,7 @@
       const janela = window.open("", "_blank");
       janela.document.write(conteudo);
       janela.document.close();
+      janela.focus();
       janela.print();
     }
 
@@ -308,6 +313,7 @@
       if (nome && preparo && horario && explicacao && endereco) {
         exames.push({ nome, preparo, horario, explicacao, endereco });
         renderizarExames();
+        // limpa os campos
         document.getElementById("novoNome").value = "";
         document.getElementById("novoPreparo").value = "";
         document.getElementById("novoHorario").value = "";
@@ -323,8 +329,6 @@
       const filtro = document.getElementById("searchInput").value;
       renderizarExames(filtro);
     }
-
-    renderizarExames();
   </script>
 </body>
 </html>
