@@ -4,20 +4,105 @@
   <meta charset="UTF-8" />
   <title>Lista de Exames</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
-    #admin-area { margin-top: 20px; border: 1px solid #ccc; padding: 10px; display: none; }
-    .exame { border-bottom: 1px solid #ddd; padding: 10px 0; }
-    label { display: block; margin: 6px 0 2px; }
-    input[type="text"], textarea { width: 100%; padding: 5px; box-sizing: border-box; }
-    button { margin-top: 10px; padding: 6px 12px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #f5f8fa;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    #search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #searchInput {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3498db;
+    }
+
+    #admin-area {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 15px;
+      display: none;
+      background-color: #ecf0f1;
+      border-radius: 5px;
+    }
+
+    .exame {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .exame h3 {
+      margin: 0 0 5px;
+      color: #34495e;
+    }
+
+    .exame p {
+      margin: 3px 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 6px;
+      box-sizing: border-box;
+      margin-top: 4px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .highlight {
+      background-color: #fef5e7;
+    }
   </style>
 </head>
 <body>
 
   <h1>Lista de Exames</h1>
 
-  <button id="btnAdmin">Entrar no modo administrador</button>
-  <button id="btnSairAdmin" style="display:none;">Sair do modo administrador</button>
+  <div id="search-container">
+    <input type="text" id="searchInput" placeholder="Buscar exame pelo nome..." />
+  </div>
+
+  <div style="text-align: center;">
+    <button id="btnAdmin">Entrar no modo administrador</button>
+    <button id="btnSairAdmin" style="display:none;">Sair do modo administrador</button>
+  </div>
 
   <div id="exames-lista"></div>
 
@@ -46,10 +131,10 @@
 
   <script>
     const EXAMES_KEY = "lista_exames";
-    const senhaAdmin = "1009";  // senha para entrar no modo admin (pode alterar)
+    const senhaAdmin = "1009";
 
     let exames = [
-    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+      { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -113,7 +198,7 @@
     { nome:"🔶 CÁLCIO IÔNICO", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE GASTRINA", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PARATORMÔNIO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
-    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
+    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CARIÓTIPO", preparo:"Jejum não necessário.", horario:"10:00 às 14:00 (Segunda à Quinta)", explicacao:"Analisa os cromossomos para detectar alterações genéticas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 ESPERMOGRAMA", preparo:"Abstinência sexual de 3 a 5 dias.", horario:"14:00", explicacao:"Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PEPTÍDEO C", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Auxilia na avaliação da função das células beta do pâncreas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
@@ -122,8 +207,6 @@
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
     ];
 
-
-    // Tenta carregar exames do localStorage
     const examesSalvos = JSON.parse(localStorage.getItem(EXAMES_KEY));
     if (examesSalvos && examesSalvos.length > 0) {
       exames = examesSalvos;
@@ -136,26 +219,27 @@
     const adminArea = document.getElementById("admin-area");
     const examesLista = document.getElementById("exames-lista");
     const btnAddExame = document.getElementById("btnAddExame");
+    const searchInput = document.getElementById("searchInput");
 
-    // Função para renderizar os exames na tela
-    function renderizarExames() {
+    function renderizarExames(filtro = "") {
       examesLista.innerHTML = "";
-      exames.forEach((exame, i) => {
-        const div = document.createElement("div");
-        div.className = "exame";
-        div.innerHTML = `
-          <h3>${exame.nome}</h3>
-          <p><strong>Preparo:</strong> ${exame.preparo}</p>
-          <p><strong>Horário:</strong> ${exame.horario}</p>
-          <p><strong>Explicação:</strong> ${exame.explicacao}</p>
-          <p><strong>Endereço:</strong> ${exame.endereco}</p>
-          ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
-        `;
-        examesLista.appendChild(div);
-      });
+      exames
+        .filter(exame => exame.nome.toLowerCase().includes(filtro.toLowerCase()))
+        .forEach(exame => {
+          const div = document.createElement("div");
+          div.className = "exame" + (exame.nome.includes("🔶") ? " highlight" : "");
+          div.innerHTML = `
+            <h3>${exame.nome}</h3>
+            <p><strong>Preparo:</strong> ${exame.preparo}</p>
+            <p><strong>Horário:</strong> ${exame.horario}</p>
+            <p><strong>Explicação:</strong> ${exame.explicacao}</p>
+            <p><strong>Endereço:</strong> ${exame.endereco}</p>
+            ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
+          `;
+          examesLista.appendChild(div);
+        });
     }
 
-    // Entrar no modo admin (com prompt de senha)
     btnAdmin.onclick = () => {
       const senha = prompt("Digite a senha do administrador:");
       if (senha === senhaAdmin) {
@@ -167,7 +251,6 @@
       }
     };
 
-    // Sair do modo admin
     btnSairAdmin.onclick = () => {
       adminArea.style.display = "none";
       btnAdmin.style.display = "inline-block";
@@ -175,7 +258,6 @@
       limparCampos();
     };
 
-    // Limpar campos do formulário
     function limparCampos() {
       document.getElementById("nome").value = "";
       document.getElementById("preparo").value = "";
@@ -185,7 +267,6 @@
       document.getElementById("aviso").value = "";
     }
 
-    // Adicionar novo exame (só no modo admin)
     btnAddExame.onclick = () => {
       const novoExame = {
         nome: document.getElementById("nome").value.trim(),
@@ -203,17 +284,20 @@
 
       exames.push(novoExame);
       localStorage.setItem(EXAMES_KEY, JSON.stringify(exames));
-      renderizarExames();
+      renderizarExames(searchInput.value);
       limparCampos();
       alert("Exame adicionado com sucesso!");
     };
 
-    // Inicializa a página renderizando exames
+    searchInput.addEventListener("input", () => {
+      renderizarExames(searchInput.value);
+    });
+
     renderizarExames();
   </script>
-
 </body>
 </html>
+
 
 
 
