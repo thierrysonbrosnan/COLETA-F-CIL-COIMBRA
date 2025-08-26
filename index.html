@@ -10,10 +10,12 @@
       margin: 20px;
       background-color: #f9f9f9;
     }
+
     h1 {
       text-align: center;
       color: #2c3e50;
     }
+
     .exame {
       background: white;
       padding: 15px;
@@ -21,6 +23,7 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
     button {
       margin: 5px 5px 0 0;
       padding: 6px 10px;
@@ -30,14 +33,11 @@
       color: white;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #2980b9;
     }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-    }
+
     .whatsapp-button {
       display: inline-block;
       margin-top: 8px;
@@ -47,10 +47,18 @@
       border-radius: 5px;
       text-decoration: none;
     }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+
     #adminLogin {
       text-align: center;
       margin-bottom: 20px;
     }
+
     #searchInput {
       display: block;
       width: 100%;
@@ -61,6 +69,7 @@
       border-radius: 8px;
       border: 1px solid #ccc;
     }
+
     #novoExameForm {
       max-width: 500px;
       margin: 0 auto 20px auto;
@@ -69,7 +78,9 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    #novoExameForm input, #novoExameForm textarea {
+
+    #novoExameForm input,
+    #novoExameForm textarea {
       width: 100%;
       margin-bottom: 10px;
       padding: 8px;
@@ -78,22 +89,50 @@
       border: 1px solid #ccc;
       resize: vertical;
     }
+
+    #btnSairAdmin {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 9999;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    #btnSairAdmin:hover {
+      background-color: #c0392b;
+    }
+
     @media (max-width: 600px) {
       .exame {
         font-size: 14px;
       }
+
       button {
         padding: 5px 8px;
         font-size: 14px;
       }
+
       #searchInput {
         font-size: 14px;
+      }
+
+      #btnSairAdmin {
+        padding: 10px 14px;
+        font-size: 13px;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Coleta fácil</h1>
+  <h1>Coleta Fácil</h1>
 
   <div id="adminLogin">
     <input type="password" id="adminPassword" placeholder="Digite a senha de admin" />
@@ -104,13 +143,13 @@
 
   <div id="novoExameContainer"></div>
 
-  <!-- NOVO: Botão de sair do modo administrador -->
-  <div id="adminControls" style="text-align:center; display:none;">
-    <button onclick="sairDoModoAdmin()">Sair do modo administrador</button>
+  <!-- Botão de sair do modo administrador (fixado e visível) -->
+  <div id="adminControls" style="display:none;">
+    <button id="btnSairAdmin" onclick="sairDoModoAdmin()">🚪 Sair do modo administrador</button>
   </div>
 
   <div id="coletafácil"></div>
-  <div id="listaExames"></div> <!-- GARANTIA que o container de exames exista -->
+  <div id="listaExames"></div>
 
   <footer>
     <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Lista%20de%20Exames."
@@ -193,7 +232,7 @@
     { nome:"🔶 CÁLCIO IÔNICO", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE GASTRINA", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PARATORMÔNIO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
-    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
+    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CARIÓTIPO", preparo:"Jejum não necessário.", horario:"10:00 às 14:00 (Segunda à Quinta)", explicacao:"Analisa os cromossomos para detectar alterações genéticas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 ESPERMOGRAMA", preparo:"Abstinência sexual de 3 a 5 dias.", horario:"14:00", explicacao:"Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PEPTÍDEO C", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Auxilia na avaliação da função das células beta do pâncreas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
@@ -202,13 +241,15 @@
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
     ];
 
+
+
     function ativarAdmin() {
       const senha = document.getElementById("adminPassword").value;
       if (senha === senhaAdmin) {
         isAdmin = true;
         alert("Modo administrador ativado!");
         document.getElementById("adminLogin").style.display = "none";
-        document.getElementById("adminControls").style.display = "block"; // NOVO
+        document.getElementById("adminControls").style.display = "block";
         mostrarFormularioNovoExame();
         renderizarExames();
       } else {
@@ -216,7 +257,6 @@
       }
     }
 
-    // NOVO: Função para sair do modo administrador
     function sairDoModoAdmin() {
       isAdmin = false;
       document.getElementById("adminControls").style.display = "none";
@@ -229,9 +269,19 @@
       const container = document.getElementById("listaExames");
       container.innerHTML = "";
 
-      exames.forEach((exame, index) => {
-        if (filtro && !exame.nome.toLowerCase().includes(filtro.toLowerCase())) return;
+      let examesFiltrados = exames;
+      if (filtro) {
+        examesFiltrados = exames.filter(exame =>
+          exame.nome.toLowerCase().includes(filtro.toLowerCase())
+        );
+      }
 
+      if (examesFiltrados.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>Nenhum exame encontrado.</p>";
+        return;
+      }
+
+      examesFiltrados.forEach((exame, index) => {
         const div = document.createElement("div");
         div.className = "exame";
         div.innerHTML = `
@@ -342,4 +392,5 @@
   </script>
 </body>
 </html>
+
 
