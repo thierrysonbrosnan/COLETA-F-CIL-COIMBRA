@@ -110,6 +110,22 @@
       background-color: #c0392b;
     }
 
+    .aviso {
+      background-color: #fff3cd;
+      padding: 10px;
+      border-radius: 4px;
+      color: #856404;
+      font-weight: bold;
+    }
+
+    .btn-excluir {
+      background-color: #e74c3c;
+    }
+
+    .btn-excluir:hover {
+      background-color: #c0392b;
+    }
+
     @media (max-width: 600px) {
       .exame {
         font-size: 14px;
@@ -241,8 +257,6 @@
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
     ];
 
-
-
     function ativarAdmin() {
       const senha = document.getElementById("adminPassword").value;
       if (senha === senhaAdmin) {
@@ -290,6 +304,7 @@
           <p><strong>Horário:</strong> ${exame.horario}</p>
           <p><strong>Explicação:</strong> ${exame.explicacao}</p>
           <p><strong>Endereço:</strong> ${exame.endereco}</p>
+          ${exame.aviso ? `<p class="aviso"><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
         `;
 
         const btnImprimir = document.createElement("button");
@@ -302,10 +317,23 @@
           btnEditar.textContent = "Editar";
           btnEditar.onclick = () => editarExame(index);
           div.appendChild(btnEditar);
+
+          const btnExcluir = document.createElement("button");
+          btnExcluir.textContent = "Excluir";
+          btnExcluir.className = "btn-excluir";
+          btnExcluir.onclick = () => excluirExame(index);
+          div.appendChild(btnExcluir);
         }
 
         container.appendChild(div);
       });
+    }
+
+    function excluirExame(index) {
+      if (confirm(`Tem certeza que deseja excluir o exame "${exames[index].nome}"?`)) {
+        exames.splice(index, 1);
+        renderizarExames(document.getElementById("searchInput").value);
+      }
     }
 
     function imprimirExame(exame) {
@@ -317,6 +345,7 @@
               body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
               h2 { color: #2c3e50; }
               p { margin: 8px 0; }
+              .aviso { background-color: #fff3cd; padding: 10px; border-radius: 4px; color: #856404; font-weight: bold; }
             </style>
           </head>
           <body>
@@ -325,6 +354,7 @@
             <p><strong>Horário:</strong> ${exame.horario}</p>
             <p><strong>Explicação:</strong> ${exame.explicacao}</p>
             <p><strong>Endereço:</strong> ${exame.endereco}</p>
+            ${exame.aviso ? `<p class="aviso"><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
           </body>
         </html>
       `;
@@ -341,6 +371,7 @@
       const novoHorario = prompt("Novo horário:", exames[index].horario);
       const novaExplicacao = prompt("Nova explicação:", exames[index].explicacao);
       const novoEndereco = prompt("Novo endereço:", exames[index].endereco);
+      const novoAviso = prompt("Novo aviso (opcional):", exames[index].aviso || "");
 
       if (novoNome && novoPreparo && novoHorario && novaExplicacao && novoEndereco) {
         exames[index] = {
@@ -348,9 +379,12 @@
           preparo: novoPreparo,
           horario: novoHorario,
           explicacao: novaExplicacao,
-          endereco: novoEndereco
+          endereco: novoEndereco,
+          aviso: novoAviso || undefined
         };
         renderizarExames(document.getElementById("searchInput").value);
+      } else {
+        alert("Por favor, preencha todos os campos obrigatórios.");
       }
     }
 
@@ -359,29 +393,31 @@
       container.innerHTML = `
         <div id="novoExameForm">
           <h3>Adicionar Novo Exame</h3>
-          <input type="text" id="novoNome" placeholder="Nome do exame" />
-          <textarea id="novoPreparo" placeholder="Preparo necessário"></textarea>
-          <input type="text" id="novoHorario" placeholder="Horário" />
-          <textarea id="novaExplicacao" placeholder="Explicação"></textarea>
-          <input type="text" id="novoEndereco" placeholder="Endereço" />
+          <input type="text" id="novoNome" placeholder="Nome do exame" required />
+          <textarea id="novoPreparo" placeholder="Preparo necessário" required></textarea>
+          <input type="text" id="novoHorario" placeholder="Horário" required />
+          <textarea id="novaExplicacao" placeholder="Explicação" required></textarea>
+          <input type="text" id="novoEndereco" placeholder="Endereço" required />
+          <textarea id="novoAviso" placeholder="Aviso (opcional)"></textarea>
           <button onclick="adicionarNovoExame()">Adicionar</button>
         </div>
       `;
     }
 
     function adicionarNovoExame() {
-      const nome = document.getElementById("novoNome").value;
-      const preparo = document.getElementById("novoPreparo").value;
-      const horario = document.getElementById("novoHorario").value;
-      const explicacao = document.getElementById("novaExplicacao").value;
-      const endereco = document.getElementById("novoEndereco").value;
+      const nome = document.getElementById("novoNome").value.trim();
+      const preparo = document.getElementById("novoPreparo").value.trim();
+      const horario = document.getElementById("novoHorario").value.trim();
+      const explicacao = document.getElementById("novaExplicacao").value.trim();
+      const endereco = document.getElementById("novoEndereco").value.trim();
+      const aviso = document.getElementById("novoAviso").value.trim();
 
       if (nome && preparo && horario && explicacao && endereco) {
-        exames.push({ nome, preparo, horario, explicacao, endereco });
+        exames.push({ nome, preparo, horario, explicacao, endereco, aviso: aviso || undefined });
         renderizarExames();
         mostrarFormularioNovoExame();
       } else {
-        alert("Por favor, preencha todos os campos.");
+        alert("Por favor, preencha todos os campos obrigatórios.");
       }
     }
 
