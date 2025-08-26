@@ -5,10 +5,11 @@
   <title>Lista de Exames</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      max-width: 800px;
+      font-family: Arial, sans-serif;
+      max-width: 700px;
       margin: 20px auto;
-      background-color: #f5f8fa;
+      background: #f4f6f9;
+      padding: 20px;
       color: #333;
     }
 
@@ -17,77 +18,65 @@
       color: #2c3e50;
     }
 
-    #search-container {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    #searchInput {
-      width: 80%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
       border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
     button {
-      background-color: #2980b9;
-      color: white;
-      border: none;
       padding: 8px 16px;
-      margin: 5px;
-      border-radius: 5px;
+      margin-right: 8px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 4px;
+      background: #3498db;
+      color: white;
       cursor: pointer;
     }
 
     button:hover {
-      background-color: #3498db;
+      background: #2980b9;
     }
 
     #admin-area {
-      margin-top: 20px;
-      border: 1px solid #ccc;
-      padding: 15px;
       display: none;
-      background-color: #ecf0f1;
-      border-radius: 5px;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+      border-radius: 8px;
     }
 
     .exame {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      background: white;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 5px solid #3498db;
     }
 
     .exame h3 {
-      margin: 0 0 5px;
-      color: #34495e;
+      margin-top: 0;
     }
 
-    .exame p {
-      margin: 3px 0;
-    }
-
-    label {
-      display: block;
+    .admin-buttons {
       margin-top: 10px;
     }
 
-    input[type="text"],
-    textarea {
+    #search {
+      margin-bottom: 20px;
+      padding: 8px;
       width: 100%;
-      padding: 6px;
-      box-sizing: border-box;
-      margin-top: 4px;
       border-radius: 4px;
       border: 1px solid #ccc;
     }
 
     .highlight {
-      background-color: #fef5e7;
+      border-left-color: orange;
     }
   </style>
 </head>
@@ -95,19 +84,16 @@
 
   <h1>Lista de Exames</h1>
 
-  <div id="search-container">
-    <input type="text" id="searchInput" placeholder="Buscar exame pelo nome..." />
-  </div>
+  <input type="text" id="search" placeholder="🔍 Pesquisar exame por nome..." />
 
-  <div style="text-align: center;">
-    <button id="btnAdmin">Entrar no modo administrador</button>
-    <button id="btnSairAdmin" style="display:none;">Sair do modo administrador</button>
-  </div>
+  <button id="btnAdmin">Entrar no modo administrador</button>
+  <button id="btnSairAdmin" style="display:none;">Sair do modo administrador</button>
 
   <div id="exames-lista"></div>
 
   <div id="admin-area">
-    <h2>Adicionar novo exame</h2>
+    <h2 id="form-title">Adicionar novo exame</h2>
+
     <label for="nome">Nome:</label>
     <input type="text" id="nome" />
 
@@ -127,14 +113,27 @@
     <input type="text" id="aviso" />
 
     <button id="btnAddExame">Adicionar Exame</button>
+    <button id="btnSalvarEdicao" style="display:none; background-color: #27ae60;">Salvar Edição</button>
   </div>
 
   <script>
     const EXAMES_KEY = "lista_exames";
     const senhaAdmin = "1009";
 
+    const btnAdmin = document.getElementById("btnAdmin");
+    const btnSairAdmin = document.getElementById("btnSairAdmin");
+    const adminArea = document.getElementById("admin-area");
+    const examesLista = document.getElementById("exames-lista");
+    const btnAddExame = document.getElementById("btnAddExame");
+    const btnSalvarEdicao = document.getElementById("btnSalvarEdicao");
+    const searchInput = document.getElementById("search");
+    const formTitle = document.getElementById("form-title");
+
+    let isAdmin = false;
+    let editandoIndex = null;
+
     let exames = [
-      { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
@@ -214,48 +213,56 @@
       localStorage.setItem(EXAMES_KEY, JSON.stringify(exames));
     }
 
-    const btnAdmin = document.getElementById("btnAdmin");
-    const btnSairAdmin = document.getElementById("btnSairAdmin");
-    const adminArea = document.getElementById("admin-area");
-    const examesLista = document.getElementById("exames-lista");
-    const btnAddExame = document.getElementById("btnAddExame");
-    const searchInput = document.getElementById("searchInput");
-
     function renderizarExames(filtro = "") {
       examesLista.innerHTML = "";
-      exames
-        .filter(exame => exame.nome.toLowerCase().includes(filtro.toLowerCase()))
-        .forEach(exame => {
-          const div = document.createElement("div");
-          div.className = "exame" + (exame.nome.includes("🔶") ? " highlight" : "");
-          div.innerHTML = `
-            <h3>${exame.nome}</h3>
-            <p><strong>Preparo:</strong> ${exame.preparo}</p>
-            <p><strong>Horário:</strong> ${exame.horario}</p>
-            <p><strong>Explicação:</strong> ${exame.explicacao}</p>
-            <p><strong>Endereço:</strong> ${exame.endereco}</p>
-            ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
-          `;
-          examesLista.appendChild(div);
-        });
+
+      exames.forEach((exame, index) => {
+        if (filtro && !exame.nome.toLowerCase().includes(filtro.toLowerCase())) return;
+
+        const div = document.createElement("div");
+        div.className = "exame";
+        if (exame.nome.includes("🔶")) div.classList.add("highlight");
+
+        div.innerHTML = `
+          <h3>${exame.nome}</h3>
+          <p><strong>Preparo:</strong> ${exame.preparo}</p>
+          <p><strong>Horário:</strong> ${exame.horario}</p>
+          <p><strong>Explicação:</strong> ${exame.explicacao}</p>
+          <p><strong>Endereço:</strong> ${exame.endereco}</p>
+          ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
+        `;
+
+        if (isAdmin) {
+          const btnEditar = document.createElement("button");
+          btnEditar.textContent = "Editar";
+          btnEditar.onclick = () => editarExame(index);
+          div.appendChild(btnEditar);
+        }
+
+        examesLista.appendChild(div);
+      });
     }
 
     btnAdmin.onclick = () => {
       const senha = prompt("Digite a senha do administrador:");
       if (senha === senhaAdmin) {
+        isAdmin = true;
         adminArea.style.display = "block";
         btnAdmin.style.display = "none";
         btnSairAdmin.style.display = "inline-block";
+        renderizarExames(searchInput.value);
       } else {
         alert("Senha incorreta!");
       }
     };
 
     btnSairAdmin.onclick = () => {
+      isAdmin = false;
       adminArea.style.display = "none";
       btnAdmin.style.display = "inline-block";
       btnSairAdmin.style.display = "none";
       limparCampos();
+      renderizarExames(searchInput.value);
     };
 
     function limparCampos() {
@@ -265,6 +272,10 @@
       document.getElementById("explicacao").value = "";
       document.getElementById("endereco").value = "";
       document.getElementById("aviso").value = "";
+      btnAddExame.style.display = "inline-block";
+      btnSalvarEdicao.style.display = "none";
+      formTitle.textContent = "Adicionar novo exame";
+      editandoIndex = null;
     }
 
     btnAddExame.onclick = () => {
@@ -284,20 +295,49 @@
 
       exames.push(novoExame);
       localStorage.setItem(EXAMES_KEY, JSON.stringify(exames));
-      renderizarExames(searchInput.value);
       limparCampos();
-      alert("Exame adicionado com sucesso!");
+      renderizarExames(searchInput.value);
     };
 
-    searchInput.addEventListener("input", () => {
+    function editarExame(index) {
+      const exame = exames[index];
+      document.getElementById("nome").value = exame.nome;
+      document.getElementById("preparo").value = exame.preparo;
+      document.getElementById("horario").value = exame.horario;
+      document.getElementById("explicacao").value = exame.explicacao;
+      document.getElementById("endereco").value = exame.endereco;
+      document.getElementById("aviso").value = exame.aviso || "";
+      editandoIndex = index;
+
+      formTitle.textContent = "Editar exame";
+      btnAddExame.style.display = "none";
+      btnSalvarEdicao.style.display = "inline-block";
+    }
+
+    btnSalvarEdicao.onclick = () => {
+      if (editandoIndex === null) return;
+
+      exames[editandoIndex] = {
+        nome: document.getElementById("nome").value.trim(),
+        preparo: document.getElementById("preparo").value.trim(),
+        horario: document.getElementById("horario").value.trim(),
+        explicacao: document.getElementById("explicacao").value.trim(),
+        endereco: document.getElementById("endereco").value.trim(),
+        aviso: document.getElementById("aviso").value.trim()
+      };
+
+      localStorage.setItem(EXAMES_KEY, JSON.stringify(exames));
+      limparCampos();
       renderizarExames(searchInput.value);
+    };
+
+    searchInput.addEventListener("input", (e) => {
+      renderizarExames(e.target.value);
     });
 
     renderizarExames();
   </script>
 </body>
 </html>
-
-
 
 
