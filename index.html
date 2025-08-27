@@ -1,194 +1,144 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coleta Fácil</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f9f9f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f7f9;
+      color: #333;
     }
 
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-
-    .exame {
-      background: white;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    button {
-      margin: 5px 5px 0 0;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 4px;
+    header {
       background-color: #3498db;
       color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    .whatsapp-button {
-      display: inline-block;
-      margin-top: 8px;
-      background-color: #25d366;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-
-    footer {
+      padding: 20px;
       text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-    }
-
-    #adminLogin {
-      text-align: center;
-      margin-bottom: 20px;
+      font-size: 2em;
+      font-weight: bold;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     }
 
     #searchInput {
       display: block;
-      width: 100%;
+      width: 90%;
       max-width: 500px;
-      margin: 0 auto 20px auto;
-      padding: 10px;
+      margin: 20px auto;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
       font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
     }
 
-    #novoExameForm {
-      max-width: 500px;
-      margin: 0 auto 20px auto;
-      padding: 10px;
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    #listaExames {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      padding: 0 10px 50px 10px;
     }
 
-    #novoExameForm input,
-    #novoExameForm textarea {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      font-size: 14px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      resize: vertical;
+    .exame {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    #btnSairAdmin {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      z-index: 9999;
-      background-color: #e74c3c;
-      color: white;
+    .exame:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .exame h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .exame p {
+      margin: 5px 0;
+      line-height: 1.4;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 14px;
       border: none;
-      padding: 12px 18px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: bold;
+      border-radius: 5px;
+      background-color: #27ae60;
+      color: white;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    #btnSairAdmin:hover {
-      background-color: #c0392b;
-    }
-
-    .aviso {
-      background-color: #fff3cd;
-      padding: 10px;
-      border-radius: 4px;
-      color: #856404;
       font-weight: bold;
+      transition: background-color 0.2s;
     }
 
-    .btn-excluir {
-      background-color: #e74c3c;
+    button:hover {
+      background-color: #1e8449;
     }
 
-    .btn-excluir:hover {
-      background-color: #c0392b;
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #3498db;
+      color: white;
+      position: relative;
+      bottom: 0;
+      font-size: 14px;
     }
 
-    @media (max-width: 600px) {
+    .whatsapp-button {
+      display: inline-block;
+      background-color: #25d366;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #1ebe57;
+    }
+
+    @media(max-width: 600px){
       .exame {
-        font-size: 14px;
-      }
-
-      button {
-        padding: 5px 8px;
-        font-size: 14px;
-      }
-
-      #searchInput {
-        font-size: 14px;
-      }
-
-      #btnSairAdmin {
-        padding: 10px 14px;
-        font-size: 13px;
+        width: 90%;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Coleta Fácil</h1>
 
-  <div id="adminLogin">
-    <input type="password" id="adminPassword" placeholder="Digite a senha de admin" />
-    <button onclick="ativarAdmin()">Entrar como Admin</button>
-  </div>
+<header>Coleta Fácil</header>
 
-  <input type="text" id="searchInput" placeholder="🔍 Buscar exame..." oninput="filtrarExames()" />
+<input type="text" id="searchInput" placeholder="🔍 Buscar exame..." oninput="filtrarExames()">
 
-  <div id="novoExameContainer"></div>
+<div id="listaExames"></div>
 
-  <!-- Botão de sair do modo administrador (fixado e visível) -->
-  <div id="adminControls" style="display:none;">
-    <button id="btnSairAdmin" onclick="sairDoModoAdmin()">🚪 Sair do modo administrador</button>
-  </div>
+<footer>
+  <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Lista%20de%20Exames."
+     target="_blank"
+     class="whatsapp-button">
+    📱 Enviar Feedback pelo WhatsApp
+  </a>
+</footer>
 
-  <div id="coletafácil"></div>
-  <div id="listaExames"></div>
-
-  <footer>
-    <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Lista%20de%20Exames."
-       target="_blank"
-       class="whatsapp-button">
-      📱 Enviar Feedback pelo WhatsApp
-    </a>
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      renderizarExames();
-    });
-
-    const senhaAdmin = "1009";
-    let isAdmin = false;
-
-    const exames = [
+<script>
+  const exames = [
+    { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" }
     { nome:"FATOR RH", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Determina se seu sangue é Rh positivo ou negativo.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HEMOGRAMA", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia a quantidade e qualidade das células sanguíneas.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
-    { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
-    { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PANG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
+    { nome:"HEMOSSEDIMENTAÇÃO VHS", preparo:"Jejum não necessário (água liberada).", horario:"06:30 às 07:00", explicacao:"Detecta processos inflamatórios no corpo.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"HEMOGLOBINA GLICADA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mostra o controle da glicose nos últimos meses.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PAMG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
+    { nome:"GLICEMIA", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede o nível de açúcar no sangue.", endereco:"Unidade de saúde mais próxima da sua casa", aviso:"SE VOCÊ FAZ PARTE DO PROGRAMA PAMG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES."},
     { nome:"COLESTEROL TOTAL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Avalia o risco de doenças cardiovasculares.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"TRIGLICERIDEOS", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Mede a quantidade de gordura no sangue.", endereco:"Unidade de saúde mais próxima da sua casa" },
     { nome:"HDL", preparo:"Jejum de 8 a 12 horas (água liberada).", horario:"06:30 às 07:00", explicacao:"Colesterol bom, protege o coração.", endereco:"Unidade de saúde mais próxima da sua casa" },
@@ -248,185 +198,94 @@
     { nome:"🔶 CÁLCIO IÔNICO", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE GASTRINA", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PARATORMÔNIO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
-    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"11:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
+    { nome:"🔶 COAGULOGRAMA (TAP/TTP)", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CARIÓTIPO", preparo:"Jejum não necessário.", horario:"10:00 às 14:00 (Segunda à Quinta)", explicacao:"Analisa os cromossomos para detectar alterações genéticas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 ESPERMOGRAMA", preparo:"Abstinência sexual de 3 a 5 dias.", horario:"14:00", explicacao:"Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 PEPTÍDEO C", preparo:"4 horas de jejum.", horario:"13:00", explicacao:"Auxilia na avaliação da função das células beta do pâncreas.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE RENINA", preparo:"4 horas de jejum. Suspender alguns medicamentos com orientação médica.", horario:"13:00", explicacao:"Avalia a atividade do sistema renina-angiotensina, importante na regulação da pressão arterial.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 CH50", preparo:"Jejum não necessário.", horario:"09:00 às 14:00", explicacao:"Avalia a atividade total do sistema complemento no sangue.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
     { nome:"🔶 DOSAGEM DE ZINCO", preparo:"4 horas de jejum.", horario:"09:00 às 14:00", explicacao:"Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco:"RUA PHILIPPE DE VITRY, n°280" }
-    ];
+    { nome:"RAST", preparo:"8 A 12 horas de jejum para adulto e 4 horas para crianças", horario:"06:30 á 07:00", explicacao:"Exame de sangue que identifica alergias a substâncias específicas.", endereco:"Unidade de saúde mais próxima da sua casa" }
+    { nome:"🔶 CALCIO IONIZAVEL", preparo:"Jejum de 4 horas (água liberada).", horario:"09:00 ás 14:00", explicacao:"Avalia a quantidade de cálcio livre no sangue, essencial para ossos e músculos.", endereco:"RUA PHILIPPE DE VITRY, n°280" },
+    { nome:"TIREOGLOBULINA", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Auxilia no acompanhamento de pacientes com câncer de tireoide.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"🔶 SHBG", preparo:"Jejum de 4 horas (água liberada).", horario:"06:30 às 09:00", explicacao:"Avalia a proteína que se liga aos hormônios sexuais no sangue.", endereco:"Hospital campo limpo" },
+    { nome:"ANTI MICROSSOMAS", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Detecta anticorpos contra a tireoide, útil para diagnóstico de tireoidite.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"PROBNP", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Avalia risco de insuficiência cardíaca e estresse no coração.", endereco:"Unidade de saúde mais próxima da sua casa" }
+    { nome:"HEPATITE B", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Detecta a presença de anticorpos ou antígenos do vírus da Hepatite B.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"HEPATITE C", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Detecta a presença de anticorpos do vírus da Hepatite C.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"TOXOPLASMOSE", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Detecta anticorpos contra Toxoplasma gondii, útil em gestantes.", endereco:"Unidade de saúde mais próxima da sua casa" },
+    { nome:"SÍFILIS", preparo:"Jejum não necessário.", horario:"06:30 às 07:00", explicacao:"Detecta a presença de anticorpos contra Treponema pallidum, agente da sífilis.", endereco:"Unidade de saúde mais próxima da sua casa" }
+  ];
 
-    function ativarAdmin() {
-      const senha = document.getElementById("adminPassword").value;
-      if (senha === senhaAdmin) {
-        isAdmin = true;
-        alert("Modo administrador ativado!");
-        document.getElementById("adminLogin").style.display = "none";
-        document.getElementById("adminControls").style.display = "block";
-        mostrarFormularioNovoExame();
-        renderizarExames();
-      } else {
-        alert("Senha incorreta.");
-      }
+
+  function renderizarExames(filtro = "") {
+    const container = document.getElementById("listaExames");
+    container.innerHTML = "";
+
+    let examesFiltrados = exames.filter(exame => 
+      exame.nome.toLowerCase().includes(filtro.toLowerCase())
+    );
+
+    if(examesFiltrados.length === 0){
+      container.innerHTML = "<p style='text-align:center;width:100%;'>Nenhum exame encontrado.</p>";
+      return;
     }
 
-    function sairDoModoAdmin() {
-      isAdmin = false;
-      document.getElementById("adminControls").style.display = "none";
-      document.getElementById("adminLogin").style.display = "block";
-      document.getElementById("novoExameContainer").innerHTML = "";
-      renderizarExames();
-    }
+    examesFiltrados.forEach(exame => {
+      const div = document.createElement("div");
+      div.className = "exame";
+      div.innerHTML = `
+        <h3>${exame.nome}</h3>
+        <p><strong>Preparo:</strong> ${exame.preparo}</p>
+        <p><strong>Horário:</strong> ${exame.horario}</p>
+        <p><strong>Explicação:</strong> ${exame.explicacao}</p>
+        <p><strong>Endereço:</strong> ${exame.endereco}</p>
+      `;
 
-    function renderizarExames(filtro = "") {
-      const container = document.getElementById("listaExames");
-      container.innerHTML = "";
+      const btnImprimir = document.createElement("button");
+      btnImprimir.textContent = "Imprimir informações";
+      btnImprimir.onclick = () => imprimirExame(exame);
+      div.appendChild(btnImprimir);
 
-      let examesFiltrados = exames;
-      if (filtro) {
-        examesFiltrados = exames.filter(exame =>
-          exame.nome.toLowerCase().includes(filtro.toLowerCase())
-        );
-      }
+      container.appendChild(div);
+    });
+  }
 
-      if (examesFiltrados.length === 0) {
-        container.innerHTML = "<p style='text-align:center;'>Nenhum exame encontrado.</p>";
-        return;
-      }
+  function filtrarExames() {
+    const termo = document.getElementById("searchInput").value;
+    renderizarExames(termo);
+  }
 
-      examesFiltrados.forEach((exame, index) => {
-        const div = document.createElement("div");
-        div.className = "exame";
-        div.innerHTML = `
-          <h3>${exame.nome}</h3>
+  function imprimirExame(exame) {
+    const conteudo = `
+      <html>
+        <head>
+          <title>Informações do Exame</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+            h2 { color: #2c3e50; }
+            p { margin: 8px 0; }
+          </style>
+        </head>
+        <body>
+          <h2>${exame.nome}</h2>
           <p><strong>Preparo:</strong> ${exame.preparo}</p>
           <p><strong>Horário:</strong> ${exame.horario}</p>
           <p><strong>Explicação:</strong> ${exame.explicacao}</p>
           <p><strong>Endereço:</strong> ${exame.endereco}</p>
-          ${exame.aviso ? `<p class="aviso"><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
-        `;
+        </body>
+      </html>
+    `;
+    const janela = window.open("", "_blank");
+    janela.document.write(conteudo);
+    janela.document.close();
+    janela.focus();
+    janela.print();
+  }
 
-        const btnImprimir = document.createElement("button");
-        btnImprimir.textContent = "Imprimir informações";
-        btnImprimir.onclick = () => imprimirExame(exame);
-        div.appendChild(btnImprimir);
+  document.addEventListener('DOMContentLoaded', renderizarExames);
+</script>
 
-        if (isAdmin) {
-          const btnEditar = document.createElement("button");
-          btnEditar.textContent = "Editar";
-          btnEditar.onclick = () => editarExame(index);
-          div.appendChild(btnEditar);
-
-          const btnExcluir = document.createElement("button");
-          btnExcluir.textContent = "Excluir";
-          btnExcluir.className = "btn-excluir";
-          btnExcluir.onclick = () => excluirExame(index);
-          div.appendChild(btnExcluir);
-        }
-
-        container.appendChild(div);
-      });
-    }
-
-    function excluirExame(index) {
-      if (confirm(`Tem certeza que deseja excluir o exame "${exames[index].nome}"?`)) {
-        exames.splice(index, 1);
-        renderizarExames(document.getElementById("searchInput").value);
-      }
-    }
-
-    function imprimirExame(exame) {
-      const conteudo = `
-        <html>
-          <head>
-            <title>Informações do Exame</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
-              h2 { color: #2c3e50; }
-              p { margin: 8px 0; }
-              .aviso { background-color: #fff3cd; padding: 10px; border-radius: 4px; color: #856404; font-weight: bold; }
-            </style>
-          </head>
-          <body>
-            <h2>${exame.nome}</h2>
-            <p><strong>Preparo:</strong> ${exame.preparo}</p>
-            <p><strong>Horário:</strong> ${exame.horario}</p>
-            <p><strong>Explicação:</strong> ${exame.explicacao}</p>
-            <p><strong>Endereço:</strong> ${exame.endereco}</p>
-            ${exame.aviso ? `<p class="aviso"><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
-          </body>
-        </html>
-      `;
-      const janela = window.open("", "_blank");
-      janela.document.write(conteudo);
-      janela.document.close();
-      janela.focus();
-      janela.print();
-    }
-
-    function editarExame(index) {
-      const novoNome = prompt("Novo nome do exame:", exames[index].nome);
-      const novoPreparo = prompt("Novo preparo:", exames[index].preparo);
-      const novoHorario = prompt("Novo horário:", exames[index].horario);
-      const novaExplicacao = prompt("Nova explicação:", exames[index].explicacao);
-      const novoEndereco = prompt("Novo endereço:", exames[index].endereco);
-      const novoAviso = prompt("Novo aviso (opcional):", exames[index].aviso || "");
-
-      if (novoNome && novoPreparo && novoHorario && novaExplicacao && novoEndereco) {
-        exames[index] = {
-          nome: novoNome,
-          preparo: novoPreparo,
-          horario: novoHorario,
-          explicacao: novaExplicacao,
-          endereco: novoEndereco,
-          aviso: novoAviso || undefined
-        };
-        renderizarExames(document.getElementById("searchInput").value);
-      } else {
-        alert("Por favor, preencha todos os campos obrigatórios.");
-      }
-    }
-
-    function mostrarFormularioNovoExame() {
-      const container = document.getElementById("novoExameContainer");
-      container.innerHTML = `
-        <div id="novoExameForm">
-          <h3>Adicionar Novo Exame</h3>
-          <input type="text" id="novoNome" placeholder="Nome do exame" required />
-          <textarea id="novoPreparo" placeholder="Preparo necessário" required></textarea>
-          <input type="text" id="novoHorario" placeholder="Horário" required />
-          <textarea id="novaExplicacao" placeholder="Explicação" required></textarea>
-          <input type="text" id="novoEndereco" placeholder="Endereço" required />
-          <textarea id="novoAviso" placeholder="Aviso (opcional)"></textarea>
-          <button onclick="adicionarNovoExame()">Adicionar</button>
-        </div>
-      `;
-    }
-
-    function adicionarNovoExame() {
-      const nome = document.getElementById("novoNome").value.trim();
-      const preparo = document.getElementById("novoPreparo").value.trim();
-      const horario = document.getElementById("novoHorario").value.trim();
-      const explicacao = document.getElementById("novaExplicacao").value.trim();
-      const endereco = document.getElementById("novoEndereco").value.trim();
-      const aviso = document.getElementById("novoAviso").value.trim();
-
-      if (nome && preparo && horario && explicacao && endereco) {
-        exames.push({ nome, preparo, horario, explicacao, endereco, aviso: aviso || undefined });
-        renderizarExames();
-        mostrarFormularioNovoExame();
-      } else {
-        alert("Por favor, preencha todos os campos obrigatórios.");
-      }
-    }
-
-    function filtrarExames() {
-      const termo = document.getElementById("searchInput").value;
-      renderizarExames(termo);
-    }
-  </script>
 </body>
 </html>
-
 
