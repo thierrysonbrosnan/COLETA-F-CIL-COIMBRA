@@ -12,6 +12,7 @@
       background-color: #f4f7f9;
       color: #333;
     }
+
     header {
       background-color: #3498db;
       color: white;
@@ -21,6 +22,7 @@
       font-weight: bold;
       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     }
+
     #searchInput {
       display: block;
       width: 90%;
@@ -31,6 +33,7 @@
       border: 1px solid #ccc;
       font-size: 16px;
     }
+
     #listaExames {
       display: flex;
       flex-wrap: wrap;
@@ -38,6 +41,7 @@
       gap: 15px;
       padding: 0 10px 50px 10px;
     }
+
     .exame {
       background-color: #ffffff;
       border-radius: 10px;
@@ -46,12 +50,26 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       transition: transform 0.2s, box-shadow 0.2s;
     }
+
+    .exame.especial {
+      border-left: 4px solid #e74c3c;
+    }
+
     .exame:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
-    .exame h3 { margin-top: 0; color: #2c3e50; }
-    .exame p { margin: 5px 0; line-height: 1.4; }
+
+    .exame h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .exame p {
+      margin: 5px 0;
+      line-height: 1.4;
+    }
+
     button {
       margin-top: 10px;
       padding: 8px 14px;
@@ -63,7 +81,11 @@
       font-weight: bold;
       transition: background-color 0.2s;
     }
-    button:hover { background-color: #1e8449; }
+
+    button:hover {
+      background-color: #1e8449;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -74,6 +96,7 @@
       width: 100%;
       font-size: 14px;
     }
+
     .whatsapp-button {
       display: inline-block;
       background-color: #25d366;
@@ -84,17 +107,42 @@
       font-weight: bold;
       transition: background-color 0.2s;
     }
-    .whatsapp-button:hover { background-color: #1ebe57; }
-    @media(max-width: 600px){ .exame { width: 90%; } }
+
+    .whatsapp-button:hover {
+      background-color: #1ebe57;
+    }
+
+    #loading {
+      text-align: center;
+      width: 100%;
+      padding: 20px;
+      display: none;
+    }
+
+    @media(max-width: 600px) {
+      .exame {
+        width: 90%;
+      }
+    }
   </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
 <header>Coleta Fácil</header>
 
-<input type="text" id="searchInput" placeholder="🔍 Buscar exame..." oninput="filtrarExames()">
+<input
+  type="text"
+  id="searchInput"
+  placeholder="Buscar exame..."
+  aria-label="Buscar exames por nome"
+>
 
 <div id="listaExames"></div>
+<div id="loading">Carregando...</div>
 
 <footer>
   <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Lista%20de%20Exames."
@@ -104,41 +152,8 @@
   </a>
 </footer>
 
-<script type="module">
-  // 🔹 Import Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-  import { getDatabase, ref, get, set, update } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
-
-  // 🔹 Configuração do Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyDTgqYIbWq9KQhitWCMQ6izT_I1zegdX0k",
-    authDomain: "coletafacil1.firebaseapp.com",
-    databaseURL: "https://coletafacil1-default-rtdb.firebaseio.com",
-    projectId: "coletafacil1",
-    storageBucket: "coletafacil1.appspot.com",
-    messagingSenderId: "771017765836",
-    appId: "1:771017765836:web:f3ca469a9d020313f8a369",
-    measurementId: "G-NTNLTEJFLX"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const db = getDatabase(app);
-
-  // 🔹 Função para registrar pesquisas
-  async function registrarPesquisa(exame) {
-    const examRef = ref(db, "exames/" + exame.toUpperCase());
-    const snap = await get(examRef);
-    if (snap.exists()) {
-      const qtdAtual = snap.val().qtd || 0;
-      await update(examRef, { qtd: qtdAtual + 1 });
-    } else {
-      await set(examRef, { nome: exame.toUpperCase(), qtd: 1 });
-    }
-  }
-
-  // 🔹 Lista de exames (exemplo reduzido)
+<script>
+  // Lista de exames (exemplo resumido)
   const exames = [
     { nome: "FATOR RH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Determina se seu sangue é Rh positivo ou negativo.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEMOGRAMA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a quantidade e qualidade das células sanguíneas.", endereco: "Unidade de saúde mais próxima da sua casa" },
@@ -221,77 +236,104 @@
     { nome: "HEPATITE C", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença de anticorpos do vírus da Hepatite C.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "ANTI JO 1", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta anticorpos contra a enzima histidil-tRNA sintetase, associados a miopatias inflamatórias autoimunes, como polimiosite e síndrome anti-sintetase.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "TOXOPLASMOSE", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta anticorpos contra Toxoplasma gondii, útil em gestantes.", endereco: "Unidade de saúde mais próxima da sua casa" },
-   
- {
-     nome: "PAPANICOLAU",
-  preparo: "Evitar relações sexuais, duchas vaginais e uso de cremes vaginais nas 48 horas antes da coleta.",
-  horario: "07:00 às 18:00",
-  explicacao: "Exame citológico que avalia alterações nas células do colo do útero, útil para rastreamento do câncer cervical e detecção de infecções.",
-  endereco: "Unidade de saúde mais próxima da sua casa"
-},
-{ 
-  nome: "GASOMETRIA VENOSA 🔴",
-  preparo: "Jejum não necessário.",
-  horario: "07:00 às 15:00",
-  explicacao: "Avalia o equilíbrio ácido-base, níveis de oxigênio e dióxido de carbono no sangue, importante para monitoramento respiratório e metabólico.",
-  endereco: "Estrada de itapecerica 1661, vila maracana, tel:3394-7460"
-},
-{ 
-  nome: "PROVA DO LATEX PARA FATOR REUMATOIDE", 
-  preparo: "Jejum não necessário.", 
-  horario: "06:30 às 07:00", 
-  explicacao: "Detecta a presença do fator reumatoide (anticorpos IgM contra IgG), útil no diagnóstico de artrite reumatoide e outras doenças autoimunes.", 
-  endereco: "Unidade de saúde mais próxima da sua casa" 
-},
-{ 
-  nome: "SIFILIS", 
-  preparo: "Jejum não necessário.", 
-  horario: "06:30 às 07:00", 
-  explicacao: "Detecta a presença de anticorpos contra Treponema pallidum, agente da sífilis.", 
-  endereco: "Unidade de saúde mais próxima da sua casa" 
-}
-];
- 
+    { nome: "PAPANICOLAU", preparo: "Evitar relações sexuais, duchas vaginais e uso de cremes vaginais nas 48 horas antes da coleta.", horario: "07:00 às 18:00", explicacao: "Exame citológico que avalia alterações nas células do colo do útero, útil para rastreamento do câncer cervical e detecção de infecções.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "GASOMETRIA VENOSA 🔴", preparo: "Jejum não necessário.", horario: "07:00 às 15:00", explicacao: "Avalia o equilíbrio ácido-base, níveis de oxigênio e dióxido de carbono no sangue, importante para monitoramento respiratório e metabólico.", endereco: "Estrada de itapecerica 1661, vila maracana, tel:3394-7460" },
+    { nome: "PROVA DO LATEX PARA FATOR REUMATOIDE", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença do fator reumatoide (anticorpos IgM contra IgG), útil no diagnóstico de artrite reumatoide e outras doenças autoimunes.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "SIFILIS", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença de anticorpos contra Treponema pallidum, agente da sífilis.", endereco: "Unidade de saúde mais próxima da sua casa" }
+  ];
 
+  // Check for duplicates
+  const uniqueExames = [...new Set(exames.map(exame => exame.nome))];
+  if (uniqueExames.length !== exames.length) {
+    console.warn('Exames duplicados detectados:', exames.length - uniqueExames.length);
+  }
 
+  // Firebase config (Recommendation: Move to environment variables for security)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDTgqYIbWq9KQhitWCMQ6izT_I1zegdX0k",
+    authDomain: "coletafacil1.firebaseapp.com",
+    databaseURL: "https://coletafacil1-default-rtdb.firebaseio.com",
+    projectId: "coletafacil1",
+    storageBucket: "coletafacil1.appspot.com",
+    messagingSenderId: "771017765836",
+    appId: "1:771017765836:web:f3ca469a9d020313f8a369",
+    measurementId: "G-NTNLTEJFLX"
+  };
 
-  // 🔹 Renderizar exames
+  // Inicializa Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  // Debounce function
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+
+  // Registrar exame no Firebase
+  function registrarExameNoFirebase(exameNome) {
+    const exameRef = database.ref('examesMaisProcurados/' + exameNome);
+    exameRef.get().then(snapshot => {
+      exameRef.set((snapshot.val() || 0) + 1);
+    }).catch(error => {
+      console.error('Erro ao registrar exame:', error);
+      alert('Erro ao registrar a busca. Tente novamente.');
+    });
+  }
+
+  // Renderiza exames na tela
   function renderizarExames(filtro = "") {
     const container = document.getElementById("listaExames");
+    const loading = document.getElementById("loading");
+    loading.style.display = "block";
     container.innerHTML = "";
-    const filtroString = typeof filtro === 'string' ? filtro : "";
-    let examesFiltrados = exames.filter(exame => exame.nome.toLowerCase().includes(filtroString.toLowerCase()));
+
+    const filtroNormalizado = filtro.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let examesFiltrados = exames
+      .filter(exame => exame.nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(filtroNormalizado))
+      .sort((a, b) => a.nome.localeCompare(b.nome));
+
+    loading.style.display = "none";
     if (examesFiltrados.length === 0) {
       container.innerHTML = "<p style='text-align:center;width:100%;'>Nenhum exame encontrado.</p>";
       return;
     }
+
     examesFiltrados.forEach(exame => {
       const div = document.createElement("div");
-      div.className = "exame";
+      div.className = exame.nome.includes("🔴") ? "exame especial" : "exame";
+      div.setAttribute("role", "article");
+      div.setAttribute("aria-label", `Informações sobre o exame ${exame.nome}`);
       div.innerHTML = `
         <h3>${exame.nome}</h3>
         <p><strong>Preparo:</strong> ${exame.preparo}</p>
         <p><strong>Horário:</strong> ${exame.horario}</p>
         <p><strong>Explicação:</strong> ${exame.explicacao}</p>
         <p><strong>Endereço:</strong> ${exame.endereco}</p>
+        ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
       `;
       const btnImprimir = document.createElement("button");
       btnImprimir.textContent = "Imprimir informações";
+      btnImprimir.setAttribute("aria-label", `Imprimir informações do exame ${exame.nome}`);
       btnImprimir.onclick = () => imprimirExame(exame);
       div.appendChild(btnImprimir);
       container.appendChild(div);
     });
   }
 
-  // 🔹 Filtrar e registrar pesquisa
+  // Filtra exames
   function filtrarExames() {
     const termo = document.getElementById("searchInput").value || "";
     renderizarExames(termo);
     if (termo.trim() !== "") {
-      registrarPesquisa(termo.trim());
+      registrarExameNoFirebase(termo.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
     }
   }
 
+  // Imprimir exame
   function imprimirExame(exame) {
     const conteudo = `
       <html>
@@ -309,6 +351,7 @@
           <p><strong>Horário:</strong> ${exame.horario}</p>
           <p><strong>Explicação:</strong> ${exame.explicacao}</p>
           <p><strong>Endereço:</strong> ${exame.endereco}</p>
+          ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
         </body>
       </html>
     `;
@@ -319,9 +362,12 @@
     janela.print();
   }
 
+  // Event listeners
   document.addEventListener('DOMContentLoaded', () => renderizarExames());
+  document.getElementById("searchInput").addEventListener("input", debounce(filtrarExames, 300));
 </script>
 
 </body>
 </html>
+
 
