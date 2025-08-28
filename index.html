@@ -23,11 +23,14 @@
       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     }
 
+    .search-container {
+      text-align: center;
+      margin: 20px auto;
+    }
+
     #searchInput {
-      display: block;
       width: 90%;
       max-width: 500px;
-      margin: 20px auto;
       padding: 12px;
       border-radius: 8px;
       border: 1px solid #ccc;
@@ -119,6 +122,14 @@
       display: none;
     }
 
+    .no-results {
+      text-align: center;
+      width: 100%;
+      padding: 20px;
+      font-size: 1.1em;
+      color: #555;
+    }
+
     @media(max-width: 600px) {
       .exame {
         width: 90%;
@@ -130,12 +141,15 @@
 
 <header>Coleta Fácil</header>
 
-<input
-  type="text"
-  id="searchInput"
-  placeholder="Buscar exame..."
-  aria-label="Buscar exames por nome"
->
+<div class="search-container">
+  <label for="searchInput" class="sr-only">Buscar exames por nome</label>
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Buscar exame..."
+    aria-label="Buscar exames por nome"
+  >
+</div>
 
 <div id="listaExames"></div>
 <div id="loading">Carregando...</div>
@@ -149,17 +163,17 @@
 </footer>
 
 <script>
-  // Lista de exames
+  // Lista de exames com correções
   const exames = [
     { nome: "FATOR RH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Determina se seu sangue é Rh positivo ou negativo.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEMOGRAMA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a quantidade e qualidade das células sanguíneas.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEMOSSEDIMENTAÇÃO (VHS)", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta processos inflamatórios no corpo.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "HEMOGLOBINA GLICADA", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mostra o controle da glicose nos últimos meses.", endereco: "Unidade de saúde mais próxima da sua casa", aviso: "SE VOCÊ FAZ PARTE DO PROGRAMA PAMG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES." },
-    { nome: "GLICEMIA", preparo: "Jejum de 8 a 12 horas para adultos e 3 a 4 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede o nível de açúcar no sangue.", endereco: "Unidade de saúde mais próxima da sua casa", aviso: "SE VOCÊ FAZ PARTE DO PROGRAMA PAMG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES." },
-    { nome: "COLESTEROL TOTAL", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o risco de doenças cardiovasculares.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "TRIGLICERIDEOS", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede a quantidade de gordura no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "COLESTEROL (HDL)", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol bom, protege o coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "COLESTEROL (LDL)", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol ruim, pode causar problemas cardíacos.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "HEMOGLOBINA GLICADA", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mostra o controle da glicose nos últimos meses.", endereco: "Unidade de saúde mais próxima da sua casa", aviso: "Se você faz parte do programa PAMG, lembre-se de realizar esse exame a cada 3 meses." },
+    { nome: "GLICEMIA", preparo: "Jejum de 8 a 12 horas para adultos e 3 a 4 horas para bebês e crianças. Nunca deixar a criança em jejum prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede o nível de açúcar no sangue.", endereco: "Unidade de saúde mais próxima da sua casa", aviso: "Se você faz parte do programa PAMG, lembre-se de realizar esse exame a cada 3 meses." },
+    { nome: "COLESTEROL TOTAL", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebês e crianças. Nunca deixar a criança em jejum prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o risco de doenças cardiovasculares.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "TRIGLICERÍDEOS", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebês e crianças. Nunca deixar a criança em jejum prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede a quantidade de gordura no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "COLESTEROL (HDL)", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebês e crianças. Nunca deixar a criança em jejum prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol bom, protege o coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "COLESTEROL (LDL)", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebês e crianças. Nunca deixar a criança em jejum prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol ruim, pode causar problemas cardíacos.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "SÓDIO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia equilíbrio de líquidos e função renal.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "POTÁSSIO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Importante para músculos e nervos.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "URÉIA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função renal e metabolismo de proteínas.", endereco: "Unidade de saúde mais próxima da sua casa" },
@@ -167,18 +181,18 @@
     { nome: "TGO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta lesões no fígado e músculos.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "TGP", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a saúde do fígado.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "GAMA GT", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Indica doenças hepáticas e consumo de álcool.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "AMILASE", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função pancreática e salivares.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "HORMONIO TIREOESTIMULANTE - TSH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função da tireoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "AMILASE", preparo: "Jejum de 4 horas recomendado (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função pancreática e salivares.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "HORMÔNIO TIREOESTIMULANTE - TSH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função da tireoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "T3", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede hormônio T3 da tireoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "T4 LIVRE", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função da tireoide e metabolismo.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "FATOR ANTINUCLEO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta doenças autoimunes como lúpus.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "FATOR ANTINÚCLEO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta doenças autoimunes como lúpus.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "FATOR REUMATOIDE - FR", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Auxilia no diagnóstico de artrite reumatoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "FOSFATASE ALCALINA - FA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia doenças ósseas e hepáticas.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "FERRITINA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede reservas de ferro no organismo.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "FERRO SÉRICO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia ferro circulante no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "PROLACTINA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede níveis do hormônio prolactina.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "HORMONIO FOLICO ESTIMULANTE - FSH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função ovariana e testicular.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "HORMONIO LUTEINIZANTE - LH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede níveis do hormônio luteinizante.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "HORMÔNIO FOLÍCULO ESTIMULANTE - FSH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função ovariana e testicular.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "HORMÔNIO LUTEINIZANTE - LH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede níveis do hormônio luteinizante.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "PSA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia saúde da próstata.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "PSA LIVRE", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia riscos de doenças na próstata.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "PARASITOLÓGICO PPF 1", preparo: "Coletar uma pequena quantidade de material (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta parasitas intestinais.", endereco: "Unidade de saúde mais próxima da sua casa" },
@@ -187,55 +201,54 @@
     { nome: "URINA I", preparo: "Realizar a coleta da 1ª urina do dia (água liberada).", horario: "06:30 às 07:00", explicacao: "Analisa composição da urina.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "UROCULTURA", preparo: "Realizar a coleta da 1ª urina do dia (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta infecções urinárias.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "ANTIBIOGRAMA", preparo: "Realizar a coleta da 1ª urina do dia (água liberada).", horario: "06:30 às 07:00", explicacao: "Verifica quais antibióticos combatem a bactéria.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "URINA 24H PROTEINA", preparo: "Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia perda de proteínas pela urina.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "CALCIO URINARIO 24H", preparo: "Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede quantidade de cálcio na urina em 24h.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "URINA 24H PROTEÍNA", preparo: "Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia perda de proteínas pela urina.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "CALCIO URINÁRIO 24H", preparo: "Coletar durante 24 horas toda a quantidade de urina feita no dia e manter na porta da geladeira para conservação (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede quantidade de cálcio na urina em 24h.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "URINA MICROALBUMINA ISOLADA", preparo: "Realizar a coleta da 1ª urina do dia (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta pequenas quantidades de proteína na urina.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "ACIDO URICO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia risco de gota e problemas renais.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "ACIDO FOLICO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de ácido fólico no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "ACIDO ÚRICO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia risco de gota e problemas renais.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "ACIDO FÓLICO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de ácido fólico no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "BETA HCG", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta gravidez.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "CALCIDIOL", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de vitamina D.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "CALCIO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de cálcio no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "COOMBS INDIRETO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta anticorpos no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "SECREÇÃO VAGINAL", preparo: "Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta (água liberada).", horario: "06:30 às 07:00", explicacao: "Analisa presença de infecções vaginais.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "MAGNESIO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de magnésio no corpo.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "ESTREPTO B SECRECAO VAGINAL", preparo: "Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta bactéria Streptococcus B.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "ESTREPTO B SECRECAO ANAL", preparo: "Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta bactéria Streptococcus B no ânus.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "MAGNÉSIO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de magnésio no corpo.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "ESTREPTO B SECREÇÃO VAGINAL", preparo: "Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta bactéria Streptococcus B.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "ESTREPTO B SECREÇÃO ANAL", preparo: "Evite relações sexuais 3 dias antes da coleta, evite o uso de cremes 48 horas antes da coleta (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta bactéria Streptococcus B no ânus.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "VITAMINA B12", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de vitamina B12.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "VITAMINA D", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia níveis de vitamina D.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "HORMONIO ADRENOCORTICOTROFICO 🔴 - ACTH", preparo: "Jejum de 4 horas (2 horas para menores de 2 anos).", horario: "09:00 às 14:00", explicacao: "Avalia a função da glândula adrenal e a produção do hormônio ACTH.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "CURVA GLICÊMICA 🔴", preparo: "Jejum de 8 horas. Não fumar no dia do exame.", horario: "07:00", explicacao: "Avalia a resposta do organismo à ingestão de glicose, importante para diagnóstico de diabetes.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "TESTE DE TOLERÂNCIA À LACTOSE 🔴", preparo: "Jejum de 8 horas. Não fumar no dia. Levar acompanhante maior de 18 anos.", horario: "07:00", explicacao: "Verifica a capacidade do organismo de digerir lactose.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "COBRE URINÁRIO 🔴", preparo: "Coletar urina por 24h em frasco retirado na UBS.", horario: "07:00", explicacao: "Avalia a quantidade de cobre eliminada na urina, útil no diagnóstico da Doença de Wilson e intoxicação por cobre.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "COBRE SÉRICO 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Mede a quantidade de cobre no sangue, ajudando no diagnóstico de distúrbios metabólicos.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "TRAB 🔴", preparo: "Jejum de 4 horas.", horario: "10:00", explicacao: "Investiga doenças autoimunes da tireoide, como Doença de Graves.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "ALDOLASE 🔴", preparo: "Jejum de 4 horas (2 horas para menores de 2 anos).", horario: "09:00 às 14:00", explicacao: "Auxilia no diagnóstico de doenças musculares e hepáticas.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "DOSAGEM DE AMÔNIA 🔴", preparo: "Jejum de 8 horas. Não fumar 24h antes e evitar contato com fumantes.", horario: "13:00", explicacao: "Avalia o nível de amônia no sangue, importante em doenças hepáticas e distúrbios metabólicos.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "COMPLEMENTO C2, C3, C4 E C5 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Avalia o sistema imunológico, útil no diagnóstico de doenças autoimunes.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "MICOLÓGICO 🔴", preparo: "Não usar esmaltes ou acetona por 15 dias. Não usar hidratantes e não lavar a região no dia.", horario: "10:00 às 14:00", explicacao: "Detecta fungos em pele, unhas ou cabelo.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "CÁLCIO IÔNICO 🔴", preparo: "Jejum de 4 horas.", horario: "11:00", explicacao: "Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "DOSAGEM DE GASTRINA 🔴", preparo: "Jejum de 4 horas.", horario: "11:00", explicacao: "Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "PARATORMÔNIO - PTH 🔴", preparo: "Jejum de 4 horas.", horario: "09:00 às 14:00", explicacao: "Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "COAGULOGRAMA (TAP/TTP) 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "CARIÓTIPO 🔴", preparo: "Jejum não necessário.", horario: "10:00 às 14:00 (Segunda à Quinta)", explicacao: "Analisa os cromossomos para detectar alterações genéticas.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "ESPERMOGRAMA 🔴", preparo: "Abstinência sexual de 3 a 5 dias.", horario: "14:00", explicacao: "Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "PEPTÍDEO C 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Auxilia na avaliação da função das células beta do pâncreas.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "DOSAGEM DE RENINA 🔴", preparo: "Jejum de 4 horas. Suspender alguns medicamentos com orientação médica.", horario: "13:00", explicacao: "Avalia a atividade do sistema renina-angiotensina, importante na regulação da pressão arterial.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "COMPLEMENTO CH50 🔴", preparo: "Jejum não necessário.", horario: "09:00 às 14:00", explicacao: "Avalia a atividade total do sistema complemento no sangue.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
-    { nome: "DOSAGEM DE ZINCO 🔴", preparo: "Jejum de 4 horas.", horario: "09:00 às 14:00", explicacao: "Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
+    { nome: "HORMÔNIO ADRENOCORTICOTRÓFICO 🔴 - ACTH", preparo: "Jejum de 4 horas (2 horas para menores de 2 anos).", horario: "09:00 às 14:00", explicacao: "Avalia a função da glândula adrenal e a produção do hormônio ACTH.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "CURVA GLICEMICA 🔴", preparo: "Jejum de 8 horas. Não fumar no dia do exame.", horario: "07:00", explicacao: "Avalia a resposta do organismo à ingestão de glicose, importante para diagnóstico de diabetes.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "TESTE DE TOLERANCIA À LACTOSE 🔴", preparo: "Jejum de 8 horas. Não fumar no dia. Levar acompanhante maior de 18 anos.", horario: "07:00", explicacao: "Verifica a capacidade do organismo de digerir lactose.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "COBRE URINÁRIO 🔴", preparo: "Coletar urina por 24h em frasco retirado na UBS.", horario: "07:00", explicacao: "Avalia a quantidade de cobre eliminada na urina, útil no diagnóstico da Doença de Wilson e intoxicação por cobre.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "COBRE SERICO 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Mede a quantidade de cobre no sangue, ajudando no diagnóstico de distúrbios metabólicos.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "TRAB 🔴", preparo: "Jejum de 4 horas.", horario: "10:00", explicacao: "Investiga doenças autoimunes da tireoide, como Doença de Graves.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "ALDOLASE 🔴", preparo: "Jejum de 4 horas (2 horas para menores de 2 anos).", horario: "09:00 às 14:00", explicacao: "Auxilia no diagnóstico de doenças musculares e hepáticas.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "DOSAGEM DE AMONIA 🔴", preparo: "Jejum de 8 horas. Não fumar 24h antes e evitar contato com fumantes.", horario: "13:00", explicacao: "Avalia o nível de amônia no sangue, importante em doenças hepáticas e distúrbios metabólicos.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "COMPLEMENTO C2, C3, C4 E C5 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Avalia o sistema imunológico, útil no diagnóstico de doenças autoimunes.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "MICOLÓGICO 🔴", preparo: "Não usar esmaltes ou acetona por 15 dias. Não usar hidratantes e não lavar a região no dia.", horario: "10:00 às 14:00", explicacao: "Detecta fungos em pele, unhas ou cabelo.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "CALCIO IONICO 🔴", preparo: "Jejum de 4 horas.", horario: "11:00", explicacao: "Avalia o nível de cálcio livre no sangue, importante em distúrbios ósseos, renais e hormonais.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "DOSAGEM DE GASTRINA 🔴", preparo: "Jejum de 4 horas.", horario: "11:00", explicacao: "Avalia a produção do hormônio gastrina, útil no diagnóstico de úlceras e tumores gástricos.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "PARATORMONIO - PTH 🔴", preparo: "Jejum de 4 horas.", horario: "09:00 às 14:00", explicacao: "Mede o hormônio da paratireoide, essencial para o metabolismo do cálcio.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "COAGULOGRAMA (TAP/TTP) 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Avalia a coagulação do sangue, importante antes de cirurgias ou em sangramentos anormais.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "CARIOTIPO 🔴", preparo: "Jejum não necessário.", horario: "10:00 às 14:00 (Segunda à Quinta)", explicacao: "Analisa os cromossomos para detectar alterações genéticas.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "ESPERMOGRAMA 🔴", preparo: "Abstinência sexual de 3 a 5 dias.", horario: "14:00", explicacao: "Avalia a qualidade do sêmen, útil em casos de infertilidade.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "PEPTIDEO C 🔴", preparo: "Jejum de 4 horas.", horario: "13:00", explicacao: "Auxilia na avaliação da função das células beta do pâncreas.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "DOSAGEM DE RENINA 🔴", preparo: "Jejum de 4 horas. Suspender alguns medicamentos com orientação médica.", horario: "13:00", explicacao: "Avalia a atividade do sistema renina-angiotensina, importante na regulação da pressão arterial.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "COMPLEMENTO CH50 🔴", preparo: "Jejum não necessário.", horario: "09:00 às 14:00", explicacao: "Avalia a atividade total do sistema complemento no sangue.", endereco: "Rua Philippe de Vitry, nº 280" },
+    { nome: "DOSAGEM DE ZINCO 🔴", preparo: "Jejum de 4 horas.", horario: "09:00 às 14:00", explicacao: "Mede o nível de zinco, importante para funções imunológicas e metabólicas.", endereco: "Rua Philippe de Vitry, nº 280" },
     { nome: "RAST", preparo: "Jejum de 8 a 12 horas para adultos e 4 horas para crianças.", horario: "06:30 às 07:00", explicacao: "Exame de sangue que identifica alergias a substâncias específicas.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "CALCIO IONIZAVEL 🔴", preparo: "Jejum de 4 horas (água liberada).", horario: "09:00 às 14:00", explicacao: "Avalia a quantidade de cálcio livre no sangue, essencial para ossos e músculos.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
+    { nome: "CALCIO IONIZAVEL 🔴", preparo: "Jejum de 4 horas (água liberada).", horario: "09:00 às 14:00", explicacao: "Avalia a quantidade de cálcio livre no sangue, essencial para ossos e músculos.", endereco: "Rua Philippe de Vitry, nº 280" },
     { nome: "TIREOGLOBULINA", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Auxilia no acompanhamento de pacientes com câncer de tireoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "GLOBULINA DE LIGAÇÕES DE HORMONIOS SEXUAIS - SHBG 🔴", preparo: "Jejum de 4 horas (água liberada).", horario: "06:30 às 14:00", explicacao: "Avalia a proteína que se liga aos hormônios sexuais no sangue.", endereco: "Estrada de itapecerica 1661, vila maracana, tel:3394-7460" },
+    { nome: "GLOBULINA DE LIGAÇÕES DE HORMÔNIOS SEXUAIS - SHBG 🔴", preparo: "Jejum de 4 horas (água liberada).", horario: "06:30 às 14:00", explicacao: "Avalia a proteína que se liga aos hormônios sexuais no sangue.", endereco: "Estrada de Itapecerica 1661, Vila Maracanã, tel: 3394-7460" },
     { nome: "ANTI-MICROSSOMAS", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta anticorpos contra a tireoide, útil para diagnóstico de tireoidite.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "PRO-BNP", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Avalia risco de insuficiência cardíaca e estresse no coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEPATITE B", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença de anticorpos ou antígenos do vírus da Hepatite B.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEPATITE C", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença de anticorpos do vírus da Hepatite C.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "ANTI JO 1", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta anticorpos contra a enzima histidil-tRNA sintetase, associados a miopatias inflamatórias autoimunes, como polimiosite e síndrome anti-sintetase.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "TOXOPLASMOSE", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta anticorpos contra Toxoplasma gondii, útil em gestantes.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "RETICULÓCITOS", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Avalia a produção de glóbulos vermelhos pela medula óssea, útil no diagnóstico de anemias.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "RETICULOCITOS", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Avalia a produção de glóbulos vermelhos pela medula óssea, útil no diagnóstico de anemias.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "DOSAGEM DE DESIDROGENASE LÁTICA", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Mede os níveis da enzima LDH, útil na avaliação de lesões celulares, anemias hemolíticas e doenças hepáticas.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "ELETROFORESE DE HEMOGLOBINA", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Identifica variantes de hemoglobina, auxiliando no diagnóstico de hemoglobinopatias como anemia falciforme e talassemia.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "AMILASE", preparo: "Jejum de 4 horas recomendado.", horario: "06:30 às 07:00", explicacao: "Avalia a função pancreática, sendo útil no diagnóstico de pancreatite aguda.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "LIPASE", preparo: "Jejum de 4 horas recomendado.", horario: "06:30 às 07:00", explicacao: "Enzima pancreática usada para diagnóstico de pancreatite e outras doenças do pâncreas.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "DOSAGEM DE IMUNOGLOBULINA A (IgA)", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Avalia a imunidade mucosa e pode indicar doenças autoimunes ou deficiências imunológicas.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "DOSAGEM DE IMUNOGLOBULINA E (IgE)", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Indicada para investigação de alergias e doenças parasitárias.", endereco: "Unidade de saúde mais próxima da sua casa" },
@@ -243,25 +256,29 @@
     { nome: "DOSAGEM DE IMUNOGLOBULINA G (IgG)", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Avalia imunidade adquirida e resposta a infecções passadas ou vacinação.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "MITOCONDRIA", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta autoanticorpos antimitochondriais, associados a doenças hepáticas autoimunes como a cirrose biliar primária.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "PAPANICOLAU", preparo: "Evitar relações sexuais, duchas vaginais e uso de cremes vaginais nas 48 horas antes da coleta.", horario: "07:00 às 18:00", explicacao: "Exame citológico que avalia alterações nas células do colo do útero, útil para rastreamento do câncer cervical e detecção de infecções.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "GASOMETRIA VENOSA 🔴", preparo: "Jejum não necessário.", horario: "07:00 às 15:00", explicacao: "Avalia o equilíbrio ácido-base, níveis de oxigênio e dióxido de carbono no sangue, importante para monitoramento respiratório e metabólico.", endereco: "Estrada de itapecerica 1661, vila maracana, tel:3394-7460" },
-    { nome: "PROVA DO LATEX PARA FATOR REUMATOIDE", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença do fator reumatoide (anticorpos IgM contra IgG), útil no diagnóstico de artrite reumatoide e outras doenças autoimunes.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "GASOMETRIA VENOSA 🔴", preparo: "Jejum não necessário.", horario: "07:00 às 15:00", explicacao: "Avalia o equilíbrio ácido-base, níveis de oxigênio e dióxido de carbono no sangue, importante para monitoramento respiratório e metabólico.", endereco: "Estrada de Itapecerica 1661, Vila Maracanã, tel: 3394-7460" },
+    { nome: "PROVA DO LÁTEX PARA FATOR REUMATOIDE", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença do fator reumatoide (anticorpos IgM contra IgG), útil no diagnóstico de artrite reumatoide e outras doenças autoimunes.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "SIFILIS", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença de anticorpos contra Treponema pallidum, agente da sífilis.", endereco: "Unidade de saúde mais próxima da sua casa" }
   ];
 
-  // Check for duplicates
-  const uniqueExames = [...new Set(exames.map(exame => exame.nome))];
-  if (uniqueExames.length !== exames.length) {
-    console.warn('Exames duplicados detectados:', exames.length - uniqueExames.length);
-  }
+  // Função para normalizar strings
+  const normalizeString = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-  // Debounce function
-  function debounce(func, wait) {
+  // Função de debounce
+  const debounce = (func, wait) => {
     let timeout;
-    return function (...args) {
+    return (...args) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
-  }
+  };
+
+  // Função para sanitizar HTML (básica, para evitar XSS)
+  const sanitizeHTML = (str) => {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  };
 
   // Renderiza exames na tela
   function renderizarExames(filtro = "") {
@@ -270,14 +287,17 @@
     loading.style.display = "block";
     container.innerHTML = "";
 
-    const filtroNormalizado = filtro.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const filtroNormalizado = normalizeString(filtro);
     let examesFiltrados = exames
-      .filter(exame => exame.nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(filtroNormalizado))
+      .filter(exame => normalizeString(exame.nome).includes(filtroNormalizado))
       .sort((a, b) => a.nome.localeCompare(b.nome));
 
     loading.style.display = "none";
     if (examesFiltrados.length === 0) {
-      container.innerHTML = "<p style='text-align:center;width:100%;'>Nenhum exame encontrado.</p>";
+      const noResults = document.createElement("p");
+      noResults.className = "no-results";
+      noResults.textContent = "Nenhum exame encontrado.";
+      container.appendChild(noResults);
       return;
     }
 
@@ -285,18 +305,18 @@
       const div = document.createElement("div");
       div.className = exame.nome.includes("🔴") ? "exame especial" : "exame";
       div.setAttribute("role", "article");
-      div.setAttribute("aria-label", `Informações sobre o exame ${exame.nome}`);
+      div.setAttribute("aria-label", `Informações sobre o exame ${sanitizeHTML(exame.nome)}`);
       div.innerHTML = `
-        <h3>${exame.nome}</h3>
-        <p><strong>Preparo:</strong> ${exame.preparo}</p>
-        <p><strong>Horário:</strong> ${exame.horario}</p>
-        <p><strong>Explicação:</strong> ${exame.explicacao}</p>
-        <p><strong>Endereço:</strong> ${exame.endereco}</p>
-        ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
+        <h3>${sanitizeHTML(exame.nome)}</h3>
+        <p><strong>Preparo:</strong> ${sanitizeHTML(exame.preparo)}</p>
+        <p><strong>Horário:</strong> ${sanitizeHTML(exame.horario)}</p>
+        <p><strong>Explicação:</strong> ${sanitizeHTML(exame.explicacao)}</p>
+        <p><strong>Endereço:</strong> ${sanitizeHTML(exame.endereco)}</p>
+        ${exame.aviso ? `<p><strong>Aviso:</strong> ${sanitizeHTML(exame.aviso)}</p>` : ""}
       `;
       const btnImprimir = document.createElement("button");
       btnImprimir.textContent = "Imprimir informações";
-      btnImprimir.setAttribute("aria-label", `Imprimir informações do exame ${exame.nome}`);
+      btnImprimir.setAttribute("aria-label", `Imprimir informações do exame ${sanitizeHTML(exame.nome)}`);
       btnImprimir.onclick = () => imprimirExame(exame);
       div.appendChild(btnImprimir);
       container.appendChild(div);
@@ -314,20 +334,22 @@
     const conteudo = `
       <html>
         <head>
-          <title>Informações do Exame - ${exame.nome}</title>
+          <title>Informações do Exame - ${sanitizeHTML(exame.nome)}</title>
           <style>
             body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+            h1 { color: #3498db; text-align: center; }
             h2 { color: #2c3e50; }
             p { margin: 8px 0; }
           </style>
         </head>
         <body>
-          <h2>${exame.nome}</h2>
-          <p><strong>Preparo:</strong> ${exame.preparo}</p>
-          <p><strong>Horário:</strong> ${exame.horario}</p>
-          <p><strong>Explicação:</strong> ${exame.explicacao}</p>
-          <p><strong>Endereço:</strong> ${exame.endereco}</p>
-          ${exame.aviso ? `<p><strong>Aviso:</strong> ${exame.aviso}</p>` : ""}
+          <h1>Coleta Fácil</h1>
+          <h2>${sanitizeHTML(exame.nome)}</h2>
+          <p><strong>Preparo:</strong> ${sanitizeHTML(exame.preparo)}</p>
+          <p><strong>Horário:</strong> ${sanitizeHTML(exame.horario)}</p>
+          <p><strong>Explicação:</strong> ${sanitizeHTML(exame.explicacao)}</p>
+          <p><strong>Endereço:</strong> ${sanitizeHTML(exame.endereco)}</p>
+          ${exame.aviso ? `<p><strong>Aviso:</strong> ${sanitizeHTML(exame.aviso)}</p>` : ""}
         </body>
       </html>
     `;
