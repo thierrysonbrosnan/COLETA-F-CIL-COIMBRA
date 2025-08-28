@@ -125,10 +125,6 @@
       }
     }
   </style>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -153,17 +149,17 @@
 </footer>
 
 <script>
-  // Lista de exames (exemplo resumido)
+  // Lista de exames
   const exames = [
     { nome: "FATOR RH", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Determina se seu sangue é Rh positivo ou negativo.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEMOGRAMA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia a quantidade e qualidade das células sanguíneas.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "HEMOSSEDIMENTAÇÃO VHS", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta processos inflamatórios no corpo.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "HEMOSSEDIMENTAÇÃO (VHS)", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Detecta processos inflamatórios no corpo.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEMOGLOBINA GLICADA", preparo: "Jejum de 8 a 12 horas (água liberada).", horario: "06:30 às 07:00", explicacao: "Mostra o controle da glicose nos últimos meses.", endereco: "Unidade de saúde mais próxima da sua casa", aviso: "SE VOCÊ FAZ PARTE DO PROGRAMA PAMG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES." },
     { nome: "GLICEMIA", preparo: "Jejum de 8 a 12 horas para adultos e 3 a 4 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede o nível de açúcar no sangue.", endereco: "Unidade de saúde mais próxima da sua casa", aviso: "SE VOCÊ FAZ PARTE DO PROGRAMA PAMG, LEMBRE-SE DE REALIZAR ESSE EXAME A CADA 3 MESES." },
-    { nome: "COLESTEROL TOTAL", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado  (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o risco de doenças cardiovasculares.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "TRIGLICERIDEOS", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado  (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede a quantidade de gordura no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "HDL", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado  (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol bom, protege o coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "LDL", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado  (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol ruim, pode causar problemas cardíacos.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "COLESTEROL TOTAL", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia o risco de doenças cardiovasculares.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "TRIGLICERIDEOS", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Mede a quantidade de gordura no sangue.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "COLESTEROL (HDL)", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol bom, protege o coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
+    { nome: "COLESTEROL (LDL)", preparo: "Jejum de 8 a 12 horas para adultos e 4 a 6 horas para bebes e crianças, NUNCA deixar a criança em jejum muito prolongado (água liberada).", horario: "06:30 às 07:00", explicacao: "Colesterol ruim, pode causar problemas cardíacos.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "SÓDIO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia equilíbrio de líquidos e função renal.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "POTÁSSIO", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Importante para músculos e nervos.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "URÉIA", preparo: "Jejum não necessário (água liberada).", horario: "06:30 às 07:00", explicacao: "Avalia função renal e metabolismo de proteínas.", endereco: "Unidade de saúde mais próxima da sua casa" },
@@ -229,7 +225,7 @@
     { nome: "RAST", preparo: "Jejum de 8 a 12 horas para adultos e 4 horas para crianças.", horario: "06:30 às 07:00", explicacao: "Exame de sangue que identifica alergias a substâncias específicas.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "CALCIO IONIZAVEL 🔴", preparo: "Jejum de 4 horas (água liberada).", horario: "09:00 às 14:00", explicacao: "Avalia a quantidade de cálcio livre no sangue, essencial para ossos e músculos.", endereco: "RUA PHILIPPE DE VITRY, n°280" },
     { nome: "TIREOGLOBULINA", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Auxilia no acompanhamento de pacientes com câncer de tireoide.", endereco: "Unidade de saúde mais próxima da sua casa" },
-    { nome: "GLOBULINA DE LIGAÇÕES DE HORMONIOS SEXUAIS - SHBG 🔴", preparo: "Jejum de 4 horas (água liberada).", horario: "06:30 às 09:00", explicacao: "Avalia a proteína que se liga aos hormônios sexuais no sangue.", endereco: "Estrada de itapecerica 1661, vila maracana, tel:3394-7460" },
+    { nome: "GLOBULINA DE LIGAÇÕES DE HORMONIOS SEXUAIS - SHBG 🔴", preparo: "Jejum de 4 horas (água liberada).", horario: "06:30 às 14:00", explicacao: "Avalia a proteína que se liga aos hormônios sexuais no sangue.", endereco: "Estrada de itapecerica 1661, vila maracana, tel:3394-7460" },
     { nome: "ANTI-MICROSSOMAS", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta anticorpos contra a tireoide, útil para diagnóstico de tireoidite.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "PRO-BNP", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Avalia risco de insuficiência cardíaca e estresse no coração.", endereco: "Unidade de saúde mais próxima da sua casa" },
     { nome: "HEPATITE B", preparo: "Jejum não necessário.", horario: "06:30 às 07:00", explicacao: "Detecta a presença de anticorpos ou antígenos do vírus da Hepatite B.", endereco: "Unidade de saúde mais próxima da sua casa" },
@@ -248,22 +244,6 @@
     console.warn('Exames duplicados detectados:', exames.length - uniqueExames.length);
   }
 
-  // Firebase config (Recommendation: Move to environment variables for security)
-  const firebaseConfig = {
-    apiKey: "AIzaSyDTgqYIbWq9KQhitWCMQ6izT_I1zegdX0k",
-    authDomain: "coletafacil1.firebaseapp.com",
-    databaseURL: "https://coletafacil1-default-rtdb.firebaseio.com",
-    projectId: "coletafacil1",
-    storageBucket: "coletafacil1.appspot.com",
-    messagingSenderId: "771017765836",
-    appId: "1:771017765836:web:f3ca469a9d020313f8a369",
-    measurementId: "G-NTNLTEJFLX"
-  };
-
-  // Inicializa Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-
   // Debounce function
   function debounce(func, wait) {
     let timeout;
@@ -271,17 +251,6 @@
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
-  }
-
-  // Registrar exame no Firebase
-  function registrarExameNoFirebase(exameNome) {
-    const exameRef = database.ref('examesMaisProcurados/' + exameNome);
-    exameRef.get().then(snapshot => {
-      exameRef.set((snapshot.val() || 0) + 1);
-    }).catch(error => {
-      console.error('Erro ao registrar exame:', error);
-      alert('Erro ao registrar a busca. Tente novamente.');
-    });
   }
 
   // Renderiza exames na tela
@@ -328,9 +297,6 @@
   function filtrarExames() {
     const termo = document.getElementById("searchInput").value || "";
     renderizarExames(termo);
-    if (termo.trim() !== "") {
-      registrarExameNoFirebase(termo.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
-    }
   }
 
   // Imprimir exame
