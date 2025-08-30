@@ -29,6 +29,15 @@
       font-size: 2em;
       font-weight: bold;
       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .logo-img {
+      position: absolute;
+      right: 10px; /* distância da borda direita */
+      top: 50%;
+      transform: translateY(-50%);
+      height: 40px; /* ajuste o tamanho da imagem */
     }
 
     .search-container {
@@ -142,11 +151,18 @@
       .exame {
         width: 90%;
       }
+      .logo-img {
+        height: 60px;
+        right: 5px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>Coleta Fácil</header>
+  <header>
+    Coleta Fácil
+    <img src="Imagem1.png" alt="Apontando para o logo" class="logo-img">
+  </header>
 
   <div class="search-container">
     <label for="searchInput" class="sr-only">Buscar exames por nome</label>
@@ -168,7 +184,6 @@
       📱 Enviar Feedback pelo WhatsApp
     </a>
   </footer>
-
   <script>
     // Lista de exames
     const exames = [
