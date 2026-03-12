@@ -20,7 +20,6 @@
       background-color: #f4f7f9;
       color: #333;
     }
-
     header {
       background-color: #3498db;
       color: white;
@@ -29,14 +28,11 @@
       font-size: 2em;
       font-weight: bold;
       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-      position: relative;
     }
-
     .search-container {
       text-align: center;
       margin: 20px auto;
     }
-
     #searchInput {
       width: 90%;
       max-width: 500px;
@@ -45,15 +41,13 @@
       border: 1px solid #ccc;
       font-size: 16px;
     }
-
     #listaExames {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 15px;
-      padding: 0 10px 50px 10px;
+      padding: 0 10px 80px 10px;
     }
-
     .exame {
       background-color: #ffffff;
       border-radius: 10px;
@@ -62,26 +56,21 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       transition: transform 0.2s, box-shadow 0.2s;
     }
-
     .exame.especial {
       border-left: 4px solid #e74c3c;
     }
-
     .exame:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
-
     .exame h3 {
       margin-top: 0;
       color: #2c3e50;
     }
-
     .exame p {
       margin: 5px 0;
       line-height: 1.4;
     }
-
     button {
       margin-top: 10px;
       padding: 8px 14px;
@@ -93,11 +82,9 @@
       font-weight: bold;
       transition: background-color 0.2s;
     }
-
     button:hover {
       background-color: #1e8449;
     }
-
     footer {
       text-align: center;
       padding: 20px;
@@ -107,8 +94,8 @@
       bottom: 0;
       width: 100%;
       font-size: 14px;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
     }
-
     .whatsapp-button {
       display: inline-block;
       background-color: #25d366;
@@ -118,78 +105,73 @@
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.2s;
-      margin: 0 10px;
+      margin: 0 10px 10px;
     }
-
     .whatsapp-button:hover {
       background-color: #1ebe57;
     }
-
     #loading {
       text-align: center;
       width: 100%;
-      padding: 20px;
+      padding: 40px 20px;
+      font-size: 1.2em;
+      color: #555;
       display: none;
     }
-
     .no-results {
       text-align: center;
       width: 100%;
-      padding: 20px;
-      font-size: 1.1em;
+      padding: 40px 20px;
+      font-size: 1.2em;
       color: #555;
     }
-
     @media (max-width: 600px) {
       .exame {
         width: 90%;
       }
-
       .whatsapp-button {
-        padding: 8px 12px;
-        font-size: 12px;
-        margin: 5px;
+        padding: 10px 14px;
+        font-size: 13px;
+        margin: 6px 8px;
       }
-
       footer {
         padding: 15px;
-        font-size: 12px;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    Coleta Fácil
-  </header>
+  <header>Coleta Fácil</header>
 
   <div class="search-container">
     <label for="searchInput" class="sr-only">Buscar exames por nome</label>
     <input
-      type="text"
+      type="search"
       id="searchInput"
       placeholder="Buscar exame..."
       aria-label="Buscar exames por nome"
+      autocomplete="off"
     >
   </div>
 
   <div id="listaExames"></div>
-  <div id="loading">Carregando...</div>
+  <div id="loading">Carregando exames...</div>
 
   <footer>
-    <a href="https://wa.me/5511992386161?text=Olá!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Coleta%20F%C3%A1cil."
-       target="_blank"
+    <a href="https://wa.me/5511992386161?text=Ol%C3%A1!%20Gostaria%20de%20enviar%20um%20feedback%20sobre%20a%20Coleta%20F%C3%A1cil."
+       target="_blank" rel="noopener noreferrer"
        class="whatsapp-button">
       📱 Enviar Feedback pelo WhatsApp
     </a>
-    <a href="https://wa.me/5511992386161?text=Olá!%20Não%20encontrei%20o%20exame%20que%20procurava.%20Podem%20me%20ajudar?"
-       target="_blank"
+    <a href="https://wa.me/5511992386161?text=Ol%C3%A1!%20N%C3%A3o%20encontrei%20o%20exame%20que%20procurava.%20Podem%20me%20ajudar?"
+       target="_blank" rel="noopener noreferrer"
        class="whatsapp-button">
       📱 Não achou o exame? Solicite aqui
     </a>
   </footer>
+
   <script>
-    // Lista de exames
+    // Lista de exames (corrigida e padronizada)
     const exames = [
       {
         "nome": "ACIDO FÓLICO",
@@ -1124,15 +1106,13 @@
         "explicacao": "Avalia a quantidade de insulina no sangue e verifica se o corpo está regulando bem a glicose.",
         "endereco": "Rua Philippe de Vitry, nº 280 - HOSPITAL DIA M' BOI MIRIM 1 - JD IBIRAPUERA"
         ];
-       
 
+    // Função para normalizar strings (remove acentos e deixa minúsculo)
+    const normalizeString = (str) => {
+      return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    };
 
-
-
-    // Função para normalizar strings
-    const normalizeString = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-    // Função de debounce
+    // Debounce para evitar muitas renderizações durante digitação
     const debounce = (func, wait) => {
       let timeout;
       return (...args) => {
@@ -1141,14 +1121,13 @@
       };
     };
 
-    // Função para sanitizar HTML (básica, para evitar XSS)
+    // Sanitização básica contra XSS
     const sanitizeHTML = (str) => {
       const div = document.createElement("div");
       div.textContent = str;
       return div.innerHTML;
     };
 
-    // Renderiza exames na tela
     function renderizarExames(filtro = "") {
       const container = document.getElementById("listaExames");
       const loading = document.getElementById("loading");
@@ -1156,90 +1135,88 @@
       container.innerHTML = "";
 
       const filtroNormalizado = normalizeString(filtro);
-      let examesFiltrados = exames
-        .filter(exame => normalizeString(exame.nome).includes(filtroNormalizado))
-        .sort((a, b) => a.nome.localeCompare(b.nome));
+
+      const examesFiltrados = exames
+        .filter(ex => normalizeString(ex.nome).includes(filtroNormalizado))
+        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 
       loading.style.display = "none";
+
       if (examesFiltrados.length === 0) {
-        const noResults = document.createElement("p");
-        noResults.className = "no-results";
-        noResults.textContent = "Nenhum exame encontrado.";
-        container.appendChild(noResults);
+        container.innerHTML = '<p class="no-results">Nenhum exame encontrado com esse termo.</p>';
         return;
       }
 
-      examesFiltrados.forEach(exame => {
+      examesFiltrados.forEach(ex => {
         const div = document.createElement("div");
-        div.className = exame.nome.includes("🔴") ? "exame especial" : "exame";
+        div.className = ex.nome.includes("🔴") ? "exame especial" : "exame";
         div.setAttribute("role", "article");
-        div.setAttribute("aria-label", `Informações sobre o exame ${sanitizeHTML(exame.nome)}`);
-        div.innerHTML = `
-          <h3>${sanitizeHTML(exame.nome)}</h3>
-          <p><strong>Preparo:</strong> ${sanitizeHTML(exame.preparo)}</p>
-          <p><strong>Horário de Coleta:</strong> ${sanitizeHTML(exame["horario da coleta"])}</p>
-          <p><strong>Explicação:</strong> ${sanitizeHTML(exame.explicacao)}</p>
-          <p><strong>Endereço:</strong> ${sanitizeHTML(exame.endereco)}</p>
-          ${exame.aviso ? `<p><strong>Aviso:</strong> ${sanitizeHTML(exame.aviso)}</p>` : ""}
-        `;
-        const btnImprimir = document.createElement("button");
-        btnImprimir.textContent = "Imprimir informações";
-        btnImprimir.setAttribute("aria-label", `Imprimir informações do exame ${sanitizeHTML(exame.nome)}`);
-        btnImprimir.onclick = () => imprimirExame(exame);
-        div.appendChild(btnImprimir);
+        div.setAttribute("aria-label", `Exame: ${ex.nome}`);
 
-        // Adiciona evento de clique para Google Analytics
+        div.innerHTML = `
+          <h3>${sanitizeHTML(ex.nome)}</h3>
+          <p><strong>Preparo:</strong> ${sanitizeHTML(ex.preparo)}</p>
+          <p><strong>Horário de Coleta:</strong> ${sanitizeHTML(ex["horario da coleta"])}</p>
+          <p><strong>Explicação:</strong> ${sanitizeHTML(ex.explicacao)}</p>
+          <p><strong>Local de coleta:</strong> ${sanitizeHTML(ex.endereco)}</p>
+          ${ex.aviso ? `<p style="color:#c0392b"><strong>Aviso:</strong> ${sanitizeHTML(ex.aviso)}</p>` : ""}
+        `;
+
+        const btn = document.createElement("button");
+        btn.textContent = "Imprimir informações";
+        btn.setAttribute("aria-label", `Imprimir ${ex.nome}`);
+        btn.onclick = () => imprimirExame(ex);
+        div.appendChild(btn);
+
+        // Tracking (opcional)
         div.addEventListener('click', () => {
-          gtag('event', 'exame_click', {
-            'exame_nome': exame.nome
-          });
+          if (typeof gtag === 'function') {
+            gtag('event', 'exame_click', { 'exame_nome': ex.nome });
+          }
         });
 
         container.appendChild(div);
       });
     }
 
-    // Filtra exames
     function filtrarExames() {
-      const termo = document.getElementById("searchInput").value || "";
+      const termo = document.getElementById("searchInput").value.trim();
       renderizarExames(termo);
     }
 
-    // Imprimir exame
-    function imprimirExame(exame) {
+    function imprimirExame(ex) {
       const conteudo = `
         <html>
-          <head>
-            <title>Informações do Exame - ${sanitizeHTML(exame.nome)}</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
-              h1 { color: #3498db; text-align: center; }
-              h2 { color: #2c3e50; }
-              p { margin: 8px 0; }
-            </style>
+          <head><title>${sanitizeHTML(ex.nome)} - Coleta Fácil</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 30px; line-height: 1.6; max-width: 800px; margin: auto; }
+            h1 { color: #3498db; text-align: center; }
+            h2 { color: #2c3e50; }
+            .campo { margin: 12px 0; }
+          </style>
           </head>
           <body>
             <h1>Coleta Fácil</h1>
-            <h2>${sanitizeHTML(exame.nome)}</h2>
-            <p><strong>Preparo:</strong> ${sanitizeHTML(exame.preparo)}</p>
-            <p><strong>Horário de Coleta:</strong> ${sanitizeHTML(exame["horario da coleta"])}</p>
-            <p><strong>Explicação:</strong> ${sanitizeHTML(exame.explicacao)}</p>
-            <p><strong>Endereço:</strong> ${sanitizeHTML(exame.endereco)}</p>
-            ${exame.aviso ? `<p><strong>Aviso:</strong> ${sanitizeHTML(exame.aviso)}</p>` : ""}
+            <h2>${sanitizeHTML(ex.nome)}</h2>
+            <div class="campo"><strong>Preparo:</strong> ${sanitizeHTML(ex.preparo)}</div>
+            <div class="campo"><strong>Horário de Coleta:</strong> ${sanitizeHTML(ex["horario da coleta"])}</div>
+            <div class="campo"><strong>Explicação:</strong> ${sanitizeHTML(ex.explicacao)}</div>
+            <div class="campo"><strong>Local de coleta:</strong> ${sanitizeHTML(ex.endereco)}</div>
+            ${ex.aviso ? `<div class="campo" style="color:#c0392b"><strong>Aviso:</strong> ${sanitizeHTML(ex.aviso)}</div>` : ""}
           </body>
-        </html>
-      `;
-      const janela = window.open("", "_blank");
-      janela.document.write(conteudo);
-      janela.document.close();
-      janela.focus();
-      janela.print();
+        </html>`;
+
+      const win = window.open("", "_blank");
+      win.document.write(conteudo);
+      win.document.close();
+      win.focus();
+      setTimeout(() => win.print(), 500); // pequeno delay para renderizar
     }
 
-    // Event listeners
+    // Inicialização
     document.addEventListener('DOMContentLoaded', () => {
       renderizarExames();
-      document.getElementById("searchInput").addEventListener("input", debounce(filtrarExames, 300));
+      document.getElementById("searchInput").addEventListener("input", debounce(filtrarExames, 280));
     });
   </script>
 </body>
